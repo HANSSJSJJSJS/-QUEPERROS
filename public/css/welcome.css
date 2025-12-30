@@ -1,0 +1,51 @@
+/* Fondo principal */
+.fondo-ondas {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background: #7e3f98; /* morado base */
+    overflow: hidden;
+}
+
+/* Onda azul clara */
+.fondo-ondas::before {
+    content: "";
+    position: absolute;
+    top: -120px;
+    left: -10%;
+    width: 120%;
+    height: 300px;
+    background: linear-gradient(
+        to bottom,
+        #cfe0ff,
+        #8fb1f0
+    );
+    border-bottom-left-radius: 100% 80%;
+    border-bottom-right-radius: 100% 80%;
+}
+
+/* Onda azul oscura */
+.fondo-ondas::after {
+    content: "";
+    position: absolute;
+    top: 80px;
+    left: -15%;
+    width: 130%;
+    height: 280px;
+    background: #4f6fa7;
+    border-bottom-left-radius: 100% 80%;
+    border-bottom-right-radius: 100% 80%;
+}
+
+/* Degradado inferior */
+.degradado-inferior {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 120px;
+    background: linear-gradient(
+        to bottom,
+        rgba(255,255,255,0),
+        rgba(255,255,255,0.7)
+    );
+}

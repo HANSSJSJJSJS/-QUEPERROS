@@ -235,7 +235,7 @@
                 margin: 0;
                 text-align: right;
                 font-family: var(--mq-font-heading);
-                font-size: clamp(34px, 5.2vw, 56px);
+                font-size: clamp(22px, 6.4vw, 56px);
                 text-transform: uppercase;
                 letter-spacing: 0.02em;
                 color: #0f0f0f;
@@ -262,27 +262,27 @@
             .mq-tagline-text {
                 font-family: var(--mq-font-heading);
                 text-transform: uppercase;
-                font-size: 22px;
+                font-size: clamp(14px, 3.2vw, 22px);
                 line-height: 1.05;
                 color: #0f0f0f;
                 letter-spacing: 0.02em;
             }
 
             .mq-about-box {
-                height: 300px;
+                height: 420px;
                 background: #d9d9d9;
                 border-radius: 18px;
             }
 
             .mq-dog-badge {
                 position: absolute;
-                right: 18px;
-                bottom: -18px;
-                transform: rotate(-12deg);
+                left: 50%;
+                bottom: -22px;
+                transform: translateX(-50%) rotate(-12deg);
                 background: #b8b35b;
                 color: #ffffff;
                 border-radius: 16px;
-                padding: 10px 16px;
+                padding: 9px 14px;
                 font-family: var(--mq-font-heading);
                 letter-spacing: 0.08em;
                 border: 2px solid rgba(0, 0, 0, 0.18);
@@ -314,26 +314,24 @@
 
             .mq-services-wrap {
                 position: relative;
-                padding: 70px 0 46px;
-                background:
-                    radial-gradient(circle at 18% 48%, #3569aa 0 320px, rgba(53, 105, 170, 0) 321px),
-                    radial-gradient(circle at 48% 40%, #8dc1ff 0 360px, rgba(141, 193, 255, 0) 361px),
-                    radial-gradient(circle at 78% 46%, #7fb6ff 0 340px, rgba(127, 182, 255, 0) 341px),
-                    radial-gradient(circle at 78% 78%, #8c45bf 0 380px, rgba(140, 69, 191, 0) 381px),
-                    linear-gradient(180deg, #ffffff 0%, #ffffff 14%, #b9dcff 26%, #6aa7f0 45%, #6aa7f0 55%, #8a46c9 55%, #8a46c9 100%);
+                padding: 86px 0 44px;
+                background: transparent;
                 overflow: hidden;
             }
 
-            .mq-services-wrap::before {
-                content: "";
-                position: absolute;
-                left: -30px;
-                top: 0;
-                width: calc(100% + 60px);
-                height: 150px;
-                background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.0) 100%);
-                filter: blur(14px);
-                z-index: 0;
+            .mq-bg-page {
+                position: relative;
+                background-image: url("{{ asset('img/fondo-page.jpg') }}");
+                background-repeat: no-repeat;
+                background-position: center top;
+                background-size: 100% 100%;
+            }
+
+            .mq-services-title {
+                margin: 0;
+                text-align: center;
+                padding: 0 0 26px;
+                text-shadow: 0 4px 0 rgba(0, 0, 0, 0.16);
             }
 
             .mq-services-shape {
@@ -403,20 +401,22 @@
             }
 
             .mq-services-grid {
-                margin-top: 26px;
+                margin-top: 28px;
                 display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 26px;
+                gap: 18px;
                 align-items: start;
+                max-width: 680px;
+                margin-left: auto;
+                margin-right: auto;
             }
 
             .mq-card-ui {
-                background: rgba(255, 255, 255, 0.86);
+                background: rgba(230, 240, 255, 0.86);
                 border: 2px solid rgba(0, 0, 0, 0.35);
                 border-radius: 18px;
                 padding: 18px 20px;
                 box-shadow: 0 10px 0 rgba(0, 0, 0, 0.12);
-                backdrop-filter: blur(1px);
             }
 
             .mq-card-ui h3 {
@@ -425,7 +425,7 @@
                 font-family: var(--mq-font-heading);
                 text-transform: uppercase;
                 letter-spacing: 0.02em;
-                font-size: 26px;
+                font-size: 18px;
                 color: #0f0f0f;
             }
 
@@ -440,10 +440,12 @@
             .mq-paw-item {
                 display: grid;
                 grid-template-columns: 26px 1fr;
-                gap: 10px;
+                gap: 8px;
                 align-items: start;
-                font-weight: 800;
+                font-weight: 600;
                 color: #1b1b1b;
+                font-size: 12px;
+                line-height: 1.3;
             }
 
             .mq-paw {
@@ -452,7 +454,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                opacity: 0.65;
+                opacity: 0.9;
                 color: #6f7c93;
             }
 
@@ -465,12 +467,12 @@
 
             .mq-services-center {
                 grid-column: 1 / -1;
-                width: min(520px, 100%);
+                width: min(380px, 100%);
                 justify-self: center;
             }
 
             .mq-why {
-                padding: 46px 0 88px;
+                padding: 46px 0 164px;
                 color: #ffffff;
                 text-align: center;
                 position: relative;
@@ -480,44 +482,80 @@
                 margin: 12px auto 0;
                 max-width: 860px;
                 font-weight: 800;
-                opacity: 0.92;
+                opacity: 0.95;
             }
 
             .mq-mv-grid {
-                margin-top: 30px;
+                margin-top: 26px;
                 display: grid;
                 grid-template-columns: repeat(2, minmax(0, 1fr));
-                gap: 28px;
-                align-items: start;
+                gap: 26px;
+                align-items: stretch;
                 position: relative;
-                padding-bottom: 42px;
+                max-width: 860px;
+                margin-left: auto;
+                margin-right: auto;
+                padding-bottom: 90px;
+            }
+
+            .mq-mv-grid::before {
+                content: "♥";
+                position: absolute;
+                left: -14px;
+                top: -12px;
+                font-size: 54px;
+                line-height: 1;
+                color: #b8b35b;
+                transform: rotate(-14deg);
+                opacity: 0.92;
+            }
+
+            .mq-mv-card {
+                position: relative;
+                z-index: 1;
+                background: rgba(255, 255, 255, 0.96);
+                border: 2px solid rgba(0, 0, 0, 0.35);
+                border-radius: 18px;
+                padding: 22px 22px 26px;
+                box-shadow: 0 12px 0 rgba(0, 0, 0, 0.12);
             }
 
             .mq-mv-card h3 {
-                font-size: 36px;
+                margin: 0 0 10px;
+                font-family: var(--mq-font-heading);
+                text-transform: uppercase;
+                letter-spacing: 0.02em;
+                font-size: clamp(24px, 4.4vw, 44px);
+                line-height: 1;
+                color: #0f0f0f;
             }
 
             .mq-mv-card p {
                 margin: 0;
                 color: #161616;
                 font-weight: 800;
+                font-size: 13px;
+                line-height: 1.35;
             }
 
-            .mq-dog-illustration {
+            .mq-pet {
                 position: absolute;
                 left: 50%;
-                bottom: -56px;
+                bottom: -36px;
                 transform: translateX(-50%);
-                width: 170px;
+                width: 190px;
+                height: auto;
+                z-index: 2;
+                pointer-events: none;
             }
 
             .mq-bark {
                 position: absolute;
                 right: -14px;
-                top: -14px;
-                transform: rotate(-18deg);
+                top: -18px;
+                transform: rotate(-16deg);
                 padding: 10px 14px;
-                background: rgba(20, 20, 20, 0.9);
+                background: rgba(20, 20, 20, 0.92);
                 color: #ffffff;
                 border-radius: 14px;
                 border: 2px solid rgba(255, 255, 255, 0.55);
@@ -527,8 +565,8 @@
             }
 
             .mq-values-wrap {
-                background: linear-gradient(180deg, #8a46c9 0%, #ffffff 72%);
-                padding: 92px 0 80px;
+                padding: 74px 0 96px;
+                background: transparent;
             }
 
             .mq-title--dark {
@@ -536,7 +574,7 @@
                 text-shadow: none;
             }
 
-            @media (max-width: 900px) {
+            @media (max-width: 320px) {
                 .mq-about-grid {
                     grid-template-columns: 1fr;
                     gap: 24px;
@@ -555,8 +593,8 @@
                     padding-bottom: 140px;
                 }
 
-                .mq-dog-illustration {
-                    bottom: -72px;
+                .mq-pet {
+                    width: 130px;
                 }
             }
 
@@ -648,6 +686,7 @@
                 </div>
             </section>
 
+            <div class="mq-bg-page">
             <section class="mq-services-wrap" id="servicios">
                 <div class="mq-services-shape mq-services-shape--a" aria-hidden="true"></div>
                 <div class="mq-services-shape mq-services-shape--b" aria-hidden="true"></div>
@@ -655,7 +694,7 @@
                 <div class="mq-services-shape mq-services-shape--d" aria-hidden="true"></div>
 
                 <div class="mq-container">
-                    <h2 class="mq-title mq-title--xl mq-title--light">NUESTROS SERVICIOS</h2>
+                    <h2 class="mq-title mq-title--xl mq-title--light mq-services-title">NUESTROS SERVICIOS</h2>
 
                     <div class="mq-services-grid">
                         <article class="mq-card-ui" aria-label="Entrenamiento canino">
@@ -682,34 +721,28 @@
                             </ul>
                         </article>
                     </div>
+                </div>
+            </section>
 
-                    <section class="mq-why" id="por-que-elegirnos" aria-label="Por qué elegirnos">
-                        <h2 class="mq-title mq-title--xl mq-title--light">¿PORQUE ELEGIRNOS?</h2>
-                        <p>Nos distinguimos por nuestro enfoque ético y basado en bienestar animal</p>
+            <section class="mq-why" id="por-que-elegirnos" aria-label="Por qué elegirnos">
+                <div class="mq-container">
+                    <h2 class="mq-title mq-title--xl mq-title--light">¿PORQUE ELEGIRNOS?</h2>
+                    <p>Nos distinguimos por nuestro enfoque ético y basado en bienestar animal</p>
 
-                        <div class="mq-mv-grid">
-                            <article class="mq-card-ui mq-mv-card" aria-label="Misión">
-                                <h3>MISIÓN</h3>
-                                <p>En Más que Perros, brindamos servicios integrales de entrenamiento, crianza y cuidado para perros de familia y de trabajo, promoviendo su bienestar físico, emocional y conductual mediante procesos humanos, transparentes y confiables que fortalecen el vínculo con sus tutores.</p>
-                            </article>
+                    <div class="mq-mv-grid">
+                        <article class="mq-mv-card" aria-label="Misión">
+                            <h3>MISIÓN</h3>
+                            <p>En Más que Perros, brindamos servicios integrales de entrenamiento, crianza y cuidado para perros de familia y de trabajo, promoviendo su bienestar físico, emocional y conductual mediante procesos humanos, transparentes y confiables que fortalecen el vínculo con sus tutores.</p>
+                        </article>
 
-                            <article class="mq-card-ui mq-mv-card" aria-label="Visión" style="position: relative;">
-                                <div class="mq-bark">BARK!</div>
-                                <h3>VISIÓN</h3>
-                                <p>Consolidarnos como empresa líder en Colombia en bienestar, formación y crianza canina, reconocida por nuestro profesionalismo, ética y uso innovador de herramientas que facilitan la comunicación y seguimiento del progreso de cada perro, siendo referente en entrenamiento de perros de trabajo y vínculos armónicos familia-mascota.</p>
-                            </article>
+                        <article class="mq-mv-card" aria-label="Visión" style="position: relative;">
+                            <div class="mq-bark">BARK!</div>
+                            <h3>VISIÓN</h3>
+                            <p>Consolidarnos como empresa líder en Colombia en bienestar, formación y crianza canina, reconocida por nuestro profesionalismo, ética y uso innovador de herramientas que facilitan la comunicación y seguimiento del progreso de cada perro, siendo referente en entrenamiento de perros de trabajo y vínculos armónicos familia-mascota.</p>
+                        </article>
 
-                            <svg class="mq-dog-illustration" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-label="Ilustración de perro">
-                                <circle cx="60" cy="60" r="56" fill="#F6A04D" opacity="0.15" />
-                                <path d="M44 48c-8-10-18-8-20 4 2 12 10 18 20 16" fill="#F6A04D" />
-                                <path d="M76 48c8-10 18-8 20 4-2 12-10 18-20 16" fill="#F6A04D" />
-                                <path d="M38 78c0-18 10-32 22-32s22 14 22 32c0 12-10 22-22 22S38 90 38 78Z" fill="#F28C34" stroke="#1b1b1b" stroke-width="3" />
-                                <circle cx="52" cy="74" r="4" fill="#1b1b1b" />
-                                <circle cx="68" cy="74" r="4" fill="#1b1b1b" />
-                                <path d="M60 80c-4 0-7 3-7 6 0 4 3 7 7 7s7-3 7-7c0-3-3-6-7-6Z" fill="#1b1b1b" />
-                            </svg>
-                        </div>
-                    </section>
+                        <img class="mq-pet" src="{{ asset('img/pet.png') }}" alt="Perro" />
+                    </div>
                 </div>
             </section>
 
@@ -718,6 +751,7 @@
                     <h2 class="mq-title mq-title--xl mq-title--dark">VALORES</h2>
                 </div>
             </section>
+            </div>
         </div>
 
         <div class="hidden">
