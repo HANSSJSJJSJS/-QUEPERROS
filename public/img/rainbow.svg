@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="140" height="120" viewBox="0 0 140 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+  <g fill="none" stroke-linecap="round" stroke-miterlimit="10">
+    <path d="M16 94C16 55 42 30 70 30C98 30 124 55 124 94" stroke="#F39325" stroke-width="12"/>
+    <path d="M28 94C28 61 46 40 70 40C94 40 112 61 112 94" stroke="#F4D65C" stroke-width="12"/>
+    <path d="M40 94C40 67 53 50 70 50C87 50 100 67 100 94" stroke="#B9CF6A" stroke-width="12"/>
+    <path d="M52 94C52 73 60 60 70 60C80 60 88 73 88 94" stroke="#6F8FC1" stroke-width="12"/>
+  </g>
+</svg>
