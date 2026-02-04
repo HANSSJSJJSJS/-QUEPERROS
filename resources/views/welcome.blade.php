@@ -10,6 +10,9 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chango&family=Delius&family=Delius+Swash+Caps&family=Noto+Znamenny+Musical+Notation&display=swap" rel="stylesheet">
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -24,7 +27,21 @@
     <body class="mq-body">
         <div class="mq-hero-wrap">
             <div class="mq-hero" aria-label="Banner principal">
-                <div class="mq-hero-title">BANER</div>
+                <div class="mq-hero-carousel" aria-hidden="true">
+                    <div class="mq-hero-slide">
+                        <img src="{{ asset('img/img1.jpg') }}" alt="Perro feliz 1">
+                    </div>
+                    <div class="mq-hero-slide">
+                        <img src="{{ asset('img/img2.JPG') }}" alt="Perro feliz 2">
+                    </div>
+                    <div class="mq-hero-slide">
+                        <img src="{{ asset('img/img3.jpg') }}" alt="Perro feliz 3">
+                    </div>
+                    <div class="mq-hero-slide">
+                        <img src="{{ asset('img/img4.jpg') }}" alt="Perro feliz 4">
+                    </div>
+                </div>
+
             </div>
 
             <div class="mq-navbar" role="navigation" aria-label="Navegación principal">
@@ -69,14 +86,17 @@
                                 </div>
                             </div>
 
-                            <div class="mq-about-box" aria-hidden="true"></div>
-
-                            <div class="mq-dog-badge" aria-label="Dog">
-                                <img src="{{ asset('img/dog-badge.svg') }}" alt="">
+                            <div class="mq-about-box">
+                                <img class="mq-about-photo" src="{{ asset('img/tuperro.jpg') }}" alt="Tu perro feliz">
                             </div>
                         </div>
 
                         <h2 class="mq-about-title">SOBRE NOSOTROS</h2>
+                        <div class="mq-about-text">
+                            <p>Más que Perros nace en 2018 con el propósito de brindar cuidado, hospedaje y acompañamiento personalizado para perros, adaptándose a las necesidades de cada animal cuando sus tutores no pueden atenderlos por motivos de tiempo, trabajo o espacio.</p>
+                            <p>Nos especializamos en entrenamiento básico, integral y deportivo, enfocado en corregir conductas, fortalecer el bienestar emocional y físico de los perros y mejorar la convivencia en las familias multiespecie.</p>
+                            <p>Además, desarrollamos la selección, crianza y formación ética de perros de trabajo a través de nuestro criadero Obedience Badge, registrado ante la Asociación Club Canino Colombiano, garantizando procesos responsables y ejemplares con pedigrí.</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -93,7 +113,7 @@
                     <h2 class="mq-title mq-title--xl mq-title--light mq-services-title">NUESTROS SERVICIOS</h2>
 
                     <div class="mq-services-grid">
-                        <article class="mq-card-ui" style="width: 420px;" aria-label="Entrenamiento canino">
+                        <article class="mq-card-ui" aria-label="Entrenamiento canino">
                             <h3>ENTRENAMIENTO CANINO</h3>
                             <ul class="mq-paw-list">
                                 <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/mq-paw.svg') }}" alt=""></span><span>Entrenamiento básico integral y deportivo</span></li>
@@ -143,6 +163,7 @@
             </section>
 
             <section class="mq-values-wrap" id="valores" aria-label="Valores">
+                <img class="mq-values-badge" src="{{ asset('img/valores.png') }}" alt="Decoración valores" aria-hidden="true">
                 <div class="mq-container">
                     <h2 class="mq-title mq-title--xl mq-title--dark">VALORES</h2>
 
