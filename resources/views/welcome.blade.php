@@ -164,6 +164,7 @@
 
             <section class="mq-values-wrap" id="valores" aria-label="Valores">
                 <img class="mq-values-badge" src="{{ asset('img/valores.png') }}" alt="Decoración valores" aria-hidden="true">
+                <img class="mq-values-dog" src="{{ asset('img/golden.png') }}" alt="Perro dorado" aria-hidden="true">
                 <div class="mq-container">
                     <h2 class="mq-title mq-title--xl mq-title--dark">VALORES</h2>
 
@@ -221,15 +222,14 @@
             </div>
 
             <section class="mq-numbers-footer" aria-label="Más que números y pie de página">
-                <div class="mq-container">
-                    <h2 class="mq-numbers-title">MAS QUE NUMEROS</h2>
-                    <p class="mq-numbers-subtitle">Nuestro compromiso se refleja en nuestras estad&iacute;sticas</p>
+                <div class="mq-container-post">
 
-                    <div class="mq-numbers-grid" aria-hidden="true">
-                        <div class="mq-number-card"></div>
-                        <div class="mq-number-card"></div>
-                        <div class="mq-number-card"></div>
-                        <div class="mq-number-card"></div>
+                    <div class="instagram-post">
+                        <blockquote
+                            class="instagram-media"
+                            data-instgrm-permalink="https://www.instagram.com/p/CCHJ9fIAE1_/"
+                            data-instgrm-version="14">
+                        </blockquote>
                     </div>
 
                     <div class="mq-footer-band">
@@ -510,5 +510,7 @@
             <div class="h-14.5 hidden lg:block"></div>
         @endif
         </div>
+
+        <script async src="//www.instagram.com/embed.js"></script>
     </body>
 </html>
