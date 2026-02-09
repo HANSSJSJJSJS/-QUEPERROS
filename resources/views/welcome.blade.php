@@ -12,7 +12,7 @@
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
         <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chango&family=Delius&family=Delius+Swash+Caps&family=Noto+Znamenny+Musical+Notation&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Chango&family=Delius&family=Delius+Swash+Caps&family=Noto+Znamenny+Musical+Notation&family=Ranchers&display=swap" rel="stylesheet">
 
         <!-- Styles / Scripts -->
         @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -222,14 +222,26 @@
             </div>
 
             <section class="mq-numbers-footer" aria-label="Más que números y pie de página">
-                <div class="mq-container-post">
+                <div class="mq-container-post ">
 
-                    <div class="instagram-post">
-                        <blockquote
-                            class="instagram-media"
-                            data-instgrm-permalink="https://www.instagram.com/p/CCHJ9fIAE1_/"
-                            data-instgrm-version="14">
-                        </blockquote>
+                    <div class="mq-instagram-row">
+                        <div class="instagram-post">
+                            <blockquote
+                                class="instagram-media"
+                                data-instgrm-permalink="https://www.instagram.com/reel/DTDp4l3kc_r/"
+                                data-instgrm-version="14">
+                            </blockquote>
+                        </div>
+
+                        <div class="mq-instagram-phrase">Ellos también aprenden con amor</div>
+
+                        <div class="instagram-post">
+                            <blockquote
+                                class="instagram-media"
+                                data-instgrm-permalink="https://www.instagram.com/reel/DTIWjdZkWQI/"
+                                data-instgrm-version="14">
+                            </blockquote>
+                        </div>
                     </div>
 
                     <div class="mq-footer-band">
