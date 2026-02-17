@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="220" height="120" viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-  <ellipse cx="110" cy="106" rx="78" ry="10" fill="#000000" fill-opacity="0.08"/>
-  <path d="M20 60C26 86 50 106 110 106C170 106 194 86 200 60C192 44 160 32 110 32C60 32 28 44 20 60Z" fill="#B8B64B"/>
-  <ellipse cx="110" cy="46" rx="88" ry="22" fill="#C9C75A"/>
-  <text x="110" y="86" text-anchor="middle" font-family="'Lilita One', system-ui, sans-serif" font-size="26" fill="#FFFFFF">DOG</text>
-  <path d="M54 78C54 74 57 72 59 74C61 72 64 74 64 78C64 80 62.8 82 60.5 84.5L59 86L57.5 84.5C55.2 82 54 80 54 78Z" fill="#F5D65B"/>
-  <path d="M156 78C156 74 159 72 161 74C163 72 166 74 166 78C166 80 164.8 82 162.5 84.5L161 86L159.5 84.5C157.2 82 156 80 156 78Z" fill="#F5D65B"/>
-</svg>

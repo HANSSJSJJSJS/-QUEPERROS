@@ -23,6 +23,7 @@
             </style>
         @endif
         <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/login-footer.css') }}">
     </head>
     <body class="mq-body">
         <div class="mq-hero-wrap">
@@ -243,28 +244,10 @@
                             </blockquote>
                         </div>
                     </div>
-
-                    <div class="mq-footer-band">
-                        <div class="mq-footer-brand">
-                            <div class="mq-footer-brand-title">MAS QUE<br>PERROS</div>
-                            <div class="mq-footer-brand-tagline">TU PERRO FELIZ,<br>TU TRANQUILO</div>
-                            <img class="mq-footer-dog" src="{{ asset('img/pet.png') }}" alt="Perro" aria-hidden="true">
-                        </div>
-
-                        <div class="mq-footer-links" aria-label="Enlaces de pie de p&aacute;gina">
-                            <div class="mq-footer-link-group">
-                                <h3>CONTACTO</h3>
-                                <div class="mq-footer-underline"></div>
-                            </div>
-
-                            <div class="mq-footer-link-group">
-                                <h3>SERVICIOS</h3>
-                                <div class="mq-footer-underline"></div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </section>
+
+            @include('auth.partials.login-footer')
         </div>
 
         <div class="hidden">

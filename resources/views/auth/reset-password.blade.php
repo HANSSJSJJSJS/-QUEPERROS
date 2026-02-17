@@ -3,21 +3,21 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Iniciar sesión</title>
+        <title>Restablecer contraseña</title>
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
-        <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/forgot-password.css') }}">
         <link rel="stylesheet" href="{{ asset('css/login-footer.css') }}">
     </head>
 
     <body>
-        <div class="mq-login">
-            <div class="mq-login-top">
-                <div class="mq-login-left">
-                    <a class="mq-back-link" href="{{ url('/') }}" aria-label="Volver">
+        <div class="mq-forgot">
+            <div class="mq-forgot-top">
+                <div class="mq-forgot-left">
+                    <a class="mq-back-link" href="{{ route('login') }}" aria-label="Volver">
                         <span class="mq-back-button-box" aria-hidden="true">
                             <span class="mq-back-button-elem">
                                 <svg viewBox="0 0 46 40" xmlns="http://www.w3.org/2000/svg">
@@ -31,44 +31,46 @@
                             </span>
                         </span>
                     </a>
-                    <div class="mq-login-card" aria-label="Iniciar sesión">
-                        <img class="mq-login-card-img" src="{{ asset('img/Recurso 1.png') }}" alt="" aria-hidden="true">
-                        <h1 class="mq-login-title">INICIAR SESION</h1>
+
+                    <div class="mq-forgot-card" aria-label="Restablecer contraseña">
+                        <h1 class="mq-forgot-title">Restablecer contraseña</h1>
+                        <p class="mq-forgot-subtitle">Crea una nueva contraseña para tu cuenta.</p>
 
                         @if ($errors->any())
-                            <div class="mq-errors">
-                                {{ $errors->first() }}
-                            </div>
+                            <div class="mq-errors">{{ $errors->first() }}</div>
                         @endif
 
-                        <form class="mq-login-form" method="POST" action="{{ url('/login') }}">
+                        <form class="mq-forgot-form" method="POST" action="{{ route('password.update') }}">
                             @csrf
 
+                            <input type="hidden" name="token" value="{{ $token }}">
+
                             <div class="mq-field">
-                                <label for="email">Usuario</label>
-                                <input class="mq-input" id="email" name="email" type="email" value="{{ old('email') }}" required autocomplete="username">
+                                <label for="email">Correo electrónico</label>
+                                <input class="mq-input" id="email" name="email" type="email" value="{{ old('email', $email) }}" required autocomplete="email">
                             </div>
 
                             <div class="mq-field">
-                                <label for="password">Contraseña</label>
-                                <input class="mq-input" id="password" name="password" type="password" required autocomplete="current-password">
+                                <label for="password">Nueva contraseña</label>
+                                <input class="mq-input" id="password" name="password" type="password" required autocomplete="new-password">
                             </div>
 
-                            <div class="mq-actions">
-                                <a class="mq-forgot" href="{{ route('password.request') }}">¿Olvidaste tu contraseña?</a>
-                                <button class="mq-btn" type="submit">INICIAR SESION</button>
+                            <div class="mq-field">
+                                <label for="password_confirmation">Confirmar contraseña</label>
+                                <input class="mq-input" id="password_confirmation" name="password_confirmation" type="password" required autocomplete="new-password">
                             </div>
+
+                            <button class="mq-btn" type="submit">GUARDAR CONTRASEÑA</button>
 
                             <div class="mq-bottom-text">
-                                ¿No tienes una cuenta?
-                                <a href="{{ route('register') }}">Registrate AQUI</a>
+                                <a href="{{ route('login') }}">Volver a Iniciar Sesión</a>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <div class="mq-login-right">
-                    <img class="mq-login-illustration" src="{{ asset('img/login.jpg') }}" alt="Ilustración">
+                <div class="mq-forgot-right" aria-hidden="true">
+                    <img class="mq-forgot-illustration" src="{{ asset('img/login.jpg') }}" alt="">
                 </div>
             </div>
 

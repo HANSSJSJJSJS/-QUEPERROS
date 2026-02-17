@@ -817,17 +817,10 @@ position: absolute;
 }
 
 .mq-numbers-footer {
-    padding: 72px 0 86px;
-    background: linear-gradient(
-        to bottom,
-        #ffffff 0%,
-        #fffdf1 8%,
-        #f6d952 20%,
-        #f6d952 62%,
-        #b57cc4 64%,
-        #b57cc4 100%
-    );
-    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    padding: 78px 0 184px;
+    background: transparent;
 }
 
 .mq-footer-section {
@@ -872,7 +865,7 @@ position: absolute;
     align-items: center;
     justify-content: center;
     column-gap: 56px;
-    margin-top: 13vh;
+    margin-top: 9vh;
 }
 
 .mq-instagram-row .instagram-post {
@@ -924,7 +917,7 @@ border: 10px solid #9442A3;
     font-family: "Ranchers", sans-serif;
     font-size: clamp(34px, 4vw, 100px);
     line-height: 0.95;
-    color: #ffffff;
+    color: #000000;
     text-shadow: 0 4px 0 rgba(0, 0, 0, 0.25);
     max-width: 420px;
     margin: 0;
