@@ -124,12 +124,31 @@ body {
 }
 
 .mq-register-card {
-    width: min(420px, 100%);
-    background: #ffffff;
-    border-radius: 18px;
-    box-shadow: var(--mq-shadow);
-    padding: 26px 26px 18px;
-    border: 1px solid rgba(0, 0, 0, 0.12);
+    position: relative;
+    width: min(571px, 100%);
+    padding: 71px 89px 119px;
+    background: transparent;
+    border-radius: 30px;
+    overflow: hidden;
+    margin: 1vh;
+    box-shadow: none;
+}
+
+.mq-register-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    border-radius: 30px;
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+.mq-register-card > :not(.mq-register-card-img) {
+    position: relative;
+    z-index: 1;
 }
 
 .mq-register-title {
@@ -195,14 +214,16 @@ body {
 
 .mq-bottom-text {
     margin-top: 2px;
-    font-size: 13px;
+    font-size: 15px;
     text-align: center;
 }
 
 .mq-bottom-text a {
-    color: #111;
+    color: #A578AD;
     font-weight: 900;
     text-decoration: none;
+    display: block;
+    margin-top: 5px; 
 }
 
 .mq-errors {

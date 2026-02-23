@@ -33,6 +33,8 @@
                     </a>
 
                     <div class="mq-register-card" aria-label="Registrarse">
+                        <img class="mq-register-card-img" src="{{ asset('img/Recurso 1.png') }}" alt="" aria-hidden="true">
+
                         <h1 class="mq-register-title">REGISTRARSE</h1>
 
                         @if ($errors->any())
@@ -75,7 +77,7 @@
 
                             <div class="mq-bottom-text">
                                 ¿Ya tienes una cuenta?
-                                <a href="{{ route('login') }}">Inicia Sesion AQUÍ</a>
+                                <a href="{{ route('login') }}"><strong>Inicia Sesion AQUÍ</strong></a>
                             </div>
                         </form>
                     </div>

@@ -218,13 +218,15 @@ body {
 .mq-bottom-text {
     margin-top: 10px;
     text-align: center;
-    font-size: 13px;
+    font-size: 15px;
 }
 
 .mq-bottom-text a {
-    color: #111;
+    color: #A578AD;
     font-weight: 900;
     text-decoration: none;
+    display: block;
+    margin-top: 5px; 
 }
 
 .mq-errors {

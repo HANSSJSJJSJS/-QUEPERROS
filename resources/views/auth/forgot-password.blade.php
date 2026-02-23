@@ -33,6 +33,8 @@
                     </a>
 
                     <div class="mq-forgot-card" aria-label="Olvidaste tu contraseña">
+                        <img class="mq-forgot-card-img" src="{{ asset('img/Recurso 1.png') }}" alt="" aria-hidden="true">
+
                         <h1 class="mq-forgot-title">¿Olvidaste tu contraseña?</h1>
                         <p class="mq-forgot-subtitle">Ingresa su correo electrónico y te enviaremos un enlace para restablecer tu contraseña.</p>
 
