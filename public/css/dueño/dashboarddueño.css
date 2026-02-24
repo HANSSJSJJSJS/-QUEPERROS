@@ -1,0 +1,246 @@
+:root {
+    --mq-yellow: #ffd84d;
+    --mq-purple: #9b59b6;
+    --mq-purple-soft: #f1e2ff;
+    --mq-gray-bg: #f5f5f7;
+    --mq-text: #111111;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Instrument Sans", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    background: var(--mq-gray-bg);
+    color: var(--mq-text);
+}
+
+.mq-dashboard {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    min-height: 100vh;
+}
+
+.mq-dashboard-sidebar {
+    background: var(--mq-yellow);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.mq-dashboard-logo {
+    font-family: "Lilita One", system-ui, sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.08em;
+    margin-bottom: 32px;
+}
+
+.mq-dashboard-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.mq-dashboard-user-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.mq-dashboard-user-name {
+    font-weight: 700;
+}
+
+.mq-dashboard-user-sub {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+.mq-dashboard-menu {
+    display: grid;
+    gap: 6px;
+}
+
+.mq-dashboard-menu a {
+    padding: 10px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    color: #333;
+    font-size: 14px;
+}
+
+.mq-dashboard-menu a.active {
+    background: var(--mq-purple);
+    color: #fff;
+}
+
+.mq-dashboard-support {
+    margin-top: auto;
+    display: grid;
+    gap: 4px;
+    font-size: 13px;
+}
+
+.mq-dashboard-support a {
+    text-decoration: none;
+    color: #333;
+}
+
+.mq-dashboard-logout {
+    margin-top: 18px;
+}
+
+.mq-dashboard-logout button {
+    width: 100%;
+    border-radius: 999px;
+    border: 0;
+    padding: 10px 14px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.mq-dashboard-main {
+    padding: 20px 28px 32px;
+}
+
+.mq-dashboard-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 16px;
+}
+
+.mq-dashboard-search input {
+    min-width: 260px;
+    border-radius: 999px;
+    border: 0;
+    padding: 10px 14px;
+}
+
+.mq-dashboard-hero {
+    background: linear-gradient(90deg, var(--mq-purple) 0%, #b57cc4 100%);
+    border-radius: 24px;
+    padding: 24px 26px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.mq-dashboard-hero-greeting {
+    margin: 0 0 4px;
+}
+
+.mq-dashboard-hero-title {
+    margin: 0 0 6px;
+    font-family: "Lilita One", system-ui, sans-serif;
+    font-size: 28px;
+}
+
+.mq-dashboard-hero-sub {
+    margin: 0 0 12px;
+    font-size: 14px;
+}
+
+.mq-dashboard-hero-btn {
+    border-radius: 999px;
+    border: 0;
+    padding: 10px 18px;
+    background: #ffd84d;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.mq-dashboard-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.mq-dashboard-card {
+    background: #fff;
+    border-radius: 18px;
+    padding: 14px 16px;
+}
+
+.mq-dashboard-card-label {
+    margin: 0 0 6px;
+    font-size: 13px;
+    opacity: 0.8;
+}
+
+.mq-dashboard-card-value {
+    margin: 0;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.mq-dashboard-list {
+    background: #fff;
+    border-radius: 18px;
+    padding: 16px 18px 12px;
+}
+
+.mq-dashboard-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.mq-dashboard-list-filters button {
+    border-radius: 999px;
+    border: 0;
+    padding: 6px 10px;
+    font-size: 12px;
+    margin-left: 4px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.mq-dashboard-list-filters button.active {
+    background: var(--mq-purple-soft);
+}
+
+.mq-dashboard-appointments {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+}
+
+.mq-dashboard-appointments li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: #fafafa;
+}
+
+.mq-dashboard-appointment-time {
+    margin: 0 0 2px;
+    font-weight: 600;
+}
+
+.mq-dashboard-appointment-detail {
+    margin: 0;
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+.mq-dashboard-appointment-status {
+    border-radius: 999px;
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+.mq-dashboard-appointment-status.confirmed {
+    background: #e0f2fe;
+    color: #075985;
+}

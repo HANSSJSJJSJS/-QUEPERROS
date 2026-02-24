@@ -15,6 +15,12 @@ class LoginController extends Controller
 
     public function store(Request $request)
     {
+        if (Auth::check()) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+        }
+
         $credentials = $request->validate([
             'email' => ['required', 'string', 'email'],
             'password' => ['required', 'string'],
@@ -32,7 +38,21 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/');
+        $user = Auth::user();
+
+        if ($user && $user->rol === 'admin') {
+            return redirect('/admin/dashboard');
+        }
+
+        if ($user && $user->rol === 'dueno') {
+            return redirect('/dashboard');
+        }
+
+        if ($user && ($user->rol === 'cuidador' || $user->rol === 'empleado')) {
+            return redirect('/cuidador/dashboard');
+        }
+
+        return redirect('/home');
     }
 
     public function destroy(Request $request)

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Panel Administrativo - Mascotas</title>
+
+        <link rel="preconnect" href="https://fonts.bunny.net">
+        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
+
+        <link rel="stylesheet" href="{{ asset('css/Admin/admin-dashboard.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin-v2.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    </head>
+    <body>
+        @php
+            use Illuminate\Support\Str;
+        @endphp
+        <div class="admin-layout">
+            <aside class="admin-sidebar">
+                <div class="admin-brand">
+                    <div class="admin-logo"><i class="bi bi-paw" aria-hidden="true"></i></div>
+                    <div class="admin-brand-text">
+                        <span class="admin-brand-title">MAS QUE PERROS</span>
+                        <span class="admin-brand-subtitle">Panel Administrativo</span>
+                    </div>
+                </div>
+
+                <div class="admin-sidebar-user">
+                    <div class="admin-sidebar-user-avatar">{{ mb_substr($user->name ?? 'A', 0, 1) }}</div>
+                    <div class="admin-sidebar-user-text">
+                        <div class="admin-sidebar-user-name">{{ $user->name }}</div>
+                        <div class="admin-sidebar-user-role">Administrador</div>
+                    </div>
+                    <div class="admin-sidebar-user-status" aria-label="Activo"></div>
+                </div>
+
+                <p class="admin-sidebar-section">ADMINISTRACION</p>
+
+                <nav class="admin-menu">
+                    <a href="{{ route('admin.dashboard') }}" class="admin-menu-item admin-menu-item--active">
+                        <span class="admin-menu-left">
+                            <i class="admin-menu-icon bi bi-grid-1x2-fill" aria-hidden="true"></i>
+                            <span>Dashboard</span>
+                        </span>
+                        <span class="admin-menu-right">
+                            <span class="admin-menu-chevron">›</span>
+                        </span>
+                    </a>
+                    <a href="{{ route('admin.users') }}" class="admin-menu-item">
+                        <span class="admin-menu-left">
+                            <i class="admin-menu-icon bi bi-people-fill" aria-hidden="true"></i>
+                            <span>Gestión de usuarios</span>
+                        </span>
+                        <span class="admin-menu-right">
+                            <span class="admin-menu-badge">5</span>
+                        </span>
+                    </a>
+                    <a href="#" class="admin-menu-item">
+                        <span class="admin-menu-left">
+                            <i class="admin-menu-icon bi bi-shield-lock-fill" aria-hidden="true"></i>
+                            <span>Gestión de roles</span>
+                        </span>
+                        <span class="admin-menu-right">
+                            <span class="admin-menu-badge">3</span>
+                        </span>
+                    </a>
+                    <a href="#" class="admin-menu-item">
+                        <span class="admin-menu-left">
+                            <i class="admin-menu-icon bi bi-heart-pulse-fill" aria-hidden="true"></i>
+                            <span>Gestión de servicios</span>
+                        </span>
+                        <span class="admin-menu-right">
+                            <span class="admin-menu-badge">6</span>
+                        </span>
+                    </a>
+                    <a href="#" class="admin-menu-item">
+                        <span class="admin-menu-left">
+                            <i class="admin-menu-icon bi bi-bar-chart-fill" aria-hidden="true"></i>
+                            <span>Reportes</span>
+                        </span>
+                        <span class="admin-menu-right"></span>
+                    </a>
+                    <a href="#" class="admin-menu-item">
+                        <span class="admin-menu-left">
+                            <i class="admin-menu-icon bi bi-gear-fill" aria-hidden="true"></i>
+                            <span>Configuracion</span>
+                        </span>
+                        <span class="admin-menu-right"></span>
+                    </a>
+                </nav>
+
+                <div class="admin-sidebar-spacer"></div>
+
+                <div class="admin-sidebar-divider"></div>
+
+                <form method="POST" action="{{ route('logout') }}" class="admin-logout">
+                    @csrf
+                    <button type="submit">
+                        <span class="admin-logout-icon">⤴</span>
+                        <span>Cerrar sesion</span>
+                    </button>
+                </form>
+            </aside>
+
+            <main class="admin-main">
+                <header class="ad2-header">
+                    <div class="ad2-search" role="search">
+                        <i class="bi bi-search" aria-hidden="true"></i>
+                        <input type="text" placeholder="Buscar..." aria-label="Buscar" />
+                    </div>
+
+                    <div class="ad2-top-actions">
+                        <button type="button" class="ad2-bell" aria-label="Notificaciones">
+                            <i class="bi bi-bell" aria-hidden="true"></i>
+                            <span class="ad2-bell-badge" aria-label="Notificaciones">3</span>
+                        </button>
+
+                        <div class="ad2-profile">
+                            <div class="ad2-profile-avatar">{{ mb_substr($user->name ?? 'A', 0, 1) }}</div>
+                            <div class="ad2-profile-text">
+                                <span class="ad2-profile-title">Administrador</span>
+                                <span class="ad2-profile-sub">{{ Str::limit($user->name ?? 'Usuario', 14) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <section class="ad2-hero" aria-label="Bienvenida">
+                    <div class="ad2-hero-left">
+                        <p class="ad2-hero-kicker"><span class="ad2-hero-kicker-icon">✨</span> Buenas tardes</p>
+                        <h1 class="ad2-hero-title">BIENVENIDO, {{ Str::upper(Str::limit($user->name ?? 'NOMBRE', 14, '')) }}</h1>
+                        <p class="ad2-hero-sub">Administrador del sistema</p>
+
+                        <div class="ad2-hero-chips" aria-label="Estado del sistema">
+                            <span class="ad2-chip ad2-chip--green"><i class="bi bi-graph-up" aria-hidden="true"></i> Sistema activo</span>
+                            <span class="ad2-chip"><i class="bi bi-clock" aria-hidden="true"></i> Última sesión: Hoy 9:30 AM</span>
+                        </div>
+                    </div>
+
+                    <div class="ad2-metrics" aria-label="Métricas">
+                        <div class="ad2-metric">
+                            <div class="ad2-metric-value">14</div>
+                            <div class="ad2-metric-label">CITAS HOY</div>
+                        </div>
+                        <div class="ad2-metric ad2-metric--gold">
+                            <div class="ad2-metric-value">98%</div>
+                            <div class="ad2-metric-label">UPTIME</div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="ad2-cards" aria-label="Resumen">
+                    <div class="ad2-card">
+                        <div class="ad2-card-top">
+                            <div class="ad2-card-icon ad2-card-icon--blue"><i class="bi bi-people" aria-hidden="true"></i></div>
+                            <span class="ad2-pill ad2-pill--blue">↗ +2 esta semana</span>
+                        </div>
+                        <div class="ad2-card-number">{{ $stats['total_users'] }}</div>
+                        <div class="ad2-card-label">Total Usuarios</div>
+                    </div>
+
+                    <div class="ad2-card">
+                        <div class="ad2-card-top">
+                            <div class="ad2-card-icon ad2-card-icon--purple"><i class="bi bi-wrench" aria-hidden="true"></i></div>
+                            <span class="ad2-pill ad2-pill--purple">↗ +1 este mes</span>
+                        </div>
+                        <div class="ad2-card-number">{{ $stats['active_services'] }}</div>
+                        <div class="ad2-card-label">Servicios Activos</div>
+                    </div>
+
+                    <div class="ad2-card">
+                        <div class="ad2-card-top">
+                            <div class="ad2-card-icon ad2-card-icon--yellow"><i class="bi bi-shield" aria-hidden="true"></i></div>
+                            <span class="ad2-pill ad2-pill--gray">↔ Sin cambios</span>
+                        </div>
+                        <div class="ad2-card-number">{{ $stats['defined_roles'] }}</div>
+                        <div class="ad2-card-label">Roles Definidos</div>
+                    </div>
+                </section>
+
+                <section class="ad2-block" aria-label="Acciones rápidas">
+                    <h2 class="ad2-section-title">Acciones Rapidas</h2>
+                    <p class="ad2-section-sub">Operaciones frecuentes del sistema</p>
+
+                    <div class="ad2-actions">
+                        <a href="{{ route('admin.users') }}" class="ad2-action ad2-action--purple">
+                            <div class="ad2-action-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></div>
+                            <div>
+                                <p class="ad2-action-title">Registrar Usuarios</p>
+                                <p class="ad2-action-desc">Agregar nuevo usuario al sistema</p>
+                            </div>
+                        </a>
+
+                        <a href="{{ route('admin.users') }}" class="ad2-action ad2-action--blue">
+                            <div class="ad2-action-icon"><i class="bi bi-eye" aria-hidden="true"></i></div>
+                            <div>
+                                <p class="ad2-action-title">Ver Usuarios</p>
+                                <p class="ad2-action-desc">Lista completa de usuarios</p>
+                            </div>
+                        </a>
+
+                        <a href="#" class="ad2-action ad2-action--purple">
+                            <div class="ad2-action-icon"><i class="bi bi-plus-lg" aria-hidden="true"></i></div>
+                            <div>
+                                <p class="ad2-action-title">Crear Servicio</p>
+                                <p class="ad2-action-desc">Nuevo servicio veterinario</p>
+                            </div>
+                        </a>
+
+                        <a href="#" class="ad2-action ad2-action--blue">
+                            <div class="ad2-action-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></div>
+                            <div>
+                                <p class="ad2-action-title">Generar Reporte</p>
+                                <p class="ad2-action-desc">Reporte mensual del sistema</p>
+                            </div>
+                        </a>
+
+                        <a href="#" class="ad2-action ad2-action--yellow">
+                            <div class="ad2-action-icon"><i class="bi bi-shield-check" aria-hidden="true"></i></div>
+                            <div>
+                                <p class="ad2-action-title">Asignar Rol</p>
+                                <p class="ad2-action-desc">Asignar permisos a usuarios</p>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+                <div class="ad2-bottom-grid" aria-label="Actividad y usuarios">
+                    <section class="ad2-activity" aria-label="Actividad reciente">
+                        <div class="ad2-activity-top">
+                        <div>
+                            <h2 class="ad2-section-title" style="margin-bottom:.15rem;">Actividad Reciente</h2>
+                            <p class="ad2-section-sub" style="margin:0;">Últimos movimientos del sistema</p>
+                        </div>
+
+                        <div class="ad2-tabs" aria-label="Tabs">
+                            <button type="button" class="ad2-tab ad2-tab--active">Actividad</button>
+                            <button type="button" class="ad2-tab">Servicios</button>
+                        </div>
+                    </div>
+
+                    <div class="ad2-activity-item">
+                        <div class="ad2-activity-dot ad2-activity-dot--purple"><i class="bi bi-wrench" aria-hidden="true"></i></div>
+                        <div class="ad2-activity-text">
+                            <div class="ad2-activity-main">Servicio 'Guardería Premium' fue activado</div>
+                            <div class="ad2-activity-sub"><i class="bi bi-clock" aria-hidden="true"></i> Hace 1 hora</div>
+                        </div>
+                    </div>
+
+                    <div class="ad2-activity-item">
+                        <div class="ad2-activity-dot ad2-activity-dot--yellow"><i class="bi bi-shield" aria-hidden="true"></i></div>
+                        <div class="ad2-activity-text">
+                            <div class="ad2-activity-main">Rol de Dr. Pedro Ruiz actualizado a Veterinario Senior</div>
+                            <div class="ad2-activity-sub"><i class="bi bi-clock" aria-hidden="true"></i> Hace 2 horas</div>
+                        </div>
+                    </div>
+
+                    <div class="ad2-activity-item ad2-activity-item--arrow">
+                        <div class="ad2-activity-dot ad2-activity-dot--blue"><i class="bi bi-check2-circle" aria-hidden="true"></i></div>
+                        <div class="ad2-activity-text">
+                            <div class="ad2-activity-main">Backup automatico completado exitosamente</div>
+                            <div class="ad2-activity-sub"><i class="bi bi-clock" aria-hidden="true"></i> Hace 3 horas</div>
+                        </div>
+                        <div class="ad2-activity-arrow">›</div>
+                    </div>
+
+                    <div class="ad2-activity-item">
+                        <div class="ad2-activity-dot ad2-activity-dot--red"><i class="bi bi-calendar-event" aria-hidden="true"></i></div>
+                        <div class="ad2-activity-text">
+                            <div class="ad2-activity-main">Cita cancelada: Luna - Vacunacion</div>
+                            <div class="ad2-activity-sub"><i class="bi bi-clock" aria-hidden="true"></i> Hace 4 horas</div>
+                        </div>
+                    </div>
+
+                        <a href="#" class="ad2-activity-footer">Ver todo el historial</a>
+                    </section>
+
+                    <section class="ad2-users" aria-label="Usuarios del sistema">
+                        <div class="ad2-users-top">
+                        <div>
+                            <h2 class="ad2-section-title" style="margin-bottom:.15rem;">Usuarios del Sistema</h2>
+                            <p class="ad2-section-sub" style="margin:0;">Resumen de cuentas registradas</p>
+                        </div>
+                        <a href="{{ route('admin.users') }}" class="ad2-users-new">+ Nuevo</a>
+                        </div>
+
+                    <div class="ad2-users-summary" aria-label="Resumen">
+                        <div class="ad2-users-summary-card">
+                            <div class="ad2-users-count ad2-users-count--blue">3</div>
+                            <div class="ad2-users-summary-label">Propietarios</div>
+                        </div>
+                        <div class="ad2-users-summary-card">
+                            <div class="ad2-users-count ad2-users-count--purple">2</div>
+                            <div class="ad2-users-summary-label">Veterinarios</div>
+                        </div>
+                        <div class="ad2-users-summary-card">
+                            <div class="ad2-users-count ad2-users-count--yellow">1</div>
+                            <div class="ad2-users-summary-label">Admins</div>
+                        </div>
+                    </div>
+
+                    <div class="ad2-users-list" role="list">
+                        <div class="ad2-user-row" role="listitem">
+                            <div class="ad2-user-avatar">A</div>
+                            <div class="ad2-user-meta">
+                                <div class="ad2-user-name">Ana Lopez</div>
+                                <div class="ad2-user-email">ana@email.com</div>
+                            </div>
+                            <div class="ad2-user-right">
+                                <span class="ad2-user-role-pill">Veterinario</span>
+                                <span class="ad2-user-status ad2-user-status--on" aria-label="Activo"></span>
+                            </div>
+                        </div>
+
+                        <div class="ad2-user-row" role="listitem">
+                            <div class="ad2-user-avatar">M</div>
+                            <div class="ad2-user-meta">
+                                <div class="ad2-user-name">Maria Garcia</div>
+                                <div class="ad2-user-email">maria@email.com</div>
+                            </div>
+                            <div class="ad2-user-right">
+                                <span class="ad2-user-role-pill">Propietario</span>
+                                <span class="ad2-user-status ad2-user-status--on" aria-label="Activo"></span>
+                            </div>
+                        </div>
+
+                        <div class="ad2-user-row" role="listitem">
+                            <div class="ad2-user-avatar">D</div>
+                            <div class="ad2-user-meta">
+                                <div class="ad2-user-name">Dr. Pedro Ruiz</div>
+                                <div class="ad2-user-email">pedro@email.com</div>
+                            </div>
+                            <div class="ad2-user-right">
+                                <span class="ad2-user-role-pill">Veterinario</span>
+                                <span class="ad2-user-status" aria-label="Inactivo"></span>
+                            </div>
+                        </div>
+
+                        <div class="ad2-user-row" role="listitem">
+                            <div class="ad2-user-avatar">L</div>
+                            <div class="ad2-user-meta">
+                                <div class="ad2-user-name">Laura Torres</div>
+                                <div class="ad2-user-email">laura@email.com</div>
+                            </div>
+                            <div class="ad2-user-right">
+                                <span class="ad2-user-role-pill">Propietario</span>
+                                <span class="ad2-user-status ad2-user-status--on" aria-label="Activo"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                        <a href="{{ route('admin.users') }}" class="ad2-users-footer">Gestionar todos los usuarios</a>
+                    </section>
+                </div>
+            </main>
+        </div>
+    </body>
+</html>

@@ -30,10 +30,8 @@ class RegisterController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        Auth::login($user);
-
-        $request->session()->regenerate();
-
-        return redirect('/');
+        return redirect()
+            ->route('login')
+            ->with('status', 'Usuario registrado correctamente');
     }
 }

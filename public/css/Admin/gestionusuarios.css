@@ -1,0 +1,225 @@
+/* ================= USERS PANEL ================= */
+
+.admin-users-panel{
+  margin-top:1.5rem;
+  background:#fff;
+  border-radius:1.5rem;
+  padding:1.25rem 1.5rem;
+  box-shadow:0 12px 30px rgba(15,23,42,.08);
+}
+
+/* ================= HEADER ================= */
+
+.admin-users-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:2px solid #e5e7eb;
+  padding-bottom:.5rem;
+  margin-bottom:1rem;
+}
+
+.admin-users-header-left{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  font-weight:600;
+  font-size:.95rem;
+}
+
+.admin-users-header-icon{
+  font-size:1rem;
+}
+
+.admin-users-header-title{
+  font-family:'Lilita One',system-ui;
+  letter-spacing:.05em;
+}
+
+.admin-users-add{
+  font-size:.85rem;
+  color:#4f46e5;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.admin-users-add:hover{
+  text-decoration:underline;
+}
+
+/* ================= SEARCH ================= */
+
+.admin-users-search-wrapper{
+  margin-bottom:1.25rem;
+}
+
+.admin-users-search{
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  background:linear-gradient(90deg,#c7d2fe,#e5e7eb);
+  border-radius:1.5rem;
+  padding:.4rem .9rem;
+}
+
+.admin-users-search input{
+  flex:1;
+  border:none;
+  background:transparent;
+  outline:none;
+  font-size:.9rem;
+  color:#111827;
+}
+
+.admin-users-search-icon{
+  font-size:1rem;
+  opacity:.7;
+}
+
+/* ================= GRID ================= */
+
+.admin-users-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1rem;
+}
+
+/* ================= USER CARD ================= */
+
+.admin-user-card{
+  background:#fff;
+  border-radius:1.25rem;
+  padding:1rem 1.1rem;
+  box-shadow:0 10px 24px rgba(15,23,42,.08);
+  display:flex;
+  flex-direction:column;
+  gap:.6rem;
+  border:1px solid #e5e7eb;
+}
+
+/* ===== Header ===== */
+
+.admin-user-card-header{
+  display:flex;
+  align-items:flex-start;
+  gap:.75rem;
+}
+
+.admin-user-card-avatar{
+  width:42px;
+  height:42px;
+  border-radius:999px;
+  background:#1e3a8a;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:1.1rem;
+}
+
+.admin-user-card-main{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:.15rem;
+}
+
+.admin-user-card-name{
+  margin:0;
+  font-weight:700;
+  font-size:1rem;
+}
+
+/* ===== Tags ===== */
+
+.admin-user-card-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.35rem;
+  font-size:.7rem;
+}
+
+.admin-user-tag{
+  padding:2px 6px;
+  border-radius:999px;
+  background:#eef2ff;
+  color:#374151;
+}
+
+.admin-user-tag--role{
+  background:#ecfdf3;
+  color:#166534;
+}
+
+.admin-user-status{
+  font-size:.7rem;
+  border-radius:999px;
+  background:#ecfdf3;
+  color:#166534;
+  padding:2px 8px;
+  font-weight:600;
+}
+
+/* ===== Body ===== */
+
+.admin-user-card-body{
+  font-size:.8rem;
+  color:#4b5563;
+}
+
+.admin-user-card-row{
+  margin:0;
+}
+
+/* ===== Actions ===== */
+
+.admin-user-card-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.4rem;
+  margin-top:.35rem;
+}
+
+/* ================= BUTTONS ================= */
+
+.admin-btn{
+  border-radius:.7rem;
+  font-size:.75rem;
+  padding:.3rem .7rem;
+  border:none;
+  cursor:pointer;
+  transition:background .12s ease,transform .12s ease,box-shadow .12s ease;
+}
+
+.admin-btn--light{
+  background:#f3f4f6;
+  color:#111827;
+}
+
+.admin-btn--primary{
+  background:#4f46e5;
+  color:#fff;
+}
+
+.admin-btn--danger{
+  background:#fecaca;
+  color:#b91c1c;
+}
+
+.admin-btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 6px 16px rgba(15,23,42,.15);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:640px){
+  .admin-users-panel{
+    padding:1rem .85rem;
+  }
+
+  .admin-users-grid{
+    grid-template-columns:1fr;
+  }
+}

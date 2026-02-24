@@ -9,8 +9,8 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
-        <link rel="stylesheet" href="{{ asset('css/forgot-password.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/login-footer.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/auth/forgot-password.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/auth/partials/login-footer.css') }}">
     </head>
 
     <body>
