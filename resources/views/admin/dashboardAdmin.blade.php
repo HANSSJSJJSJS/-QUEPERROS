@@ -28,15 +28,6 @@
                     </div>
                 </div>
 
-                <div class="admin-sidebar-user">
-                    <div class="admin-sidebar-user-avatar">{{ mb_substr($user->name ?? 'A', 0, 1) }}</div>
-                    <div class="admin-sidebar-user-text">
-                        <div class="admin-sidebar-user-name">{{ $user->name }}</div>
-                        <div class="admin-sidebar-user-role">Administrador</div>
-                    </div>
-                    <div class="admin-sidebar-user-status" aria-label="Activo"></div>
-                </div>
-
                 <p class="admin-sidebar-section">ADMINISTRACION</p>
 
                 <nav class="admin-menu">
@@ -160,6 +151,11 @@
                         </div>
                         <div class="ad2-card-number">{{ $stats['total_users'] }}</div>
                         <div class="ad2-card-label">Total Usuarios</div>
+                        <div class="ad2-card-hover">
+                            <div class="ad2-card-divider"></div>
+                            <div class="ad2-card-hover-text">3 propietarios, 2 veterinarios</div>
+                            <a href="{{ route('admin.users') }}" class="ad2-card-hover-link">Ver detalle <span aria-hidden="true">→</span></a>
+                        </div>
                     </div>
 
                     <div class="ad2-card">
@@ -169,6 +165,11 @@
                         </div>
                         <div class="ad2-card-number">{{ $stats['active_services'] }}</div>
                         <div class="ad2-card-label">Servicios Activos</div>
+                        <div class="ad2-card-hover">
+                            <div class="ad2-card-divider"></div>
+                            <div class="ad2-card-hover-text">Consulta, Vacunacion, Guarderia...</div>
+                            <a href="#" class="ad2-card-hover-link">Ver detalle <span aria-hidden="true">→</span></a>
+                        </div>
                     </div>
 
                     <div class="ad2-card">
@@ -178,6 +179,11 @@
                         </div>
                         <div class="ad2-card-number">{{ $stats['defined_roles'] }}</div>
                         <div class="ad2-card-label">Roles Definidos</div>
+                        <div class="ad2-card-hover">
+                            <div class="ad2-card-divider"></div>
+                            <div class="ad2-card-hover-text">Admin, Veterinario, Propietario</div>
+                            <a href="#" class="ad2-card-hover-link">Ver detalle <span aria-hidden="true">→</span></a>
+                        </div>
                     </div>
                 </section>
 
@@ -186,21 +192,23 @@
                     <p class="ad2-section-sub">Operaciones frecuentes del sistema</p>
 
                     <div class="ad2-actions">
-                        <a href="{{ route('admin.users') }}" class="ad2-action ad2-action--purple">
+                        <button type="button" class="ad2-action ad2-action--purple ad2-action--modal" id="openAdminRegisterUser">
                             <div class="ad2-action-icon"><i class="bi bi-person-plus" aria-hidden="true"></i></div>
                             <div>
                                 <p class="ad2-action-title">Registrar Usuarios</p>
                                 <p class="ad2-action-desc">Agregar nuevo usuario al sistema</p>
                             </div>
-                        </a>
+                            <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
+                        </button>
 
-                        <a href="{{ route('admin.users') }}" class="ad2-action ad2-action--blue">
+                        <button type="button" class="ad2-action ad2-action--blue" id="openAdminUsersModal">
                             <div class="ad2-action-icon"><i class="bi bi-eye" aria-hidden="true"></i></div>
                             <div>
                                 <p class="ad2-action-title">Ver Usuarios</p>
                                 <p class="ad2-action-desc">Lista completa de usuarios</p>
                             </div>
-                        </a>
+                            <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
+                        </button>
 
                         <a href="#" class="ad2-action ad2-action--purple">
                             <div class="ad2-action-icon"><i class="bi bi-plus-lg" aria-hidden="true"></i></div>
@@ -208,6 +216,7 @@
                                 <p class="ad2-action-title">Crear Servicio</p>
                                 <p class="ad2-action-desc">Nuevo servicio veterinario</p>
                             </div>
+                            <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
                         </a>
 
                         <a href="#" class="ad2-action ad2-action--blue">
@@ -216,6 +225,7 @@
                                 <p class="ad2-action-title">Generar Reporte</p>
                                 <p class="ad2-action-desc">Reporte mensual del sistema</p>
                             </div>
+                            <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
                         </a>
 
                         <a href="#" class="ad2-action ad2-action--yellow">
@@ -224,6 +234,7 @@
                                 <p class="ad2-action-title">Asignar Rol</p>
                                 <p class="ad2-action-desc">Asignar permisos a usuarios</p>
                             </div>
+                            <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
                         </a>
                     </div>
                 </section>
@@ -356,6 +367,202 @@
                     </section>
                 </div>
             </main>
-        </div>
+                <div class="ad2-modal" id="adminRegisterUserModal" aria-hidden="true">
+                    <div class="ad2-modal-backdrop" data-close="true"></div>
+                    <div class="ad2-modal-card" role="dialog" aria-modal="true" aria-labelledby="ad2ModalTitle">
+                        <div class="ad2-modal-head">
+                            <h2 class="ad2-modal-title" id="ad2ModalTitle">Registrar Nuevo Usuario</h2>
+                            <button type="button" class="ad2-modal-close" id="closeAdminRegisterUser" aria-label="Cerrar">×</button>
+                        </div>
+                        <div class="ad2-modal-body">
+                            <form action="{{ url('/admin/users') }}" method="POST" class="ad2-modal-form">
+                                @csrf
+
+                        <label class="ad2-field">
+                            <span class="ad2-label">Nombre completo</span>
+                            <input class="ad2-input" type="text" name="name" placeholder="Ej: Juan Perez" />
+                        </label>
+
+                        <label class="ad2-field">
+                            <span class="ad2-label">Email</span>
+                            <input class="ad2-input" type="email" name="email" placeholder="usuario@email.com" />
+                        </label>
+
+                        <label class="ad2-field">
+                            <span class="ad2-label">Rol</span>
+                            <select class="ad2-select" name="rol">
+                                <option value="admin">Administrador</option>
+                                <option value="empleado">Cuidador</option>
+                                <option value="dueno">Dueño</option>
+                                <option value="padrino">Padrino</option>
+                            </select>
+                        </label>
+
+                                <button type="submit" class="ad2-submit" formaction="{{ url('/admin/users') }}" formmethod="POST">Registrar Usuario</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ad2-modal" id="adminUsersModal" aria-hidden="true">
+                    <div class="ad2-modal-backdrop" data-close="true"></div>
+                    <div class="ad2-modal-card" role="dialog" aria-modal="true" aria-labelledby="ad2UsersModalTitle">
+                        <div class="ad2-modal-head">
+                            <h2 class="ad2-modal-title" id="ad2UsersModalTitle">Usuarios del Sistema</h2>
+                            <button type="button" class="ad2-modal-close" id="closeAdminUsersModal" aria-label="Cerrar">×</button>
+                        </div>
+                        <div class="ad2-modal-body">
+                            <div class="ad2-um-list" role="list">
+                                @foreach (($users ?? []) as $u)
+                                    <div class="ad2-um-row" role="listitem">
+                                        <div class="ad2-um-avatar">{{ mb_substr($u->name ?? 'U', 0, 1) }}</div>
+                                        <div class="ad2-um-meta">
+                                            <div class="ad2-um-name">{{ $u->name }}</div>
+                                            <div class="ad2-um-email">{{ $u->email }}</div>
+                                        </div>
+                                        <div class="ad2-um-right">
+                                            <span class="ad2-um-role">
+                                                @php
+                                                    $rolLabel = match($u->rol) {
+                                                        'admin' => 'Administrador',
+                                                        'empleado' => 'Cuidador',
+                                                        'dueno' => 'Propietario',
+                                                        'padrino' => 'Padrino',
+                                                        default => ucfirst((string) $u->rol),
+                                                    };
+                                                @endphp
+                                                {{ $rolLabel }}
+                                            </span>
+                                            <span class="ad2-um-status ad2-um-status--on" aria-label="Activo"></span>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (session('status'))
+                    <div class="ad2-success" id="adminSuccessModal" aria-hidden="true">
+                        <div class="ad2-success-backdrop" data-close="true"></div>
+                        <div class="ad2-success-card" role="dialog" aria-modal="true" aria-labelledby="ad2SuccessTitle">
+                            <div class="ad2-success-head">
+                                <h2 class="ad2-success-title" id="ad2SuccessTitle">Registrar Nuevo Usuario</h2>
+                                <button type="button" class="ad2-success-close" id="closeAdminSuccess" aria-label="Cerrar">×</button>
+                            </div>
+                            <div class="ad2-success-body">
+                                <div class="ad2-success-icon" aria-hidden="true">
+                                    <span class="ad2-success-icon-inner">✓</span>
+                                </div>
+                                <div class="ad2-success-main">Operacion exitosa</div>
+                                <div class="ad2-success-sub">La accion fue realizada correctamente</div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
+        <script>
+            (function () {
+                const modal = document.getElementById('adminRegisterUserModal');
+                const openBtn = document.getElementById('openAdminRegisterUser');
+                const closeBtn = document.getElementById('closeAdminRegisterUser');
+                const usersModal = document.getElementById('adminUsersModal');
+                const openUsersBtn = document.getElementById('openAdminUsersModal');
+                const closeUsersBtn = document.getElementById('closeAdminUsersModal');
+                const successModal = document.getElementById('adminSuccessModal');
+                const successCloseBtn = document.getElementById('closeAdminSuccess');
+
+                function openModal() {
+                    if (!modal) return;
+                    modal.classList.add('ad2-modal--open');
+                    modal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeModal() {
+                    if (!modal) return;
+                    modal.classList.remove('ad2-modal--open');
+                    modal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+
+                openBtn?.addEventListener('click', openModal);
+                closeBtn?.addEventListener('click', closeModal);
+
+                modal?.addEventListener('click', (e) => {
+                    const target = e.target;
+                    if (target && target.dataset && target.dataset.close === 'true') {
+                        closeModal();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && modal?.classList.contains('ad2-modal--open')) {
+                        closeModal();
+                    }
+                });
+
+                function openUsersModal() {
+                    if (!usersModal) return;
+                    usersModal.classList.add('ad2-modal--open');
+                    usersModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeUsersModal() {
+                    if (!usersModal) return;
+                    usersModal.classList.remove('ad2-modal--open');
+                    usersModal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+
+                openUsersBtn?.addEventListener('click', openUsersModal);
+                closeUsersBtn?.addEventListener('click', closeUsersModal);
+
+                usersModal?.addEventListener('click', (e) => {
+                    const target = e.target;
+                    if (target && target.dataset && target.dataset.close === 'true') {
+                        closeUsersModal();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && usersModal?.classList.contains('ad2-modal--open')) {
+                        closeUsersModal();
+                    }
+                });
+
+                function openSuccess() {
+                    if (!successModal) return;
+                    successModal.classList.add('ad2-success--open');
+                    successModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeSuccess() {
+                    if (!successModal) return;
+                    successModal.classList.remove('ad2-success--open');
+                    successModal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+
+                successCloseBtn?.addEventListener('click', closeSuccess);
+
+                successModal?.addEventListener('click', (e) => {
+                    const target = e.target;
+                    if (target && target.dataset && target.dataset.close === 'true') {
+                        closeSuccess();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && successModal?.classList.contains('ad2-success--open')) {
+                        closeSuccess();
+                    }
+                });
+
+                openSuccess();
+            })();
+        </script>
     </body>
 </html>

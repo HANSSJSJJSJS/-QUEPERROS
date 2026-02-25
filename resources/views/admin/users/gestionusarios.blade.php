@@ -25,14 +25,6 @@
                     </div>
                 </div>
 
-                <div class="admin-sidebar-user">
-                    <div class="admin-sidebar-user-avatar">{{ mb_substr($admin->name ?? 'A', 0, 1) }}</div>
-                    <div class="admin-sidebar-user-text">
-                        <div class="admin-sidebar-user-name">{{ $admin->name }}</div>
-                        <div class="admin-sidebar-user-role">Administrador</div>
-                    </div>
-                    <div class="admin-sidebar-user-status" aria-label="Activo"></div>
-                </div>
 
                 <p class="admin-sidebar-section">ADMINISTRACION</p>
 

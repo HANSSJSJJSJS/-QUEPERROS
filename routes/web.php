@@ -38,6 +38,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/users', [AdminUserController::class, 'index'])
         ->name('admin.users');
+
+    Route::post('/admin/users', [AdminUserController::class, 'store'])
+        ->name('admin.users.store');
 });
 
 Route::get('/cuidador/dashboard', [CaregiverDashboardController::class, 'index'])

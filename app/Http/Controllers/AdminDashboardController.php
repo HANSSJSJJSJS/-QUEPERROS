@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AdminDashboardController extends Controller
@@ -9,6 +10,10 @@ class AdminDashboardController extends Controller
     public function index()
     {
         $user = Auth::user();
+
+        $users = User::query()
+            ->orderByDesc('id')
+            ->get();
 
         // Aquí más adelante puedes pasar contadores reales desde la BD
         $stats = [
@@ -20,6 +25,7 @@ class AdminDashboardController extends Controller
         return view('admin.dashboardAdmin', [
             'user' => $user,
             'stats' => $stats,
+            'users' => $users,
         ]);
     }
 }
