@@ -369,8 +369,9 @@
 
 .ad2-actions{
   display:grid;
-  grid-template-columns:repeat(5,minmax(170px,1fr));
-  gap:1rem;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:1.25rem;
+  align-items:stretch;
   margin-bottom:1.25rem;
 }
 
@@ -528,7 +529,7 @@
 
 .ad2-input,
 .ad2-select{
-  width:100%;
+  width:95%;
   border-radius:1.1rem;
   border:2px solid #e5e7eb;
   padding:1rem 1.1rem;
@@ -1010,17 +1011,17 @@
 /* ================= RESPONSIVE ================= */
 
 @media (max-width:1200px){
-  .ad2-actions{grid-template-columns:repeat(3,1fr);}
+  .ad2-actions{grid-template-columns:repeat(auto-fit,minmax(210px,1fr));}
 }
 
 @media (max-width:900px){
   .ad2-cards{grid-template-columns:1fr;}
   .ad2-hero{grid-template-columns:1fr;}
-  .ad2-actions{grid-template-columns:repeat(2,1fr);}
+  .ad2-actions{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));}
   .ad2-bottom-grid{grid-template-columns:1fr;}
   .ad2-search{max-width:none;}
 }
 
 @media (max-width:560px){
-  .ad2-actions{grid-template-columns:1fr;}
+  .ad2-actions{grid-template-columns:1fr;gap:1rem;}
 }

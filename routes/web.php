@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ClientDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\CaregiverDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::get('/admin/users', [AdminUserController::class, 'index'])
         ->name('admin.users');
+
+    Route::get('/admin/services', [AdminServiceController::class, 'index'])
+        ->name('admin.services');
 
     Route::post('/admin/users', [AdminUserController::class, 'store'])
         ->name('admin.users.store');

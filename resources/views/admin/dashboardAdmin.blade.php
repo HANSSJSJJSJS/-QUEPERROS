@@ -31,7 +31,7 @@
                 <p class="admin-sidebar-section">ADMINISTRACION</p>
 
                 <nav class="admin-menu">
-                    <a href="{{ route('admin.dashboard') }}" class="admin-menu-item admin-menu-item--active">
+                    <a href="{{ route('admin.dashboard') }}" class="admin-menu-item {{ request()->routeIs('admin.dashboard') ? 'admin-menu-item--active' : '' }}">
                         <span class="admin-menu-left">
                             <i class="admin-menu-icon bi bi-grid-1x2-fill" aria-hidden="true"></i>
                             <span>Dashboard</span>
@@ -40,7 +40,7 @@
                             <span class="admin-menu-chevron">›</span>
                         </span>
                     </a>
-                    <a href="{{ route('admin.users') }}" class="admin-menu-item">
+                    <a href="{{ route('admin.users') }}" class="admin-menu-item {{ request()->routeIs('admin.users') ? 'admin-menu-item--active' : '' }}">
                         <span class="admin-menu-left">
                             <i class="admin-menu-icon bi bi-people-fill" aria-hidden="true"></i>
                             <span>Gestión de usuarios</span>
@@ -49,16 +49,7 @@
                             <span class="admin-menu-badge">5</span>
                         </span>
                     </a>
-                    <a href="#" class="admin-menu-item">
-                        <span class="admin-menu-left">
-                            <i class="admin-menu-icon bi bi-shield-lock-fill" aria-hidden="true"></i>
-                            <span>Gestión de roles</span>
-                        </span>
-                        <span class="admin-menu-right">
-                            <span class="admin-menu-badge">3</span>
-                        </span>
-                    </a>
-                    <a href="#" class="admin-menu-item">
+                    <a href="{{ route('admin.services') }}" class="admin-menu-item {{ request()->routeIs('admin.services') ? 'admin-menu-item--active' : '' }}">
                         <span class="admin-menu-left">
                             <i class="admin-menu-icon bi bi-heart-pulse-fill" aria-hidden="true"></i>
                             <span>Gestión de servicios</span>
@@ -210,23 +201,14 @@
                             <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
                         </button>
 
-                        <a href="#" class="ad2-action ad2-action--purple">
+                        <button type="button" class="ad2-action ad2-action--purple ad2-action--modal" id="openAdminCreateService">
                             <div class="ad2-action-icon"><i class="bi bi-plus-lg" aria-hidden="true"></i></div>
                             <div>
                                 <p class="ad2-action-title">Crear Servicio</p>
                                 <p class="ad2-action-desc">Nuevo servicio veterinario</p>
                             </div>
                             <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
-                        </a>
-
-                        <a href="#" class="ad2-action ad2-action--blue">
-                            <div class="ad2-action-icon"><i class="bi bi-file-earmark-text" aria-hidden="true"></i></div>
-                            <div>
-                                <p class="ad2-action-title">Generar Reporte</p>
-                                <p class="ad2-action-desc">Reporte mensual del sistema</p>
-                            </div>
-                            <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
-                        </a>
+                        </button>
 
                         <a href="#" class="ad2-action ad2-action--yellow">
                             <div class="ad2-action-icon"><i class="bi bi-shield-check" aria-hidden="true"></i></div>
@@ -404,6 +386,36 @@
                     </div>
                 </div>
 
+                <div class="ad2-modal" id="adminCreateServiceModal" aria-hidden="true">
+                    <div class="ad2-modal-backdrop" data-close="true"></div>
+                    <div class="ad2-modal-card" role="dialog" aria-modal="true" aria-labelledby="ad2CreateServiceTitle">
+                        <div class="ad2-modal-head">
+                            <h2 class="ad2-modal-title" id="ad2CreateServiceTitle">Crear Nuevo Servicio</h2>
+                            <button type="button" class="ad2-modal-close" id="closeAdminCreateService" aria-label="Cerrar">×</button>
+                        </div>
+                        <div class="ad2-modal-body">
+                            <form class="ad2-modal-form" autocomplete="off">
+                                <label class="ad2-field">
+                                    <span class="ad2-label">Nombre del servicio</span>
+                                    <input class="ad2-input" type="text" name="name" placeholder="Ej: Consulta general" />
+                                </label>
+
+                                <label class="ad2-field">
+                                    <span class="ad2-label">Descripcion</span>
+                                    <textarea class="ad2-input" name="description" rows="4" placeholder="Descripcion del servicio..."></textarea>
+                                </label>
+
+                                <label class="ad2-field">
+                                    <span class="ad2-label">Precio (COP)</span>
+                                    <input class="ad2-input" type="number" name="price" placeholder="50000" min="0" step="1" />
+                                </label>
+
+                                <button type="button" class="ad2-submit" id="submitAdminCreateService">Crear Servicio</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="ad2-modal" id="adminUsersModal" aria-hidden="true">
                     <div class="ad2-modal-backdrop" data-close="true"></div>
                     <div class="ad2-modal-card" role="dialog" aria-modal="true" aria-labelledby="ad2UsersModalTitle">
@@ -471,6 +483,9 @@
                 const closeUsersBtn = document.getElementById('closeAdminUsersModal');
                 const successModal = document.getElementById('adminSuccessModal');
                 const successCloseBtn = document.getElementById('closeAdminSuccess');
+                const createServiceModal = document.getElementById('adminCreateServiceModal');
+                const openCreateServiceBtn = document.getElementById('openAdminCreateService');
+                const closeCreateServiceBtn = document.getElementById('closeAdminCreateService');
 
                 function openModal() {
                     if (!modal) return;
@@ -529,6 +544,36 @@
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && usersModal?.classList.contains('ad2-modal--open')) {
                         closeUsersModal();
+                    }
+                });
+
+                function openCreateServiceModal() {
+                    if (!createServiceModal) return;
+                    createServiceModal.classList.add('ad2-modal--open');
+                    createServiceModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeCreateServiceModal() {
+                    if (!createServiceModal) return;
+                    createServiceModal.classList.remove('ad2-modal--open');
+                    createServiceModal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+
+                openCreateServiceBtn?.addEventListener('click', openCreateServiceModal);
+                closeCreateServiceBtn?.addEventListener('click', closeCreateServiceModal);
+
+                createServiceModal?.addEventListener('click', (e) => {
+                    const target = e.target;
+                    if (target && target.dataset && target.dataset.close === 'true') {
+                        closeCreateServiceModal();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && createServiceModal?.classList.contains('ad2-modal--open')) {
+                        closeCreateServiceModal();
                     }
                 });
 
