@@ -112,10 +112,10 @@
                         <h1 class="gu-page-title">Gestion de Usuarios</h1>
                         <p class="gu-page-subtitle">Administra los usuarios del sistema</p>
                     </div>
-                    <a href="#" class="gu-new-user">
+                    <button type="button" class="gu-new-user" id="openAdminRegisterUserFromUsers">
                         <span class="gu-new-user-plus">+</span>
                         <span>Nuevo Usuario</span>
-                    </a>
+                    </button>
                 </section>
 
                 <section class="gu-stats">
@@ -357,6 +357,43 @@
                     </div>
                 </div>
 
+                <div class="ad2-modal" id="adminRegisterUserModalFromUsers" aria-hidden="true">
+                    <div class="ad2-modal-backdrop" data-close="true"></div>
+                    <div class="ad2-modal-card" role="dialog" aria-modal="true" aria-labelledby="ad2UsersModalTitle">
+                        <div class="ad2-modal-head">
+                            <h2 class="ad2-modal-title" id="ad2UsersModalTitle">Registrar Nuevo Usuario</h2>
+                            <button type="button" class="ad2-modal-close" id="closeAdminRegisterUserFromUsers" aria-label="Cerrar">×</button>
+                        </div>
+                        <div class="ad2-modal-body">
+                            <form action="{{ url('/admin/users') }}" method="POST" class="ad2-modal-form">
+                                @csrf
+
+                                <label class="ad2-field">
+                                    <span class="ad2-label">Nombre completo</span>
+                                    <input class="ad2-input" type="text" name="name" placeholder="Ej: Juan Perez" />
+                                </label>
+
+                                <label class="ad2-field">
+                                    <span class="ad2-label">Email</span>
+                                    <input class="ad2-input" type="email" name="email" placeholder="usuario@email.com" />
+                                </label>
+
+                                <label class="ad2-field">
+                                    <span class="ad2-label">Rol</span>
+                                    <select class="ad2-select" name="rol">
+                                        <option value="admin">Administrador</option>
+                                        <option value="empleado">Cuidador</option>
+                                        <option value="dueno">Dueño</option>
+                                        <option value="padrino">Padrino</option>
+                                    </select>
+                                </label>
+
+                                <button type="submit" class="ad2-submit" formaction="{{ url('/admin/users') }}" formmethod="POST">Registrar Usuario</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="gu-toast" id="guSuccessToast" aria-hidden="true">operacion exitosa</div>
             </main>
         </div>
@@ -522,12 +559,48 @@
                     }
                 });
 
+                const registerModal = document.getElementById('adminRegisterUserModalFromUsers');
+                const openRegisterBtn = document.getElementById('openAdminRegisterUserFromUsers');
+                const closeRegisterBtn = document.getElementById('closeAdminRegisterUserFromUsers');
+
+                function openRegisterModal() {
+                    if (!registerModal) return;
+                    registerModal.classList.add('ad2-modal--open');
+                    registerModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeRegisterModal() {
+                    if (!registerModal) return;
+                    registerModal.classList.remove('ad2-modal--open');
+                    registerModal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+
+                openRegisterBtn?.addEventListener('click', () => {
+                    closeAllMenus();
+                    closeModal(detailModal);
+                    closeModal(editModal);
+                    closeModal(deleteModal);
+                    openRegisterModal();
+                });
+
+                closeRegisterBtn?.addEventListener('click', closeRegisterModal);
+
+                registerModal?.addEventListener('click', (e) => {
+                    const target = e.target;
+                    if (target && target.dataset && target.dataset.close === 'true') {
+                        closeRegisterModal();
+                    }
+                });
+
                 document.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape') {
                         closeModal(detailModal);
                         closeModal(editModal);
                         closeModal(deleteModal);
                         closeAllMenus();
+                        closeRegisterModal();
                     }
                 });
             })();

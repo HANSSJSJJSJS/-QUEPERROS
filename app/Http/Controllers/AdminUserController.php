@@ -41,7 +41,7 @@ class AdminUserController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.dashboard')
+            ->route('admin.users')
             ->with('status', 'Usuario registrado correctamente')
             ->with('temp_password', $tempPassword);
     }

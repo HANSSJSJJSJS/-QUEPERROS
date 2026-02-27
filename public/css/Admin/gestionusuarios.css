@@ -434,6 +434,14 @@
   font-weight:900;
   box-shadow:0 10px 26px rgba(15,23,42,.12);
   white-space:nowrap;
+  border:none;
+  outline:none;
+}
+
+.gu-new-user:focus,
+.gu-new-user:focus-visible{
+  outline:none;
+  box-shadow:0 10px 26px rgba(15,23,42,.12), 0 0 0 4px rgba(139,59,191,.22);
 }
 
 .gu-new-user-plus{
@@ -983,4 +991,113 @@
   .gu-detail-grid{grid-template-columns:1fr;}
   .gu-detail-actions{grid-template-columns:1fr;}
   .gu-delete-actions{grid-template-columns:1fr;}
+}
+
+.ad2-modal{
+  position:fixed;
+  inset:0;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+
+.ad2-modal--open{display:flex;}
+
+.ad2-modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(15,23,42,.35);
+  -webkit-backdrop-filter:blur(8px);
+  backdrop-filter:blur(8px);
+}
+
+.ad2-modal-card{
+  position:relative;
+  width:min(760px, calc(100vw - 2.25rem));
+  background:#fff;
+  border-radius:1.25rem;
+  box-shadow:0 24px 70px rgba(15,23,42,.35);
+  overflow:hidden;
+  border:1px solid rgba(0,0,0,.06);
+}
+
+.ad2-modal-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:1.2rem 1.5rem;
+  border-bottom:2px solid #e5e7eb;
+}
+
+.ad2-modal-title{
+  margin:0;
+  font-family:'Lilita One',system-ui;
+  font-size:1.55rem;
+  letter-spacing:.03em;
+  color:#111827;
+}
+
+.ad2-modal-close{
+  border:none;
+  background:transparent;
+  font-size:1.8rem;
+  line-height:1;
+  cursor:pointer;
+  color:#6b7280;
+  padding:.2rem .5rem;
+}
+
+.ad2-modal-body{
+  padding:1.35rem 1.5rem 1.6rem;
+}
+
+.ad2-modal-form{
+  display:flex;
+  flex-direction:column;
+  gap:1.1rem;
+}
+
+.ad2-field{display:flex;flex-direction:column;gap:.5rem;}
+
+.ad2-label{
+  font-weight:800;
+  font-size:1.05rem;
+  color:#111827;
+}
+
+.ad2-input,
+.ad2-select{
+  width:95%;
+  border-radius:1.1rem;
+  border:2px solid #e5e7eb;
+  padding:1rem 1.1rem;
+  font-size:1.05rem;
+  outline:none;
+  background:#fff;
+}
+
+.ad2-input:focus,
+.ad2-select:focus{
+  border-color:rgba(139,59,191,.45);
+  box-shadow:0 0 0 4px rgba(139,59,191,.12);
+}
+
+.ad2-submit{
+  margin-top:.25rem;
+  width:100%;
+  border:none;
+  border-radius:999px;
+  background:#8b3bbf;
+  color:#fff;
+  font-weight:900;
+  font-size:1.1rem;
+  padding:1.05rem 1.25rem;
+  cursor:pointer;
+}
+
+@media (max-width:560px){
+  .ad2-modal-card{width:calc(100vw - 1.5rem);}
+  .ad2-input,
+  .ad2-select{width:100%;}
 }
