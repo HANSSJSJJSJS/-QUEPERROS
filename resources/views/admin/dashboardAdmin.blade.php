@@ -210,14 +210,14 @@
                             <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
                         </button>
 
-                        <a href="#" class="ad2-action ad2-action--yellow">
+                        <button type="button" class="ad2-action ad2-action--yellow" id="openAdminAssignRole">
                             <div class="ad2-action-icon"><i class="bi bi-shield-check" aria-hidden="true"></i></div>
                             <div>
                                 <p class="ad2-action-title">Asignar Rol</p>
                                 <p class="ad2-action-desc">Asignar permisos a usuarios</p>
                             </div>
                             <div class="ad2-action-open">Abrir <span aria-hidden="true">→</span></div>
-                        </a>
+                        </button>
                     </div>
                 </section>
 
@@ -282,67 +282,44 @@
 
                     <div class="ad2-users-summary" aria-label="Resumen">
                         <div class="ad2-users-summary-card">
-                            <div class="ad2-users-count ad2-users-count--blue">3</div>
+                            <div class="ad2-users-count ad2-users-count--blue">{{ $stats['owners_count'] ?? 0 }}</div>
                             <div class="ad2-users-summary-label">Propietarios</div>
                         </div>
                         <div class="ad2-users-summary-card">
-                            <div class="ad2-users-count ad2-users-count--purple">2</div>
-                            <div class="ad2-users-summary-label">Veterinarios</div>
+                            <div class="ad2-users-count ad2-users-count--purple">{{ $stats['vets_count'] ?? 0 }}</div>
+                            <div class="ad2-users-summary-label">Cuidadores</div>
                         </div>
                         <div class="ad2-users-summary-card">
-                            <div class="ad2-users-count ad2-users-count--yellow">1</div>
+                            <div class="ad2-users-count ad2-users-count--yellow">{{ $stats['admins_count'] ?? 0 }}</div>
                             <div class="ad2-users-summary-label">Admins</div>
                         </div>
                     </div>
 
                     <div class="ad2-users-list" role="list">
-                        <div class="ad2-user-row" role="listitem">
-                            <div class="ad2-user-avatar">A</div>
-                            <div class="ad2-user-meta">
-                                <div class="ad2-user-name">Ana Lopez</div>
-                                <div class="ad2-user-email">ana@email.com</div>
+                        @foreach (($recentUsers ?? collect())->take(4) as $u)
+                            @php
+                                $initial = mb_strtoupper(mb_substr($u->name ?? 'U', 0, 1));
+                                $rolLabel = match($u->rol) {
+                                    'admin' => 'Administrador',
+                                    'empleado' => 'Cuidador',
+                                    'dueno' => 'Propietario',
+                                    'padrino' => 'Padrino',
+                                    default => ucfirst((string) ($u->rol ?? 'Sin rol')),
+                                };
+                                $isActive = !is_null($u->email_verified_at);
+                            @endphp
+                            <div class="ad2-user-row" role="listitem">
+                                <div class="ad2-user-avatar">{{ $initial }}</div>
+                                <div class="ad2-user-meta">
+                                    <div class="ad2-user-name">{{ $u->name }}</div>
+                                    <div class="ad2-user-email">{{ $u->email }}</div>
+                                </div>
+                                <div class="ad2-user-right">
+                                    <span class="ad2-user-role-pill">{{ $rolLabel }}</span>
+                                    <span class="ad2-user-status {{ $isActive ? 'ad2-user-status--on' : '' }}" aria-label="{{ $isActive ? 'Activo' : 'Inactivo' }}"></span>
+                                </div>
                             </div>
-                            <div class="ad2-user-right">
-                                <span class="ad2-user-role-pill">Veterinario</span>
-                                <span class="ad2-user-status ad2-user-status--on" aria-label="Activo"></span>
-                            </div>
-                        </div>
-
-                        <div class="ad2-user-row" role="listitem">
-                            <div class="ad2-user-avatar">M</div>
-                            <div class="ad2-user-meta">
-                                <div class="ad2-user-name">Maria Garcia</div>
-                                <div class="ad2-user-email">maria@email.com</div>
-                            </div>
-                            <div class="ad2-user-right">
-                                <span class="ad2-user-role-pill">Propietario</span>
-                                <span class="ad2-user-status ad2-user-status--on" aria-label="Activo"></span>
-                            </div>
-                        </div>
-
-                        <div class="ad2-user-row" role="listitem">
-                            <div class="ad2-user-avatar">D</div>
-                            <div class="ad2-user-meta">
-                                <div class="ad2-user-name">Dr. Pedro Ruiz</div>
-                                <div class="ad2-user-email">pedro@email.com</div>
-                            </div>
-                            <div class="ad2-user-right">
-                                <span class="ad2-user-role-pill">Veterinario</span>
-                                <span class="ad2-user-status" aria-label="Inactivo"></span>
-                            </div>
-                        </div>
-
-                        <div class="ad2-user-row" role="listitem">
-                            <div class="ad2-user-avatar">L</div>
-                            <div class="ad2-user-meta">
-                                <div class="ad2-user-name">Laura Torres</div>
-                                <div class="ad2-user-email">laura@email.com</div>
-                            </div>
-                            <div class="ad2-user-right">
-                                <span class="ad2-user-role-pill">Propietario</span>
-                                <span class="ad2-user-status ad2-user-status--on" aria-label="Activo"></span>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
 
                         <a href="{{ route('admin.users') }}" class="ad2-users-footer">Gestionar todos los usuarios</a>
@@ -390,24 +367,41 @@
                     <div class="ad2-modal-backdrop" data-close="true"></div>
                     <div class="ad2-modal-card" role="dialog" aria-modal="true" aria-labelledby="ad2CreateServiceTitle">
                         <div class="ad2-modal-head">
-                            <h2 class="ad2-modal-title" id="ad2CreateServiceTitle">Crear Nuevo Servicio</h2>
+                            <h2 class="ad2-modal-title" id="ad2CreateServiceTitle">Nuevo Servicio</h2>
                             <button type="button" class="ad2-modal-close" id="closeAdminCreateService" aria-label="Cerrar">×</button>
                         </div>
                         <div class="ad2-modal-body">
                             <form class="ad2-modal-form" autocomplete="off">
                                 <label class="ad2-field">
-                                    <span class="ad2-label">Nombre del servicio</span>
-                                    <input class="ad2-input" type="text" name="name" placeholder="Ej: Consulta general" />
+                                    <span class="ad2-label">Nombre</span>
+                                    <input class="ad2-input" type="text" name="name" placeholder="Ej: Consulta General" />
                                 </label>
 
                                 <label class="ad2-field">
                                     <span class="ad2-label">Descripcion</span>
-                                    <textarea class="ad2-input" name="description" rows="4" placeholder="Descripcion del servicio..."></textarea>
+                                    <textarea class="ad2-input ad2-textarea" name="description" rows="3" placeholder="Describe el servicio..."></textarea>
                                 </label>
 
+                                <div class="ad2-row-2col">
+                                    <label class="ad2-field">
+                                        <span class="ad2-label">Precio (COP)</span>
+                                        <input class="ad2-input" type="number" name="price" placeholder="50000" min="0" step="1" />
+                                    </label>
+
+                                    <label class="ad2-field">
+                                        <span class="ad2-label">Duracion</span>
+                                        <input class="ad2-input" type="text" name="duration" placeholder="30 min" />
+                                    </label>
+                                </div>
+
                                 <label class="ad2-field">
-                                    <span class="ad2-label">Precio (COP)</span>
-                                    <input class="ad2-input" type="number" name="price" placeholder="50000" min="0" step="1" />
+                                    <span class="ad2-label">Categoria</span>
+                                    <select class="ad2-select" name="category">
+                                        <option value="Medicina">Medicina</option>
+                                        <option value="Vacunacion">Vacunacion</option>
+                                        <option value="Grooming">Grooming</option>
+                                        <option value="Guarderia">Guarderia</option>
+                                    </select>
                                 </label>
 
                                 <button type="button" class="ad2-submit" id="submitAdminCreateService">Crear Servicio</button>
@@ -454,6 +448,62 @@
                     </div>
                 </div>
 
+                <div class="ad2-modal" id="adminAssignRoleModal" aria-hidden="true">
+                    <div class="ad2-modal-backdrop" data-close="true"></div>
+                    <div class="ad2-modal-card" role="dialog" aria-modal="true" aria-labelledby="ad2AssignRoleTitle">
+                        <div class="ad2-modal-head">
+                            <h2 class="ad2-modal-title" id="ad2AssignRoleTitle">Asignar Rol</h2>
+                            <button type="button" class="ad2-modal-close" id="closeAdminAssignRole" aria-label="Cerrar">×</button>
+                        </div>
+                        <div class="ad2-modal-body">
+                            <form class="ad2-modal-form" action="{{ route('admin.users.assignRole') }}" method="POST" autocomplete="off">
+                                @csrf
+
+                                <input type="hidden" name="user_id" id="adminAssignRoleUserId" value="" />
+
+                                <label class="ad2-field">
+                                    <span class="ad2-label">Buscar usuario</span>
+                                    <input class="ad2-input" type="text" id="adminAssignRoleSearch" placeholder="Escribe un nombre..." />
+                                </label>
+
+                                <div class="ad2-ar-current" aria-label="Rol actual">
+                                    Rol actual: <span class="ad2-ar-current-pill" id="adminAssignRoleCurrentRole">—</span>
+                                </div>
+
+                                <div class="ad2-ar-users" id="adminAssignRoleUsers" aria-label="Usuarios registrados">
+                                    @foreach (collect($users ?? [])->take(6) as $u)
+                                        @php
+                                            $rolLabel = match($u->rol) {
+                                                'admin' => 'Administrador',
+                                                'empleado' => 'Cuidador',
+                                                'dueno' => 'Propietario',
+                                                'padrino' => 'Padrino',
+                                                default => ucfirst((string) ($u->rol ?? 'Sin rol')),
+                                            };
+                                        @endphp
+                                        <button type="button" class="ad2-ar-user" data-user-id="{{ $u->id }}" data-user-name="{{ mb_strtolower($u->name ?? '') }}" data-user-role-label="{{ $rolLabel }}" data-user-role-code="{{ $u->rol }}">
+                                            <span class="ad2-ar-avatar">{{ mb_strtoupper(mb_substr($u->name ?? 'U', 0, 1)) }}</span>
+                                            <span class="ad2-ar-name">{{ $u->name }}</span>
+                                        </button>
+                                    @endforeach
+                                </div>
+
+                                <label class="ad2-field">
+                                    <span class="ad2-label">Nuevo rol</span>
+                                    <select class="ad2-select" id="adminAssignRoleNewRole" name="rol">
+                                        <option value="dueno">Propietario</option>
+                                        <option value="empleado">Cuidador</option>
+                                        <option value="padrino">Padrino</option>
+                                        <option value="admin">Administrador</option>
+                                    </select>
+                                </label>
+
+                                <button type="button" class="ad2-submit" id="submitAdminAssignRole">Asignar Rol</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
                 @if (session('status'))
                     <div class="ad2-success" id="adminSuccessModal" aria-hidden="true">
                         <div class="ad2-success-backdrop" data-close="true"></div>
@@ -486,6 +536,16 @@
                 const createServiceModal = document.getElementById('adminCreateServiceModal');
                 const openCreateServiceBtn = document.getElementById('openAdminCreateService');
                 const closeCreateServiceBtn = document.getElementById('closeAdminCreateService');
+                const assignRoleModal = document.getElementById('adminAssignRoleModal');
+                const openAssignRoleBtn = document.getElementById('openAdminAssignRole');
+                const closeAssignRoleBtn = document.getElementById('closeAdminAssignRole');
+                const assignRoleSearch = document.getElementById('adminAssignRoleSearch');
+                const assignRoleUsers = document.getElementById('adminAssignRoleUsers');
+                const assignRoleForm = assignRoleModal ? assignRoleModal.querySelector('form') : null;
+                const assignRoleUserId = document.getElementById('adminAssignRoleUserId');
+                const assignRoleNewRole = document.getElementById('adminAssignRoleNewRole');
+                const submitAssignRoleBtn = document.getElementById('submitAdminAssignRole');
+                const assignRoleCurrentRole = document.getElementById('adminAssignRoleCurrentRole');
 
                 function openModal() {
                     if (!modal) return;
@@ -575,6 +635,102 @@
                     if (e.key === 'Escape' && createServiceModal?.classList.contains('ad2-modal--open')) {
                         closeCreateServiceModal();
                     }
+                });
+
+                function openAssignRoleModal() {
+                    if (!assignRoleModal) return;
+                    assignRoleModal.classList.add('ad2-modal--open');
+                    assignRoleModal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                    assignRoleSearch?.focus();
+                }
+
+                function closeAssignRoleModal() {
+                    if (!assignRoleModal) return;
+                    assignRoleModal.classList.remove('ad2-modal--open');
+                    assignRoleModal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+
+                function filterAssignRoleUsers() {
+                    const q = (assignRoleSearch?.value || '').trim().toLowerCase();
+
+                    if (assignRoleUsers) {
+                        Array.from(assignRoleUsers.querySelectorAll('.ad2-ar-user')).forEach((btn) => {
+                            const name = (btn.getAttribute('data-user-name') || '').toLowerCase();
+                            const show = q === '' || name.includes(q);
+                            btn.style.display = show ? '' : 'none';
+                        });
+                    }
+                }
+
+                function setSelectedAssignRoleUser(btn) {
+                    if (!btn || !assignRoleUsers) return;
+                    const id = btn.getAttribute('data-user-id') || '';
+                    const roleLabel = btn.getAttribute('data-user-role-label') || '—';
+                    const roleCode = btn.getAttribute('data-user-role-code') || '';
+                    if (assignRoleUserId) {
+                        assignRoleUserId.value = id;
+                    }
+
+                    if (assignRoleCurrentRole) {
+                        assignRoleCurrentRole.textContent = roleLabel;
+                    }
+
+                    if (roleCode && assignRoleNewRole) {
+                        assignRoleNewRole.value = roleCode;
+                    }
+
+                    Array.from(assignRoleUsers.querySelectorAll('.ad2-ar-user')).forEach((b) => {
+                        b.classList.toggle('ad2-ar-user--selected', b === btn);
+                    });
+
+                    submitAssignRoleBtn?.removeAttribute('disabled');
+                }
+
+                openAssignRoleBtn?.addEventListener('click', () => {
+                    openAssignRoleModal();
+                    filterAssignRoleUsers();
+                });
+                closeAssignRoleBtn?.addEventListener('click', closeAssignRoleModal);
+
+                assignRoleModal?.addEventListener('click', (e) => {
+                    const target = e.target;
+                    if (target && target.dataset && target.dataset.close === 'true') {
+                        closeAssignRoleModal();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && assignRoleModal?.classList.contains('ad2-modal--open')) {
+                        closeAssignRoleModal();
+                    }
+                });
+
+                assignRoleSearch?.addEventListener('input', filterAssignRoleUsers);
+
+                assignRoleUsers?.addEventListener('click', (e) => {
+                    const t = e.target;
+                    const btn = t && t.closest ? t.closest('.ad2-ar-user') : null;
+                    if (!btn) return;
+                    setSelectedAssignRoleUser(btn);
+                });
+
+                submitAssignRoleBtn?.addEventListener('click', () => {
+                    const uid = (assignRoleUserId?.value || '').trim();
+                    const role = (assignRoleNewRole?.value || '').trim();
+
+                    if (!uid) {
+                        alert('Selecciona un usuario');
+                        return;
+                    }
+
+                    if (!role) {
+                        alert('Selecciona un rol');
+                        return;
+                    }
+
+                    assignRoleForm?.submit();
                 });
 
                 function openSuccess() {

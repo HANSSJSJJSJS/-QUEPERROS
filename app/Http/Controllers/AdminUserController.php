@@ -45,4 +45,20 @@ class AdminUserController extends Controller
             ->with('status', 'Usuario registrado correctamente')
             ->with('temp_password', $tempPassword);
     }
+
+    public function assignRole(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'rol' => ['required', 'string', 'in:admin,empleado,dueno,padrino'],
+        ]);
+
+        $user = User::findOrFail($validated['user_id']);
+        $user->rol = $validated['rol'];
+        $user->save();
+
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('status', 'Rol asignado correctamente');
+    }
 }

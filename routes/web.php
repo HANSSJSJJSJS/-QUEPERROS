@@ -45,6 +45,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
     Route::post('/admin/users', [AdminUserController::class, 'store'])
         ->name('admin.users.store');
+
+    Route::post('/admin/users/assign-role', [AdminUserController::class, 'assignRole'])
+        ->name('admin.users.assignRole');
 });
 
 Route::get('/cuidador/dashboard', [CaregiverDashboardController::class, 'index'])

@@ -529,13 +529,23 @@
 
 .ad2-input,
 .ad2-select{
-  width:95%;
+  width:100%;
   border-radius:1.1rem;
   border:2px solid #e5e7eb;
-  padding:1rem 1.1rem;
+  padding:1rem 0.1rem;
   font-size:1.05rem;
   outline:none;
   background:#fff;
+}
+
+.ad2-textarea{
+  resize:none;
+}
+
+.ad2-row-2col{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
 }
 
 .ad2-input:focus,
@@ -560,6 +570,75 @@
 .ad2-submit:hover{filter:brightness(.97);}
 
 /* ================= USERS MODAL LIST ================= */
+
+.ad2-ar-users{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.75rem;
+  margin-top:-.25rem;
+}
+
+.ad2-ar-current{
+  display:flex;
+  align-items:center;
+  gap:.6rem;
+  font-weight:900;
+  color:#111827;
+  margin-top:-.15rem;
+}
+
+.ad2-ar-current-pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:.35rem .75rem;
+  border-radius:999px;
+  background:#eff6ff;
+  color:#2563eb;
+  border:1px solid rgba(37,99,235,.18);
+  font-weight:900;
+  font-size:.85rem;
+}
+
+.ad2-ar-user{
+  display:inline-flex;
+  align-items:center;
+  gap:.65rem;
+  padding:.65rem .85rem;
+  border-radius:999px;
+  background:#fff;
+  border:2px solid #e5e7eb;
+  cursor:pointer;
+  font-weight:800;
+  color:#111827;
+}
+
+.ad2-ar-user:hover{
+  border-color:rgba(139,59,191,.35);
+  box-shadow:0 8px 18px rgba(15,23,42,.08);
+}
+
+.ad2-ar-user--selected{
+  border-color:rgba(139,59,191,.6);
+  box-shadow:0 10px 22px rgba(15,23,42,.12), 0 0 0 4px rgba(139,59,191,.12);
+}
+
+.ad2-ar-avatar{
+  width:34px;
+  height:34px;
+  border-radius:999px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(139,59,191,.12);
+  color:#8b3bbf;
+  font-weight:900;
+  flex:0 0 auto;
+}
+
+.ad2-ar-name{
+  white-space:nowrap;
+}
 
 .ad2-um-list{
   display:flex;
@@ -1024,4 +1103,5 @@
 
 @media (max-width:560px){
   .ad2-actions{grid-template-columns:1fr;gap:1rem;}
+  .ad2-row-2col{grid-template-columns:1fr;}
 }
