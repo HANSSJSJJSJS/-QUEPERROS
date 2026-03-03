@@ -55,14 +55,14 @@
                             <span class="admin-menu-badge">6</span>
                         </span>
                     </a>
-                    <a href="#" class="admin-menu-item">
+                    <a href="{{ route('admin.pets') }}" class="admin-menu-item {{ request()->routeIs('admin.pets') ? 'admin-menu-item--active' : '' }}">
                         <span class="admin-menu-left">
-                            <i class="admin-menu-icon bi bi-bar-chart-fill" aria-hidden="true"></i>
-                            <span>Reportes</span>
+                            <i class="admin-menu-icon bi bi-paw-fill" aria-hidden="true"></i>
+                            <span>Gestión de mascotas</span>
                         </span>
                         <span class="admin-menu-right"></span>
                     </a>
-                    <a href="#" class="admin-menu-item">
+                    <a href="{{ route('admin.settings') }}" class="admin-menu-item {{ request()->routeIs('admin.settings') ? 'admin-menu-item--active' : '' }}">
                         <span class="admin-menu-left">
                             <i class="admin-menu-icon bi bi-gear-fill" aria-hidden="true"></i>
                             <span>Configuracion</span>
@@ -102,9 +102,10 @@
                 </header>
 
                 @php
-                    $totalUsers = ($users ?? collect())->count();
-                    $activeUsers = $totalUsers;
-                    $inactiveUsers = 0;
+                    $totalUsers = $stats['total_users'] ?? ($users ?? collect())->count();
+                    $activeUsers = $stats['active_users'] ?? ($users ?? collect())->whereNotNull('email_verified_at')->count();
+                    $inactiveUsers = $stats['inactive_users'] ?? ($users ?? collect())->whereNull('email_verified_at')->count();
+                    $definedRoles = $stats['defined_roles'] ?? ($users ?? collect())->pluck('rol')->filter()->unique()->count();
                 @endphp
 
                 <section class="gu-page-head">
@@ -123,7 +124,7 @@
                         <div class="gu-stat-icon gu-stat-icon--blue"><i class="bi bi-people" aria-hidden="true"></i></div>
                         <div class="gu-stat-main">
                             <div class="gu-stat-value">{{ $totalUsers }}</div>
-                            <div class="gu-stat-label">Total</div>
+                            <div class="gu-stat-label">Total usuarios</div>
                         </div>
                     </div>
                     <div class="gu-stat">
@@ -140,21 +141,27 @@
                             <div class="gu-stat-label">Inactivos</div>
                         </div>
                     </div>
+                    <div class="gu-stat">
+                        <div class="gu-stat-icon gu-stat-icon--blue"><i class="bi bi-shield-lock" aria-hidden="true"></i></div>
+                        <div class="gu-stat-main">
+                            <div class="gu-stat-value">{{ $definedRoles }}</div>
+                            <div class="gu-stat-label">Roles</div>
+                        </div>
+                    </div>
                 </section>
 
                 <section class="gu-toolbar">
                     <div class="gu-search">
                         <i class="bi bi-search" aria-hidden="true"></i>
-                        <input type="text" placeholder="Buscar por nombre o email..." />
+                        <input type="text" id="guSearchInput" placeholder="Buscar usuarios..." />
                     </div>
-                    <button type="button" class="gu-tool-btn">
-                        <i class="bi bi-funnel" aria-hidden="true"></i>
-                        <span>Filtros</span>
-                    </button>
-                    <button type="button" class="gu-tool-btn">
-                        <i class="bi bi-box-arrow-up" aria-hidden="true"></i>
-                        <span>Exportar</span>
-                    </button>
+                    <div class="gu-filters" role="tablist" aria-label="Filtros por rol">
+                        <button type="button" class="gu-filter-chip gu-filter-chip--active" data-role="all">Todos</button>
+                        <button type="button" class="gu-filter-chip" data-role="admin">Administrador</button>
+                        <button type="button" class="gu-filter-chip" data-role="dueno">Dueño</button>
+                        <button type="button" class="gu-filter-chip" data-role="padrino">Padrino</button>
+                        <button type="button" class="gu-filter-chip" data-role="entrenador">Entrenador</button>
+                    </div>
                 </section>
 
                 <section class="gu-table-wrap">
@@ -171,7 +178,7 @@
                         </thead>
                         <tbody>
                             @foreach (($users ?? []) as $user)
-                                <tr>
+                                <tr data-role="{{ $user->rol ?? '' }}">
                                     <td>
                                         <div class="gu-user-cell">
                                             <div class="gu-avatar">
@@ -196,6 +203,7 @@
                                                 'empleado' => 'Cuidador',
                                                 'dueno' => 'Propietario',
                                                 'padrino' => 'Padrino',
+                                                'entrenador' => 'Entrenador',
                                                 default => ucfirst((string) ($user->rol ?? 'Sin rol')),
                                             };
                                             $roleClass = in_array($user->rol ?? '', ['admin', 'empleado'], true) ? 'gu-role-chip--purple' : 'gu-role-chip--blue';
@@ -206,18 +214,21 @@
                                         <span class="gu-date">{{ optional($user->created_at)->format('d M Y') ?? '—' }}</span>
                                     </td>
                                     <td>
-                                        <span class="gu-status gu-status--ok">Activo</span>
+                                        @php
+                                            $isActive = !is_null($user->email_verified_at);
+                                        @endphp
+                                        <span class="gu-status {{ $isActive ? 'gu-status--ok' : 'gu-status--off' }}">{{ $isActive ? 'Activo' : 'Inactivo' }}</span>
                                     </td>
                                     <td class="gu-actions">
                                         @php
                                             $initials = mb_strtoupper(mb_substr($user->name ?? 'U', 0, 1) . mb_substr($user->name ?? '', 1, 1));
                                         @endphp
-                                        <div class="gu-actions-dd" data-user-id="{{ $user->id }}">
+                                        <div class="gu-actions-icons">
                                             <button
                                                 type="button"
-                                                class="gu-ellipsis"
-                                                aria-label="Acciones"
-                                                data-gu-action="toggle-menu"
+                                                class="gu-action-icon-btn"
+                                                aria-label="Ver detalle"
+                                                data-gu-action="open-detail"
                                                 data-user-id="{{ $user->id }}"
                                                 data-user-name="{{ $user->name }}"
                                                 data-user-initials="{{ $initials }}"
@@ -227,25 +238,46 @@
                                                 data-user-rol-code="{{ $user->rol ?? '' }}"
                                                 data-user-created="{{ optional($user->created_at)->format('d/n/Y') ?? '—' }}"
                                                 data-user-pets="0"
-                                                data-user-status="Activo"
+                                                data-user-status="{{ $isActive ? 'Activo' : 'Inactivo' }}"
                                             >
-                                                <span aria-hidden="true">…</span>
+                                                <i class="bi bi-eye" aria-hidden="true"></i>
                                             </button>
-
-                                            <div class="gu-actions-menu" role="menu" aria-hidden="true">
-                                                <button type="button" class="gu-actions-item" role="menuitem" data-gu-action="open-detail">
-                                                    <i class="bi bi-eye" aria-hidden="true"></i>
-                                                    <span>Ver detalle</span>
-                                                </button>
-                                                <button type="button" class="gu-actions-item" role="menuitem" data-gu-action="open-edit">
-                                                    <i class="bi bi-pencil" aria-hidden="true"></i>
-                                                    <span>Editar</span>
-                                                </button>
-                                                <button type="button" class="gu-actions-item gu-actions-item--danger" role="menuitem" data-gu-action="open-delete">
-                                                    <i class="bi bi-trash" aria-hidden="true"></i>
-                                                    <span>Eliminar</span>
-                                                </button>
-                                            </div>
+                                            <button
+                                                type="button"
+                                                class="gu-action-icon-btn"
+                                                aria-label="Editar"
+                                                data-gu-action="open-edit"
+                                                data-user-id="{{ $user->id }}"
+                                                data-user-name="{{ $user->name }}"
+                                                data-user-initials="{{ $initials }}"
+                                                data-user-email="{{ $user->email }}"
+                                                data-user-phone="+57 310 987 6543"
+                                                data-user-role="{{ $roleText }}"
+                                                data-user-rol-code="{{ $user->rol ?? '' }}"
+                                                data-user-created="{{ optional($user->created_at)->format('d/n/Y') ?? '—' }}"
+                                                data-user-pets="0"
+                                                data-user-status="{{ $isActive ? 'Activo' : 'Inactivo' }}"
+                                            >
+                                                <i class="bi bi-pencil" aria-hidden="true"></i>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                class="gu-action-icon-btn gu-action-icon-btn--danger"
+                                                aria-label="Eliminar"
+                                                data-gu-action="open-delete"
+                                                data-user-id="{{ $user->id }}"
+                                                data-user-name="{{ $user->name }}"
+                                                data-user-initials="{{ $initials }}"
+                                                data-user-email="{{ $user->email }}"
+                                                data-user-phone="+57 310 987 6543"
+                                                data-user-role="{{ $roleText }}"
+                                                data-user-rol-code="{{ $user->rol ?? '' }}"
+                                                data-user-created="{{ optional($user->created_at)->format('d/n/Y') ?? '—' }}"
+                                                data-user-pets="0"
+                                                data-user-status="{{ $isActive ? 'Activo' : 'Inactivo' }}"
+                                            >
+                                                <i class="bi bi-trash" aria-hidden="true"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -253,7 +285,7 @@
                         </tbody>
                     </table>
 
-                    <div class="gu-footer">Mostrando {{ ($users ?? collect())->count() }} de {{ $totalUsers }} usuarios</div>
+                    <div class="gu-footer" id="guFooter">Mostrando {{ ($users ?? collect())->count() }} de {{ $totalUsers }} usuarios</div>
                 </section>
 
                 <div class="gu-modal" id="guDetailModal" aria-hidden="true">
@@ -385,6 +417,7 @@
                                         <option value="empleado">Cuidador</option>
                                         <option value="dueno">Dueño</option>
                                         <option value="padrino">Padrino</option>
+                                        <option value="entrenador">Entrenador</option>
                                     </select>
                                 </label>
 
@@ -402,6 +435,42 @@
             (function () {
                 const state = {
                     currentUser: null,
+                };
+
+                const searchInput = document.getElementById('guSearchInput');
+                const filterChips = Array.from(document.querySelectorAll('.gu-filter-chip'));
+                const tableRows = Array.from(document.querySelectorAll('.gu-table tbody tr'));
+                const footer = document.getElementById('guFooter');
+
+                const normalize = (v) => (v || '').toString().trim().toLowerCase();
+                const getActiveRoleFilter = () => {
+                    const active = document.querySelector('.gu-filter-chip--active');
+                    return active ? active.getAttribute('data-role') : 'all';
+                };
+
+                const applyFilters = () => {
+                    const q = normalize(searchInput ? searchInput.value : '');
+                    const role = normalize(getActiveRoleFilter());
+                    let visible = 0;
+
+                    tableRows.forEach((row) => {
+                        const rowRole = normalize(row.getAttribute('data-role'));
+                        const haystack = normalize(row.innerText);
+
+                        const roleOk = role === 'all' ? true : rowRole === role;
+                        const textOk = q ? haystack.includes(q) : true;
+
+                        const show = roleOk && textOk;
+                        row.style.display = show ? '' : 'none';
+                        if (show) visible += 1;
+                    });
+
+                    if (footer) {
+                        const totalText = footer.textContent || '';
+                        const match = totalText.match(/de\s+(\d+)\s+usuarios/i);
+                        const total = match ? match[1] : '';
+                        footer.textContent = total ? `Mostrando ${visible} de ${total} usuarios` : `Mostrando ${visible} usuarios`;
+                    }
                 };
 
                 const menus = () => Array.from(document.querySelectorAll('.gu-actions-menu'));
@@ -486,6 +555,14 @@
                     const btn = t && t.closest ? t.closest('[data-gu-action]') : null;
                     const action = btn ? btn.getAttribute('data-gu-action') : null;
 
+                    const chip = t && t.closest ? t.closest('.gu-filter-chip') : null;
+                    if (chip) {
+                        filterChips.forEach((c) => c.classList.remove('gu-filter-chip--active'));
+                        chip.classList.add('gu-filter-chip--active');
+                        applyFilters();
+                        return;
+                    }
+
                     if (action === 'toggle-menu') {
                         e.preventDefault();
                         const menu = btn.parentElement ? btn.parentElement.querySelector('.gu-actions-menu') : null;
@@ -500,9 +577,7 @@
                     }
 
                     if (action === 'open-detail' || action === 'open-edit' || action === 'open-delete') {
-                        const root = btn.closest('.gu-actions-dd');
-                        const trigger = root ? root.querySelector('[data-gu-action="toggle-menu"]') : null;
-                        setUserFromBtn(trigger);
+                        setUserFromBtn(btn);
                         closeAllMenus();
 
                         if (action === 'open-detail') {
@@ -558,6 +633,9 @@
                         closeAllMenus();
                     }
                 });
+
+                searchInput?.addEventListener('input', applyFilters);
+                applyFilters();
 
                 const registerModal = document.getElementById('adminRegisterUserModalFromUsers');
                 const openRegisterBtn = document.getElementById('openAdminRegisterUserFromUsers');

@@ -58,14 +58,14 @@
                             <span class="admin-menu-badge">6</span>
                         </span>
                     </a>
-                    <a href="#" class="admin-menu-item">
+                    <a href="{{ route('admin.pets') }}" class="admin-menu-item {{ request()->routeIs('admin.pets') ? 'admin-menu-item--active' : '' }}">
                         <span class="admin-menu-left">
-                            <i class="admin-menu-icon bi bi-bar-chart-fill" aria-hidden="true"></i>
-                            <span>Reportes</span>
+                            <i class="admin-menu-icon bi bi-paw-fill" aria-hidden="true"></i>
+                            <span>Gestión de mascotas</span>
                         </span>
                         <span class="admin-menu-right"></span>
                     </a>
-                    <a href="#" class="admin-menu-item">
+                    <a href="{{ route('admin.settings') }}" class="admin-menu-item {{ request()->routeIs('admin.settings') ? 'admin-menu-item--active' : '' }}">
                         <span class="admin-menu-left">
                             <i class="admin-menu-icon bi bi-gear-fill" aria-hidden="true"></i>
                             <span>Configuracion</span>
@@ -304,6 +304,7 @@
                                     'empleado' => 'Cuidador',
                                     'dueno' => 'Propietario',
                                     'padrino' => 'Padrino',
+                                    'entrenador' => 'Entrenador',
                                     default => ucfirst((string) ($u->rol ?? 'Sin rol')),
                                 };
                                 $isActive = !is_null($u->email_verified_at);
@@ -354,6 +355,7 @@
                                 <option value="empleado">Cuidador</option>
                                 <option value="dueno">Dueño</option>
                                 <option value="padrino">Padrino</option>
+                                <option value="entrenador">Entrenador</option>
                             </select>
                         </label>
 
@@ -478,6 +480,7 @@
                                                 'empleado' => 'Cuidador',
                                                 'dueno' => 'Propietario',
                                                 'padrino' => 'Padrino',
+                                                'entrenador' => 'Entrenador',
                                                 default => ucfirst((string) ($u->rol ?? 'Sin rol')),
                                             };
                                         @endphp
@@ -494,6 +497,7 @@
                                         <option value="dueno">Propietario</option>
                                         <option value="empleado">Cuidador</option>
                                         <option value="padrino">Padrino</option>
+                                        <option value="entrenador">Entrenador</option>
                                         <option value="admin">Administrador</option>
                                     </select>
                                 </label>

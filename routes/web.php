@@ -8,6 +8,8 @@ use App\Http\Controllers\ClientDashboardController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminServiceController;
+use App\Http\Controllers\AdminPetController;
+use App\Http\Controllers\AdminSettingsController;
 use App\Http\Controllers\CaregiverDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,11 +45,41 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/services', [AdminServiceController::class, 'index'])
         ->name('admin.services');
 
+    Route::get('/admin/pets', [AdminPetController::class, 'index'])
+        ->name('admin.pets');
+
+    Route::post('/admin/pets', [AdminPetController::class, 'store'])
+        ->name('admin.pets.store');
+
+    Route::put('/admin/pets/{mascota}', [AdminPetController::class, 'update'])
+        ->name('admin.pets.update');
+
+    Route::delete('/admin/pets/{mascota}', [AdminPetController::class, 'destroy'])
+        ->name('admin.pets.destroy');
+
+    Route::post('/admin/services', [AdminServiceController::class, 'store'])
+        ->name('admin.services.store');
+
+    Route::put('/admin/services/{servicio}', [AdminServiceController::class, 'update'])
+        ->name('admin.services.update');
+
+    Route::delete('/admin/services/{servicio}', [AdminServiceController::class, 'destroy'])
+        ->name('admin.services.destroy');
+
+    Route::patch('/admin/services/{servicio}/toggle-active', [AdminServiceController::class, 'toggleActive'])
+        ->name('admin.services.toggleActive');
+
     Route::post('/admin/users', [AdminUserController::class, 'store'])
         ->name('admin.users.store');
 
     Route::post('/admin/users/assign-role', [AdminUserController::class, 'assignRole'])
         ->name('admin.users.assignRole');
+
+    Route::get('/admin/settings', [AdminSettingsController::class, 'index'])
+        ->name('admin.settings');
+
+    Route::post('/admin/settings', [AdminSettingsController::class, 'update'])
+        ->name('admin.settings.update');
 });
 
 Route::get('/cuidador/dashboard', [CaregiverDashboardController::class, 'index'])
