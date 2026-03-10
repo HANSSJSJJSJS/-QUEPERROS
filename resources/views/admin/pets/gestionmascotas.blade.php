@@ -585,17 +585,35 @@
                                 str_contains($statusLower, 'entrena') => 'gm-pill--orange',
                                 default => 'gm-pill--gray',
                             };
+
+                            $hasAlert = trim((string) ($pet['depart'] ?? '')) === '' || trim((string) ($pet['last'] ?? '')) === '';
+
+                            $photo = trim((string) ($pet['photo'] ?? ''));
+                            $photoUrl = $photo !== '' ? asset('storage/' . ltrim($photo, '/')) : '';
                         @endphp
 
                         <article class="gm-card" data-name="{{ (string) ($pet['name'] ?? '') }}" data-breed="{{ (string) ($pet['breed'] ?? '') }}" data-status="{{ (string) ($pet['status'] ?? '') }}">
-                            <header class="gm-card-head">
-                                <div class="gm-avatar">{{ (string) ($pet['initials'] ?? 'XX') }}</div>
-                                <div class="gm-card-title">
-                                    <div class="gm-card-name">{{ (string) ($pet['name'] ?? '') }}</div>
-                                    <div class="gm-card-sub">{{ (string) ($pet['breed_age'] ?? '') }}</div>
+                            <header class="gm-hero">
+                                @if ($photoUrl !== '')
+                                    <img class="gm-hero-img" src="{{ $photoUrl }}" alt="" loading="lazy" />
+                                @else
+                                    <div class="gm-hero-img gm-hero-img--placeholder" aria-hidden="true"></div>
+                                @endif
+
+                                <div class="gm-hero-badges">
+                                    @if ($hasAlert)
+                                        <span class="gm-badge gm-badge--alert"><i class="bi bi-exclamation-triangle" aria-hidden="true"></i><span>Alerta</span></span>
+                                    @endif
+                                    <span class="gm-badge gm-badge--status {{ $statusClass }}">{{ $status }}</span>
                                 </div>
-                                <div class="gm-pill {{ $statusClass }}">{{ $status }}</div>
+
+                                <div class="gm-hero-overlay">
+                                    <div class="gm-hero-name">{{ (string) ($pet['name'] ?? '') }}</div>
+                                    <div class="gm-hero-sub">{{ (string) ($pet['breed_age'] ?? '') }}</div>
+                                </div>
                             </header>
+
+                            <div class="gm-card-body">
 
                             <div class="gm-tutor"><span class="gm-muted">Tutor:</span><span class="gm-strong">{{ (string) ($pet['tutor'] ?? '') }}</span></div>
 
@@ -637,6 +655,7 @@
                                 <button class="gm-action" type="button" aria-label="Editar" data-gm-edit="pet" data-pet='@json($pet)'><i class="bi bi-pencil" aria-hidden="true"></i></button>
                                 <button class="gm-action" type="button" aria-label="Eliminar" data-gm-delete="pet" data-id="{{ (int) ($pet['id'] ?? 0) }}" data-name="{{ (string) ($pet['name'] ?? '') }}"><i class="bi bi-trash" aria-hidden="true"></i></button>
                             </footer>
+                            </div>
                         </article>
                     @endforeach
                 </section>

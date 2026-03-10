@@ -22,7 +22,7 @@
 }
 
 .cfg-save {
-  margin: 0;
+  margin-left: 87vh;
 }
 
 .cfg-save-btn {
@@ -135,15 +135,15 @@
 }
 
 .cfg-input {
-  width: 100%;
-  border: 1px solid rgba(20, 16, 40, 0.12);
-  border-radius: 12px;
-  padding: 12px 14px;
-  font-size: 14px;
-  font-weight: 600;
-  color: #2b2740;
-  outline: none;
-  background: #fff;
+    width: 100%;
+    border: 1px solid rgba(20, 16, 40, 0.12);
+    border-radius: 12px;
+    padding: 12px 2px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2b2740;
+    outline: none;
+    background: #fff;
 }
 
 .cfg-input:focus {
@@ -155,16 +155,10 @@
   position: relative;
 }
 
-.cfg-input-ico i {
-  position: absolute;
-  right: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #a8a3bf;
-}
+
 
 .cfg-input-ico .cfg-input {
-  padding-right: 42px;
+  padding-right: 3px;
 }
 
 .cfg-toggle-card {

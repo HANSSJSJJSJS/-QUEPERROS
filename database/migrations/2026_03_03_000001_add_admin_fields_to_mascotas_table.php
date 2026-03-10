@@ -14,19 +14,19 @@ return new class extends Migration
 
         Schema::table('mascotas', function (Blueprint $table) {
             if (!Schema::hasColumn('mascotas', 'sexo')) {
-                $table->string('sexo')->nullable()->after('edad');
+                $table->string('sexo')->nullable();
             }
             if (!Schema::hasColumn('mascotas', 'nombre_tutor')) {
-                $table->string('nombre_tutor')->nullable()->after('fecha_ultima_vacuna_tos');
+                $table->string('nombre_tutor')->nullable();
             }
             if (!Schema::hasColumn('mascotas', 'telefono')) {
-                $table->string('telefono')->nullable()->after('nombre_tutor');
+                $table->string('telefono')->nullable();
             }
             if (!Schema::hasColumn('mascotas', 'estado_actual')) {
-                $table->string('estado_actual')->nullable()->after('telefono');
+                $table->string('estado_actual')->nullable();
             }
             if (!Schema::hasColumn('mascotas', 'notas_adicionales')) {
-                $table->string('notas_adicionales')->nullable()->after('estado_actual');
+                $table->string('notas_adicionales')->nullable();
             }
         });
     }

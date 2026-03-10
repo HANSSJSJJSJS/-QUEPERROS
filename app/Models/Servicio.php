@@ -8,7 +8,7 @@ class Servicio extends Model
 {
     protected $table = 'servicios';
 
-    protected $primaryKey = 'id_servicio';
+    protected $primaryKey = 'id';
 
     public $timestamps = false;
 
@@ -17,7 +17,6 @@ class Servicio extends Model
         'descripcion',
         'precio',
         'duracion',
-        'categoria',
-        'activo',
+        'categoria_id',
     ];
 }

@@ -1,4 +1,13 @@
 <footer class="mq-login-bottom" aria-label="Pie de página">
+    @php
+        $bizPhone = trim((string) ($settings->telefono ?? ''));
+        $bizAddress = trim((string) ($settings->direccion ?? ''));
+        $bizEmail = trim((string) ($settings->email ?? ''));
+
+        if ($bizPhone === '') $bizPhone = '3102792128 - 3177487468';
+        if ($bizAddress === '') $bizAddress = 'Municipio la Calera, Kilometro 28 Vía Quizquiza';
+        if ($bizEmail === '') $bizEmail = 'masqueperrosshows@gmail.com';
+    @endphp
     <div class="mq-login-footer-inner">
         <div class="mq-login-footer-left">
             <img class="mq-login-footer-brand" src="{{ asset('img/footer-brand.png') }}" alt="Mas Que Perros">
@@ -13,7 +22,7 @@
                         <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877zM12.5 1a.5.5 0 0 1 .5.5V3h1.5a.5.5 0 0 1 0 1H13v1.5a.5.5 0 0 1-1 0V4h-1.5a.5.5 0 0 1 0-1H12V1.5a.5.5 0 0 1 .5-.5"/>
                     </svg>
                     <div class="mq-footer-contact-text">
-                        <div>3102792128 - 3177487468</div>
+                        <div>{{ $bizPhone }}</div>
                     </div>
                 </div>
 
@@ -22,7 +31,7 @@
                         <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10m0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6"/>
                     </svg>
                     <div class="mq-footer-contact-text">
-                        <div>Municipio la Calera, Kilometro 28 Vía Quizquiza</div>
+                        <div>{{ $bizAddress }}</div>
                     </div>
                 </div>
 
@@ -31,7 +40,7 @@
                         <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414zM0 4.697v7.104l5.803-3.558zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586zm3.436-.586L16 11.801V4.697z"/>
                     </svg>
                     <div class="mq-footer-contact-text">
-                        <div>masqueperrosshows@gmail.com</div>
+                        <div>{{ $bizEmail }}</div>
                     </div>
                 </div>
             </div>

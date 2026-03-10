@@ -115,7 +115,8 @@
                     $estimatedRevenue = (int) (($stats['estimated_revenue'] ?? 0));
                     $maxUsage = max(1, (int) (collect($services ?? [])->max('usage_month') ?? 0));
                     $categories = $categories ?? ['Todos'];
-                    $categoryOptions = collect($categories)->filter(fn ($c) => (string) $c !== 'Todos')->values();
+                    $categoryChipOptions = collect($categories)->filter(fn ($c) => (string) $c !== 'Todos')->values();
+                    $categoryOptions = $categoryOptions ?? collect();
                 @endphp
 
                 <section class="gs2-page-head">
@@ -187,7 +188,7 @@
                             <div class="gs2-card-top">
                                 <span class="gs2-cat {{ $catClass }}"><i class="bi bi-tag" aria-hidden="true"></i> {{ $s['category'] ?? 'Categoria' }}</span>
                                 @php
-                                    $toggleId = 'gsActive_' . ((string) ($s['id_servicio'] ?? $loop->index));
+                                    $toggleId = 'gsActive_' . ((string) ($s['id'] ?? $loop->index));
                                     $isActive = (bool) ($s['active'] ?? false);
                                 @endphp
                                 <span class="gs2-active" aria-label="Estado">
@@ -196,7 +197,7 @@
                                         id="{{ $toggleId }}"
                                         class="gs-toggle-input"
                                         {{ $isActive ? 'checked' : '' }}
-                                        data-service-id="{{ $s['id_servicio'] ?? '' }}"
+                                        data-service-id="{{ $s['id'] ?? '' }}"
                                     />
                                     <label for="{{ $toggleId }}" class="toggleSwitch"></label>
                                 </span>
@@ -226,19 +227,19 @@
                                     type="button"
                                     class="gs2-edit"
                                     data-gs-action="open-edit"
-                                    data-service-id="{{ $s['id_servicio'] ?? '' }}"
+                                    data-service-id="{{ $s['id'] ?? '' }}"
                                     data-service-name="{{ $s['name'] ?? '' }}"
                                     data-service-description="{{ $s['description'] ?? '' }}"
                                     data-service-price="{{ (int) ($s['price'] ?? 0) }}"
                                     data-service-duration="{{ $s['duration'] ?? '' }}"
-                                    data-service-category="{{ $s['category'] ?? '' }}"
+                                    data-service-category-id="{{ (int) ($s['category_id'] ?? 0) }}"
                                 ><i class="bi bi-pencil" aria-hidden="true"></i> Editar</button>
                                 <button
                                     type="button"
                                     class="gs2-del"
                                     aria-label="Eliminar"
                                     data-gs-action="open-delete"
-                                    data-service-id="{{ $s['id_servicio'] ?? '' }}"
+                                    data-service-id="{{ $s['id'] ?? '' }}"
                                     data-service-name="{{ $s['name'] ?? '' }}"
                                 ><i class="bi bi-trash" aria-hidden="true"></i></button>
                             </div>
@@ -274,15 +275,15 @@
 
                                     <label class="ad2-field">
                                         <span class="ad2-label">Duracion</span>
-                                        <input class="ad2-input" type="text" name="duration" placeholder="30 min" />
+                                        <input class="ad2-input" type="number" name="duration" placeholder="30" min="1" step="1" />
                                     </label>
                                 </div>
 
                                 <label class="ad2-field">
                                     <span class="ad2-label">Categoria</span>
-                                    <select class="ad2-select" name="category">
-                                        @foreach ($categoryOptions as $opt)
-                                            <option value="{{ $opt }}">{{ $opt }}</option>
+                                    <select class="ad2-select" name="category_id">
+                                        @foreach (($categoryOptions ?? []) as $opt)
+                                            <option value="{{ (int) ($opt->id ?? 0) }}">{{ $opt->nombre ?? '' }}</option>
                                         @endforeach
                                     </select>
                                 </label>
@@ -322,15 +323,15 @@
 
                                     <label class="ad2-field">
                                         <span class="ad2-label">Duracion</span>
-                                        <input class="ad2-input" type="text" name="duration" id="gsEditDuration" placeholder="30 min" />
+                                        <input class="ad2-input" type="number" name="duration" id="gsEditDuration" placeholder="30" min="1" step="1" />
                                     </label>
                                 </div>
 
                                 <label class="ad2-field">
                                     <span class="ad2-label">Categoria</span>
-                                    <select class="ad2-select" name="category" id="gsEditCategory">
-                                        @foreach ($categoryOptions as $opt)
-                                            <option value="{{ $opt }}">{{ $opt }}</option>
+                                    <select class="ad2-select" name="category_id" id="gsEditCategory">
+                                        @foreach (($categoryOptions ?? []) as $opt)
+                                            <option value="{{ (int) ($opt->id ?? 0) }}">{{ $opt->nombre ?? '' }}</option>
                                         @endforeach
                                     </select>
                                 </label>
@@ -536,7 +537,7 @@
                         if (editDescription) editDescription.value = btn.getAttribute('data-service-description') || '';
                         if (editPrice) editPrice.value = btn.getAttribute('data-service-price') || '0';
                         if (editDuration) editDuration.value = btn.getAttribute('data-service-duration') || '';
-                        if (editCategory) editCategory.value = btn.getAttribute('data-service-category') || 'Entrenamiento';
+                        if (editCategory) editCategory.value = btn.getAttribute('data-service-category-id') || '';
                         openAnyModal(editModal);
                         return;
                     }

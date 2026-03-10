@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Servicio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class AdminServiceController extends Controller
 {
@@ -12,17 +14,24 @@ class AdminServiceController extends Controller
     {
         $admin = Auth::user();
 
+        $hasActive = Schema::hasColumn('servicios', 'activo');
+
         $serviceRows = Servicio::query()
-            ->orderByDesc('id_servicio')
+            ->leftJoin('categorias_servicio as cs', 'servicios.categoria_id', '=', 'cs.id')
+            ->select([
+                'servicios.*',
+                'cs.nombre as categoria_nombre',
+            ])
+            ->orderByDesc('servicios.id')
             ->get();
 
-        $categories = Servicio::query()
-            ->select('categoria')
-            ->whereNotNull('categoria')
-            ->where('categoria', '!=', '')
-            ->distinct()
-            ->orderBy('categoria')
-            ->pluck('categoria')
+        $categoryOptions = DB::table('categorias_servicio')
+            ->select(['id', 'nombre'])
+            ->orderBy('nombre')
+            ->get();
+
+        $categories = $categoryOptions
+            ->pluck('nombre')
             ->values();
 
         $catColor = function (string $cat): string {
@@ -37,9 +46,10 @@ class AdminServiceController extends Controller
 
         $services = $serviceRows->map(function ($r) use ($catColor) {
             return [
-                'id_servicio' => $r->id_servicio,
-                'category' => $r->categoria,
-                'category_color' => $catColor((string) $r->categoria),
+                'id' => $r->id,
+                'category_id' => $r->categoria_id,
+                'category' => $r->categoria_nombre,
+                'category_color' => $catColor((string) $r->categoria_nombre),
                 'name' => $r->nombre,
                 'description' => $r->descripcion,
                 'price' => (int) $r->precio,
@@ -51,7 +61,7 @@ class AdminServiceController extends Controller
         })->values();
 
         $totalServices = $serviceRows->count();
-        $activeServices = $serviceRows->where('activo', 1)->count();
+        $activeServices = $hasActive ? $serviceRows->where('activo', 1)->count() : $serviceRows->count();
         $totalUses = 0;
         $estimatedRevenue = 0;
 
@@ -59,6 +69,7 @@ class AdminServiceController extends Controller
             'admin' => $admin,
             'services' => $services,
             'categories' => collect(['Todos'])->merge($categories)->values(),
+            'categoryOptions' => $categoryOptions,
             'stats' => [
                 'total_services' => $totalServices,
                 'active_services' => $activeServices,
@@ -73,19 +84,24 @@ class AdminServiceController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'description' => ['nullable', 'string', 'max:1000'],
-            'price' => ['required', 'integer', 'min:0'],
-            'duration' => ['required', 'string', 'max:60'],
-            'category' => ['required', 'string', 'max:60'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'duration' => ['required', 'integer', 'min:1'],
+            'category_id' => ['required', 'integer', 'exists:categorias_servicio,id'],
         ]);
 
-        Servicio::create([
+        $payload = [
             'nombre' => $data['name'],
             'descripcion' => $data['description'] ?? '',
             'precio' => $data['price'],
             'duracion' => $data['duration'],
-            'categoria' => $data['category'],
-            'activo' => 1,
-        ]);
+            'categoria_id' => $data['category_id'],
+        ];
+
+        if (Schema::hasColumn('servicios', 'activo')) {
+            $payload['activo'] = 1;
+        }
+
+        Servicio::create($payload);
 
         return redirect()->route('admin.services');
     }
@@ -95,9 +111,9 @@ class AdminServiceController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:120'],
             'description' => ['nullable', 'string', 'max:1000'],
-            'price' => ['required', 'integer', 'min:0'],
-            'duration' => ['required', 'string', 'max:60'],
-            'category' => ['required', 'string', 'max:60'],
+            'price' => ['required', 'numeric', 'min:0'],
+            'duration' => ['required', 'integer', 'min:1'],
+            'category_id' => ['required', 'integer', 'exists:categorias_servicio,id'],
         ]);
 
         $servicio->update([
@@ -105,7 +121,7 @@ class AdminServiceController extends Controller
             'descripcion' => $data['description'] ?? '',
             'precio' => $data['price'],
             'duracion' => $data['duration'],
-            'categoria' => $data['category'],
+            'categoria_id' => $data['category_id'],
         ]);
 
         return redirect()->route('admin.services')->with('success', 'proceso exitoso');
@@ -123,6 +139,13 @@ class AdminServiceController extends Controller
         $request->validate([
             'active' => ['required', 'boolean'],
         ]);
+
+        if (!Schema::hasColumn('servicios', 'activo')) {
+            return response()->json([
+                'ok' => true,
+                'active' => true,
+            ]);
+        }
 
         $servicio->update([
             'activo' => (bool) $request->boolean('active'),

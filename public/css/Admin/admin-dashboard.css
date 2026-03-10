@@ -228,6 +228,7 @@
   display:inline-flex;
   align-items:center;
   justify-content:center;
+  color:currentColor;
 }
 
 .admin-sidebar-spacer{
@@ -245,19 +246,19 @@
 }
 
 .admin-logout button{
-  width:100%;
-  display:flex;
-  align-items:center;
-  gap:.75rem;
-  padding:.6rem .85rem;
-  border-radius:1rem;
-  border:none;
-  background:transparent;
-  color:#ffe4e6;
-  font-size:.9rem;
-  cursor:pointer;
-  opacity:.95;
-  transition:background .15s ease,opacity .15s ease;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .6rem .85rem;
+    border-radius: .7rem;
+    border: none;
+    background: transparent;
+    color: #ffe4e6;
+    font-size: 1.4rem;
+    cursor: pointer;
+    opacity: .95;
+    transition: background .15s ease, opacity .15s ease;
 }
 
 .admin-logout button:hover{

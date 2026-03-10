@@ -13,7 +13,10 @@ class AdminOnly
     {
         $user = Auth::user();
 
-        if (! $user || $user->rol !== 'admin') {
+        $roleId = $user ? (int) ($user->rol_id ?? 0) : 0;
+        $isAdmin = $user && ($roleId === 1 || ($user->rol ?? null) === 'admin');
+
+        if (! $isAdmin) {
             abort(403);
         }
 

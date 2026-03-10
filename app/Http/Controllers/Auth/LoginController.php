@@ -40,6 +40,20 @@ class LoginController extends Controller
 
         $user = Auth::user();
 
+        $roleId = $user ? (int) ($user->rol_id ?? 0) : 0;
+
+        if ($roleId === 1) {
+            return redirect('/admin/dashboard');
+        }
+
+        if ($roleId === 2) {
+            return redirect('/dashboard');
+        }
+
+        if ($roleId === 3) {
+            return redirect('/cuidador/dashboard');
+        }
+
         if ($user && $user->rol === 'admin') {
             return redirect('/admin/dashboard');
         }

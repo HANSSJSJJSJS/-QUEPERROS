@@ -31,7 +31,7 @@ class AdminPetController extends Controller
             ->values();
 
         $petRows = Mascota::query()
-            ->orderByDesc('id_mascota')
+            ->orderByDesc('id')
             ->get();
 
         $ownerIds = $petRows
@@ -105,7 +105,7 @@ class AdminPetController extends Controller
             }
 
             return [
-                'id' => $p->id_mascota,
+                'id' => (int) $p->getKey(),
                 'owner_id' => $ownerId,
                 'user_id' => $userId,
                 'owner_name' => $ownerName,

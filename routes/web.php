@@ -9,7 +9,7 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminPetController;
-use App\Http\Controllers\AdminSettingsController;
+use App\Http\Controllers\OwnerPetController;
 use App\Http\Controllers\CaregiverDashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +34,30 @@ Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 Route::get('/dashboard', [ClientDashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard');
+
+Route::get('/dashboard/mis-perros', [OwnerPetController::class, 'index'])
+    ->middleware('auth')
+    ->name('owner.pets');
+
+Route::post('/dashboard/mis-perros', [OwnerPetController::class, 'store'])
+    ->middleware('auth')
+    ->name('owner.pets.store');
+
+Route::get('/dashboard/mis-perros/{mascota}', [OwnerPetController::class, 'show'])
+    ->middleware('auth')
+    ->name('owner.pets.show');
+
+Route::get('/dashboard/mis-perros/{mascota}/edit', [OwnerPetController::class, 'edit'])
+    ->middleware('auth')
+    ->name('owner.pets.edit');
+
+Route::put('/dashboard/mis-perros/{mascota}', [OwnerPetController::class, 'update'])
+    ->middleware('auth')
+    ->name('owner.pets.update');
+
+Route::delete('/dashboard/mis-perros/{mascota}', [OwnerPetController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('owner.pets.destroy');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])

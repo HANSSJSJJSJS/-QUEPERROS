@@ -93,19 +93,20 @@
                         <h1 class="cfg-title">Configuracion</h1>
                         <p class="cfg-subtitle">Ajustes generales del sistema</p>
                     </div>
-
-                    <form method="POST" action="{{ route('admin.settings.update') }}" class="cfg-save">
-                        @csrf
-                        <button type="submit" class="cfg-save-btn">
-                            <i class="bi bi-floppy" aria-hidden="true"></i>
-                            <span>Guardar cambios</span>
-                        </button>
-                    </form>
                 </header>
 
                 @if (session('success'))
                     <div class="cfg-toast" id="cfgToast" role="status" aria-live="polite">{{ session('success') }}</div>
                 @endif
+
+                <form method="POST" action="{{ route('admin.settings.update') }}">
+                    @csrf
+                    <div class="cfg-save">
+                        <button type="submit" class="cfg-save-btn">
+                            <i class="bi bi-floppy" aria-hidden="true"></i>
+                            <span>Guardar cambios</span>
+                        </button>
+                    </div>
 
                 <section class="cfg-grid">
                     <article class="cfg-card">
@@ -120,22 +121,22 @@
                         <div class="cfg-fields">
                             <div class="cfg-field">
                                 <label class="cfg-label">Nombre del negocio</label>
-                                <input class="cfg-input" type="text" value="MAS QUE PERROS" />
+                                <input class="cfg-input" type="text" name="nombre_negocio" value="{{ old('nombre_negocio', (string) ($settings->nombre_negocio ?? '')) }}" />
                             </div>
 
                             <div class="cfg-field">
                                 <label class="cfg-label">Direccion</label>
-                                <input class="cfg-input" type="text" value="Calle 123 #45-67, Bogota, Colombia" />
+                                <input class="cfg-input" type="text" name="direccion" value="{{ old('direccion', (string) ($settings->direccion ?? '')) }}" />
                             </div>
 
                             <div class="cfg-row">
                                 <div class="cfg-field">
                                     <label class="cfg-label">Telefono</label>
-                                    <input class="cfg-input" type="text" value="+57 300 123 4567" />
+                                    <input class="cfg-input" type="text" name="telefono" value="{{ old('telefono', (string) ($settings->telefono ?? '')) }}" />
                                 </div>
                                 <div class="cfg-field">
                                     <label class="cfg-label">Email</label>
-                                    <input class="cfg-input" type="email" value="contacto@masqueperros.com" />
+                                    <input class="cfg-input" type="email" name="email" value="{{ old('email', (string) ($settings->email ?? '')) }}" />
                                 </div>
                             </div>
                         </div>
@@ -143,7 +144,6 @@
 
                     <article class="cfg-card">
                         <header class="cfg-card-head">
-                            <div class="cfg-ico cfg-ico--blue"><i class="bi bi-clock" aria-hidden="true"></i></div>
                             <div class="cfg-card-meta">
                                 <div class="cfg-card-title">Horario de atencion</div>
                                 <div class="cfg-card-sub">Configura los horarios de apertura</div>
@@ -155,15 +155,13 @@
                                 <div class="cfg-field">
                                     <label class="cfg-label">Hora apertura</label>
                                     <div class="cfg-input-ico">
-                                        <input class="cfg-input" type="text" value="07:00 a.m." />
-                                        <i class="bi bi-clock" aria-hidden="true"></i>
+                                        <input class="cfg-input" type="time" name="hora_apertura" value="{{ old('hora_apertura', (string) ($settings->hora_apertura ?? '')) }}" />
                                     </div>
                                 </div>
                                 <div class="cfg-field">
                                     <label class="cfg-label">Hora cierre</label>
                                     <div class="cfg-input-ico">
-                                        <input class="cfg-input" type="text" value="08:00 p.m." />
-                                        <i class="bi bi-clock" aria-hidden="true"></i>
+                                        <input class="cfg-input" type="time" name="hora_cierre" value="{{ old('hora_cierre', (string) ($settings->hora_cierre ?? '')) }}" />
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +172,7 @@
                                     <div class="cfg-toggle-sub">Habilitar sabados y domingos</div>
                                 </div>
                                 <label class="cfg-switch">
-                                    <input type="checkbox" checked />
+                                    <input type="checkbox" name="atiende_fines_semana" value="1" {{ old('atiende_fines_semana', (bool) ($settings->atiende_fines_semana ?? false)) ? 'checked' : '' }} />
                                     <span class="cfg-slider"></span>
                                 </label>
                             </div>
@@ -203,7 +201,7 @@
                                         <div class="cfg-toggle-sub">Recibir alertas en tu correo electronico</div>
                                     </div>
                                     <label class="cfg-switch">
-                                        <input type="checkbox" checked />
+                                        <input type="checkbox" name="notificaciones_email" value="1" {{ old('notificaciones_email', (bool) ($settings->notificaciones_email ?? false)) ? 'checked' : '' }} />
                                         <span class="cfg-slider"></span>
                                     </label>
                                 </div>
@@ -214,7 +212,7 @@
                                         <div class="cfg-toggle-sub">Recibir alertas por mensaje de texto</div>
                                     </div>
                                     <label class="cfg-switch">
-                                        <input type="checkbox" />
+                                        <input type="checkbox" name="notificaciones_sms" value="1" {{ old('notificaciones_sms', (bool) ($settings->notificaciones_sms ?? false)) ? 'checked' : '' }} />
                                         <span class="cfg-slider"></span>
                                     </label>
                                 </div>
@@ -225,7 +223,7 @@
                                         <div class="cfg-toggle-sub">Enviar recordatorios automaticos antes de cada cita</div>
                                     </div>
                                     <label class="cfg-switch">
-                                        <input type="checkbox" checked />
+                                        <input type="checkbox" name="recordatorio_citas" value="1" {{ old('recordatorio_citas', (bool) ($settings->recordatorio_citas ?? false)) ? 'checked' : '' }} />
                                         <span class="cfg-slider"></span>
                                     </label>
                                 </div>
@@ -249,22 +247,26 @@
                                     <div class="cfg-toggle-sub">Requerir codigo adicional al iniciar sesion</div>
                                 </div>
                                 <label class="cfg-switch cfg-switch--off">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" name="autenticacion_dos_factores" value="1" {{ old('autenticacion_dos_factores', (bool) ($settings->autenticacion_dos_factores ?? false)) ? 'checked' : '' }} />
                                     <span class="cfg-slider"></span>
                                 </label>
                             </div>
 
                             <div class="cfg-field">
                                 <label class="cfg-label">Cierre automatico de sesion (minutos)</label>
-                                <select class="cfg-input">
-                                    <option selected>30 minutos</option>
-                                    <option>15 minutos</option>
-                                    <option>60 minutos</option>
+                                @php
+                                    $sessionMinutes = (int) (old('cierre_sesion_minutos', (int) ($settings->cierre_sesion_minutos ?? 30)));
+                                @endphp
+                                <select class="cfg-input" name="cierre_sesion_minutos">
+                                    <option value="30" {{ $sessionMinutes === 30 ? 'selected' : '' }}>30 minutos</option>
+                                    <option value="15" {{ $sessionMinutes === 15 ? 'selected' : '' }}>15 minutos</option>
+                                    <option value="60" {{ $sessionMinutes === 60 ? 'selected' : '' }}>60 minutos</option>
                                 </select>
                             </div>
                         </div>
                     </article>
                 </section>
+                </form>
             </main>
         </div>
 
