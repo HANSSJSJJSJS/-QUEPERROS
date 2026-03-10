@@ -27,7 +27,7 @@
 
                 <nav class="mq-dashboard-menu">
                     <a href="#" class="active">Inicio</a>
-                    <a href="#">Mis Mascotas</a>
+                    <a href="#mis-mascotas">Mis Mascotas</a>
                     <a href="#">Citas</a>
                     <a href="#">Historial</a>
                 </nav>
@@ -50,12 +50,24 @@
                     </div>
                 </header>
 
+                @if (session('success'))
+                    <div style="background:#eafaf0;color:#1f7a44;border:1px solid #bfe7cf;padding:12px 14px;border-radius:10px;margin-bottom:14px;">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if ($errors->any())
+                    <div style="background:#fdeaea;color:#8d1f1f;border:1px solid #f3c3c3;padding:12px 14px;border-radius:10px;margin-bottom:14px;">
+                        {{ $errors->first() }}
+                    </div>
+                @endif
+
                 <section class="mq-dashboard-hero">
                     <div class="mq-dashboard-hero-text">
                         <p class="mq-dashboard-hero-greeting">Buenas tardes</p>
                         <h1 class="mq-dashboard-hero-title">BIENVENIDO, {{ Str::upper(Str::before($user->name, ' ')) }}</h1>
                         <p class="mq-dashboard-hero-sub">Aquí tienes un resumen de tus mascotas y servicios. Tus peludos están en buenas manos.</p>
-                        <button class="mq-dashboard-hero-btn">Agendar nueva cita</button>
+                        <button class="mq-dashboard-hero-btn" type="button">Agendar nueva cita</button>
                     </div>
                 </section>
 
@@ -66,7 +78,7 @@
                     </div>
                     <div class="mq-dashboard-card">
                         <p class="mq-dashboard-card-label">Mis mascotas</p>
-                        <p class="mq-dashboard-card-value">3</p>
+                        <p class="mq-dashboard-card-value">{{ $petsCount }}</p>
                     </div>
                     <div class="mq-dashboard-card">
                         <p class="mq-dashboard-card-label">Visitas realizadas</p>
@@ -74,31 +86,50 @@
                     </div>
                 </section>
 
+                <section class="mq-dashboard-list" id="mis-mascotas">
+                    <header class="mq-dashboard-list-header">
+                        <h2>Registrar nueva mascota</h2>
+                    </header>
+
+                    <form method="POST" action="{{ route('owner.pets.store') }}" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;">
+                        @csrf
+                        <input name="nombre" type="text" placeholder="Nombre" value="{{ old('nombre') }}" required style="padding:10px;border:1px solid #ddd;border-radius:8px;">
+                        <select name="tipo" required style="padding:10px;border:1px solid #ddd;border-radius:8px;">
+                            <option value="">Tipo</option>
+                            <option value="Perro" @selected(old('tipo') === 'Perro')>Perro</option>
+                            <option value="Gato" @selected(old('tipo') === 'Gato')>Gato</option>
+                        </select>
+                        <input name="raza" type="text" placeholder="Raza" value="{{ old('raza') }}" required style="padding:10px;border:1px solid #ddd;border-radius:8px;">
+                        <input name="edad" type="number" min="0" max="50" placeholder="Edad" value="{{ old('edad') }}" style="padding:10px;border:1px solid #ddd;border-radius:8px;">
+                        <input name="sexo" type="text" placeholder="Sexo" value="{{ old('sexo') }}" style="padding:10px;border:1px solid #ddd;border-radius:8px;">
+                        <input name="telefono" type="text" placeholder="Teléfono" value="{{ old('telefono') }}" style="padding:10px;border:1px solid #ddd;border-radius:8px;">
+                        <textarea name="info_adicional" placeholder="Información adicional" style="grid-column:1/-1;padding:10px;border:1px solid #ddd;border-radius:8px;min-height:90px;">{{ old('info_adicional') }}</textarea>
+                        <button type="submit" class="mq-dashboard-hero-btn" style="grid-column:1/-1;justify-self:start;">Registrar mascota</button>
+                    </form>
+                </section>
+
                 <section class="mq-dashboard-list">
                     <header class="mq-dashboard-list-header">
-                        <h2>Próximas citas</h2>
-                        <div class="mq-dashboard-list-filters">
-                            <button class="active">Todas</button>
-                            <button>Confirmadas</button>
-                            <button>Pendientes</button>
-                        </div>
+                        <h2>Mis mascotas recientes</h2>
                     </header>
 
                     <ul class="mq-dashboard-appointments">
-                        <li>
-                            <div>
-                                <p class="mq-dashboard-appointment-time">10:00 AM - Rocky</p>
-                                <p class="mq-dashboard-appointment-detail">Entrenamiento básico</p>
-                            </div>
-                            <span class="mq-dashboard-appointment-status confirmed">Confirmada</span>
-                        </li>
-                        <li>
-                            <div>
-                                <p class="mq-dashboard-appointment-time">02:30 PM - Luna</p>
-                                <p class="mq-dashboard-appointment-detail">Guardería</p>
-                            </div>
-                            <span class="mq-dashboard-appointment-status confirmed">Confirmada</span>
-                        </li>
+                        @forelse ($pets as $pet)
+                            <li>
+                                <div>
+                                    <p class="mq-dashboard-appointment-time">{{ $pet->nombre }}</p>
+                                    <p class="mq-dashboard-appointment-detail">{{ $pet->raza }} @if($pet->edad !== null)- {{ $pet->edad }} años @endif</p>
+                                </div>
+                                <span class="mq-dashboard-appointment-status confirmed">{{ $pet->estado_actual ?? 'En Casa' }}</span>
+                            </li>
+                        @empty
+                            <li>
+                                <div>
+                                    <p class="mq-dashboard-appointment-time">Aún no tienes mascotas registradas</p>
+                                    <p class="mq-dashboard-appointment-detail">Usa el formulario para agregar tu primera mascota.</p>
+                                </div>
+                            </li>
+                        @endforelse
                     </ul>
                 </section>
             </main>
