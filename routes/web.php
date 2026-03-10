@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminPetController;
 use App\Http\Controllers\AdminSettingsController;
 use App\Http\Controllers\CaregiverDashboardController;
+use App\Http\Controllers\OwnerPetController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -34,6 +35,10 @@ Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
 Route::get('/dashboard', [ClientDashboardController::class, 'index'])
     ->middleware('auth')
     ->name('dashboard');
+
+Route::post('/dashboard/pets', [OwnerPetController::class, 'store'])
+    ->middleware('auth')
+    ->name('owner.pets.store');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])

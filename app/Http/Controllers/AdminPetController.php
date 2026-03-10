@@ -198,18 +198,31 @@ class AdminPetController extends Controller
         }
 
         if (Schema::hasTable('duenos')) {
-            $exists = DB::table('duenos')
-                ->where('id_dueno', (int) $owner->id)
-                ->exists();
+            $duenosCols = Schema::getColumnListing('duenos');
+            $ownerName = trim((string) ($owner->name ?? ''));
 
-            if (! $exists) {
-                $duenoData = [
-                    'id_dueno' => (int) $owner->id,
-                ];
+            $existsQuery = DB::table('duenos')->where('id_dueno', (int) $owner->id);
+            if (in_array('user_id', $duenosCols, true)) {
+                $existsQuery->orWhere('user_id', (int) $owner->id);
+            }
 
-                $duenosCols = Schema::getColumnListing('duenos');
+            if (! $existsQuery->exists()) {
+                $duenoData = [];
+
+                if (in_array('id_dueno', $duenosCols, true)) {
+                    $duenoData['id_dueno'] = (int) $owner->id;
+                }
+                if (in_array('user_id', $duenosCols, true)) {
+                    $duenoData['user_id'] = (int) $owner->id;
+                }
                 if (in_array('nombre', $duenosCols, true)) {
-                    $duenoData['nombre'] = (string) $owner->name;
+                    $duenoData['nombre'] = $ownerName;
+                }
+                if (in_array('name', $duenosCols, true)) {
+                    $duenoData['name'] = $ownerName;
+                }
+                if (in_array('apellido', $duenosCols, true)) {
+                    $duenoData['apellido'] = '';
                 }
                 if (in_array('telefono', $duenosCols, true)) {
                     $duenoData['telefono'] = null;
@@ -224,7 +237,9 @@ class AdminPetController extends Controller
                     $duenoData['updated_at'] = now();
                 }
 
-                DB::table('duenos')->insert($duenoData);
+                if ($duenoData !== []) {
+                    DB::table('duenos')->insert($duenoData);
+                }
             }
         }
 
