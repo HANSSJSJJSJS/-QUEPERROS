@@ -10,7 +10,9 @@ use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminPetController;
 use App\Http\Controllers\OwnerPetController;
+use App\Http\Controllers\OwnerServiceController;
 use App\Http\Controllers\CaregiverDashboardController;
+use App\Http\Controllers\AdminSettingsController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -58,6 +60,10 @@ Route::put('/dashboard/mis-perros/{mascota}', [OwnerPetController::class, 'updat
 Route::delete('/dashboard/mis-perros/{mascota}', [OwnerPetController::class, 'destroy'])
     ->middleware('auth')
     ->name('owner.pets.destroy');
+
+Route::get('/dashboard/servicios', [OwnerServiceController::class, 'index'])
+    ->middleware('auth')
+    ->name('owner.services');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])

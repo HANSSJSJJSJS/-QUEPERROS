@@ -1,283 +1,263 @@
-<!DOCTYPE html>
-<html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Configuracion</title>
+@extends('layouts.app')
 
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-        <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
+@section('content')
+<link rel="stylesheet" href="{{ asset('css/Admin/configuracion.css') }}">
 
-        <link rel="stylesheet" href="{{ asset('css/Admin/admin-dashboard.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin-v2.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/Admin/configuracion.css') }}">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    </head>
-    <body>
-        @php
-            use Illuminate\Support\Str;
-        @endphp
-        <div class="admin-layout">
-            <aside class="admin-sidebar">
-                <div class="admin-brand">
-                    <div class="admin-logo"><i class="bi bi-paw" aria-hidden="true"></i></div>
-                    <div class="admin-brand-text">
-                        <span class="admin-brand-title">MAS QUE PERROS</span>
-                        <span class="admin-brand-subtitle">Panel Administrativo</span>
+<div class="conf-container">
+    <form action="{{ route('admin.settings.update') }}" method="POST">
+        @csrf
+        <header class="conf-header">
+            <div class="conf-title-group">
+                <h1>Configuracion</h1>
+                <p>Ajustes generales del sistema</p>
+            </div>
+            <button type="submit" class="conf-save-btn">
+                <i class="bi bi-floppy"></i>
+                Guardar cambios
+            </button>
+        </header>
+
+        <div class="conf-layout">
+            <!-- Sidebar de navegación -->
+            <aside class="conf-nav">
+                <a href="#" class="conf-nav-item conf-nav-item--active" data-conf-tab="general">
+                    <div class="conf-nav-icon"><i class="bi bi-house-door"></i></div>
+                    <div class="conf-nav-text">
+                        <span class="conf-nav-title">General</span>
+                        <span class="conf-nav-sub">Nombre del negoci...</span>
                     </div>
-                </div>
-
-                <p class="admin-sidebar-section">ADMINISTRACION</p>
-
-                <nav class="admin-menu">
-                    <a href="{{ route('admin.dashboard') }}" class="admin-menu-item {{ request()->routeIs('admin.dashboard') ? 'admin-menu-item--active' : '' }}">
-                        <span class="admin-menu-left">
-                            <i class="admin-menu-icon bi bi-grid-1x2-fill" aria-hidden="true"></i>
-                            <span>Dashboard</span>
-                        </span>
-                        <span class="admin-menu-right"></span>
-                    </a>
-                    <a href="{{ route('admin.users') }}" class="admin-menu-item {{ request()->routeIs('admin.users') ? 'admin-menu-item--active' : '' }}">
-                        <span class="admin-menu-left">
-                            <i class="admin-menu-icon bi bi-people-fill" aria-hidden="true"></i>
-                            <span>Gestión de usuarios</span>
-                        </span>
-                        <span class="admin-menu-right">
-                            <span class="admin-menu-badge">5</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.services') }}" class="admin-menu-item {{ request()->routeIs('admin.services') ? 'admin-menu-item--active' : '' }}">
-                        <span class="admin-menu-left">
-                            <i class="admin-menu-icon bi bi-heart-pulse-fill" aria-hidden="true"></i>
-                            <span>Gestión de servicios</span>
-                        </span>
-                        <span class="admin-menu-right">
-                            <span class="admin-menu-badge">6</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('admin.pets') }}" class="admin-menu-item {{ request()->routeIs('admin.pets') ? 'admin-menu-item--active' : '' }}">
-                        <span class="admin-menu-left">
-                            <i class="admin-menu-icon bi bi-paw-fill" aria-hidden="true"></i>
-                            <span>Gestión de mascotas</span>
-                        </span>
-                        <span class="admin-menu-right"></span>
-                    </a>
-                    <a href="{{ route('admin.settings') }}" class="admin-menu-item {{ request()->routeIs('admin.settings') ? 'admin-menu-item--active' : '' }}">
-                        <span class="admin-menu-left">
-                            <i class="admin-menu-icon bi bi-gear-fill" aria-hidden="true"></i>
-                            <span>Configuracion</span>
-                        </span>
-                        <span class="admin-menu-right"></span>
-                    </a>
-                </nav>
-
-                <div class="admin-sidebar-spacer"></div>
-
-                <div class="admin-sidebar-divider"></div>
-
-                <form method="POST" action="{{ route('logout') }}" class="admin-logout">
-                    @csrf
-                    <button type="submit">
-                        <span class="admin-logout-icon">⤴</span>
-                        <span>Cerrar sesion</span>
-                    </button>
-                </form>
+                    <i class="bi bi-chevron-right conf-nav-chevron"></i>
+                </a>
+                <a href="#" class="conf-nav-item" data-conf-tab="notificaciones">
+                    <div class="conf-nav-icon"><i class="bi bi-bell"></i></div>
+                    <div class="conf-nav-text">
+                        <span class="conf-nav-title">Notificaciones</span>
+                        <span class="conf-nav-sub">Configura alertas por...</span>
+                    </div>
+                </a>
+                <a href="#" class="conf-nav-item" data-conf-tab="horarios">
+                    <div class="conf-nav-icon"><i class="bi bi-clock"></i></div>
+                    <div class="conf-nav-text">
+                        <span class="conf-nav-title">Horarios</span>
+                        <span class="conf-nav-sub">Horarios de atencion y...</span>
+                    </div>
+                </a>
             </aside>
 
-            <main class="admin-main">
-                <header class="cfg-top">
-                    <div class="cfg-top-left">
-                        <h1 class="cfg-title">Configuracion</h1>
-                        <p class="cfg-subtitle">Ajustes generales del sistema</p>
-                    </div>
-                </header>
+            <!-- Panel principal -->
+            <main class="conf-main-card">
+                <!-- GENERAL -->
+                <section class="conf-pane conf-pane--active" data-conf-pane="general">
+                    <h2 class="conf-section-title">Informacion del Negocio</h2>
+                    <p class="conf-section-sub">Datos principales de tu clinica veterinaria</p>
 
-                @if (session('success'))
-                    <div class="cfg-toast" id="cfgToast" role="status" aria-live="polite">{{ session('success') }}</div>
-                @endif
-
-                <form method="POST" action="{{ route('admin.settings.update') }}">
-                    @csrf
-                    <div class="cfg-save">
-                        <button type="submit" class="cfg-save-btn">
-                            <i class="bi bi-floppy" aria-hidden="true"></i>
-                            <span>Guardar cambios</span>
-                        </button>
+                    <div class="conf-logo-box">
+                        <div class="conf-logo-preview">
+                            <i class="bi bi-paw-fill"></i>
+                        </div>
+                        <div class="conf-logo-info">
+                            <h4>Logo del negocio</h4>
+                            <p>PNG o JPG, maximo 2MB</p>
+                            <button type="button" class="conf-logo-btn">Cambiar logo</button>
+                        </div>
                     </div>
 
-                <section class="cfg-grid">
-                    <article class="cfg-card">
-                        <header class="cfg-card-head">
-                            <div class="cfg-ico cfg-ico--purple"><i class="bi bi-building" aria-hidden="true"></i></div>
-                            <div class="cfg-card-meta">
-                                <div class="cfg-card-title">Informacion del negocio</div>
-                                <div class="cfg-card-sub">Datos principales</div>
-                            </div>
-                        </header>
+                    <div class="conf-grid">
+                        <div class="conf-field">
+                            <label class="conf-label">Nombre del negocio</label>
+                            <input type="text" name="nombre_negocio" class="conf-input" 
+                                value="{{ old('nombre_negocio', $settings->nombre_negocio ?? '') }}" 
+                                placeholder="Ej: Mas que Perros">
+                        </div>
+                        <div class="conf-field">
+                            <label class="conf-label">Slogan</label>
+                            <input type="text" name="slogan" class="conf-input" 
+                                value="{{ old('slogan', $settings->slogan ?? '') }}" 
+                                placeholder="Ej: Tu perro feliz, tu tranquilo">
+                        </div>
+                    </div>
 
-                        <div class="cfg-fields">
-                            <div class="cfg-field">
-                                <label class="cfg-label">Nombre del negocio</label>
-                                <input class="cfg-input" type="text" name="nombre_negocio" value="{{ old('nombre_negocio', (string) ($settings->nombre_negocio ?? '')) }}" />
-                            </div>
-
-                            <div class="cfg-field">
-                                <label class="cfg-label">Direccion</label>
-                                <input class="cfg-input" type="text" name="direccion" value="{{ old('direccion', (string) ($settings->direccion ?? '')) }}" />
-                            </div>
-
-                            <div class="cfg-row">
-                                <div class="cfg-field">
-                                    <label class="cfg-label">Telefono</label>
-                                    <input class="cfg-input" type="text" name="telefono" value="{{ old('telefono', (string) ($settings->telefono ?? '')) }}" />
-                                </div>
-                                <div class="cfg-field">
-                                    <label class="cfg-label">Email</label>
-                                    <input class="cfg-input" type="email" name="email" value="{{ old('email', (string) ($settings->email ?? '')) }}" />
-                                </div>
+                    <div class="conf-grid">
+                        <div class="conf-field">
+                            <label class="conf-label">Email</label>
+                            <div class="conf-input-wrap">
+                                <i class="bi bi-envelope conf-input-icon"></i>
+                                <input type="email" name="email" class="conf-input conf-input--has-icon" 
+                                    value="{{ old('email', $settings->email ?? '') }}" 
+                                    placeholder="contacto@masqueperros.com">
                             </div>
                         </div>
-                    </article>
-
-                    <article class="cfg-card">
-                        <header class="cfg-card-head">
-                            <div class="cfg-card-meta">
-                                <div class="cfg-card-title">Horario de atencion</div>
-                                <div class="cfg-card-sub">Configura los horarios de apertura</div>
-                            </div>
-                        </header>
-
-                        <div class="cfg-fields">
-                            <div class="cfg-row">
-                                <div class="cfg-field">
-                                    <label class="cfg-label">Hora apertura</label>
-                                    <div class="cfg-input-ico">
-                                        <input class="cfg-input" type="time" name="hora_apertura" value="{{ old('hora_apertura', (string) ($settings->hora_apertura ?? '')) }}" />
-                                    </div>
-                                </div>
-                                <div class="cfg-field">
-                                    <label class="cfg-label">Hora cierre</label>
-                                    <div class="cfg-input-ico">
-                                        <input class="cfg-input" type="time" name="hora_cierre" value="{{ old('hora_cierre', (string) ($settings->hora_cierre ?? '')) }}" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="cfg-toggle-card">
-                                <div class="cfg-toggle-text">
-                                    <div class="cfg-toggle-title">Atencion los fines de semana</div>
-                                    <div class="cfg-toggle-sub">Habilitar sabados y domingos</div>
-                                </div>
-                                <label class="cfg-switch">
-                                    <input type="checkbox" name="atiende_fines_semana" value="1" {{ old('atiende_fines_semana', (bool) ($settings->atiende_fines_semana ?? false)) ? 'checked' : '' }} />
-                                    <span class="cfg-slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="cfg-note">
-                                <div class="cfg-note-title"><i class="bi bi-people" aria-hidden="true"></i><span>Horario guarderia</span></div>
-                                <div class="cfg-note-body">La guarderia opera de lunes a sabado, de 7:00 AM a 6:00 PM. Los domingos solo atiende recogidas.</div>
-                            </div>
+                        <div class="conf-field">
+                            <label class="conf-label">Telefono</label>
+                            <input type="text" name="telefono" class="conf-input" 
+                                value="{{ old('telefono', $settings->telefono ?? '') }}" 
+                                placeholder="+57 300 000 0000">
                         </div>
-                    </article>
+                    </div>
 
-                    <article class="cfg-card">
-                        <header class="cfg-card-head">
-                            <div class="cfg-ico cfg-ico--green"><i class="bi bi-bell" aria-hidden="true"></i></div>
-                            <div class="cfg-card-meta">
-                                <div class="cfg-card-title">Notificaciones</div>
-                                <div class="cfg-card-sub">Configura como recibir alertas</div>
-                            </div>
-                        </header>
-
-                        <div class="cfg-fields">
-                            <div class="cfg-toggle-list">
-                                <div class="cfg-toggle-card cfg-toggle-card--list">
-                                    <div class="cfg-toggle-text">
-                                        <div class="cfg-toggle-title">Notificaciones por email</div>
-                                        <div class="cfg-toggle-sub">Recibir alertas en tu correo electronico</div>
-                                    </div>
-                                    <label class="cfg-switch">
-                                        <input type="checkbox" name="notificaciones_email" value="1" {{ old('notificaciones_email', (bool) ($settings->notificaciones_email ?? false)) ? 'checked' : '' }} />
-                                        <span class="cfg-slider"></span>
-                                    </label>
-                                </div>
-
-                                <div class="cfg-toggle-card cfg-toggle-card--list">
-                                    <div class="cfg-toggle-text">
-                                        <div class="cfg-toggle-title">Notificaciones por SMS</div>
-                                        <div class="cfg-toggle-sub">Recibir alertas por mensaje de texto</div>
-                                    </div>
-                                    <label class="cfg-switch">
-                                        <input type="checkbox" name="notificaciones_sms" value="1" {{ old('notificaciones_sms', (bool) ($settings->notificaciones_sms ?? false)) ? 'checked' : '' }} />
-                                        <span class="cfg-slider"></span>
-                                    </label>
-                                </div>
-
-                                <div class="cfg-toggle-card cfg-toggle-card--list">
-                                    <div class="cfg-toggle-text">
-                                        <div class="cfg-toggle-title">Recordatorio de citas</div>
-                                        <div class="cfg-toggle-sub">Enviar recordatorios automaticos antes de cada cita</div>
-                                    </div>
-                                    <label class="cfg-switch">
-                                        <input type="checkbox" name="recordatorio_citas" value="1" {{ old('recordatorio_citas', (bool) ($settings->recordatorio_citas ?? false)) ? 'checked' : '' }} />
-                                        <span class="cfg-slider"></span>
-                                    </label>
-                                </div>
-                            </div>
+                    <div class="conf-field conf-field--full">
+                        <label class="conf-label">Direccion</label>
+                        <div class="conf-input-wrap">
+                            <i class="bi bi-geo-alt conf-input-icon"></i>
+                            <input type="text" name="direccion" class="conf-input conf-input--has-icon" 
+                                value="{{ old('direccion', $settings->direccion ?? '') }}" 
+                                placeholder="Calle 123 #45-67, Bogota, Colombia">
                         </div>
-                    </article>
-
-                    <article class="cfg-card">
-                        <header class="cfg-card-head">
-                            <div class="cfg-ico cfg-ico--red"><i class="bi bi-shield" aria-hidden="true"></i></div>
-                            <div class="cfg-card-meta">
-                                <div class="cfg-card-title">Seguridad</div>
-                                <div class="cfg-card-sub">Opciones de seguridad del sistema</div>
-                            </div>
-                        </header>
-
-                        <div class="cfg-fields">
-                            <div class="cfg-toggle-card cfg-toggle-card--list">
-                                <div class="cfg-toggle-text">
-                                    <div class="cfg-toggle-title">Autenticacion de dos factores</div>
-                                    <div class="cfg-toggle-sub">Requerir codigo adicional al iniciar sesion</div>
-                                </div>
-                                <label class="cfg-switch cfg-switch--off">
-                                    <input type="checkbox" name="autenticacion_dos_factores" value="1" {{ old('autenticacion_dos_factores', (bool) ($settings->autenticacion_dos_factores ?? false)) ? 'checked' : '' }} />
-                                    <span class="cfg-slider"></span>
-                                </label>
-                            </div>
-
-                            <div class="cfg-field">
-                                <label class="cfg-label">Cierre automatico de sesion (minutos)</label>
-                                @php
-                                    $sessionMinutes = (int) (old('cierre_sesion_minutos', (int) ($settings->cierre_sesion_minutos ?? 30)));
-                                @endphp
-                                <select class="cfg-input" name="cierre_sesion_minutos">
-                                    <option value="30" {{ $sessionMinutes === 30 ? 'selected' : '' }}>30 minutos</option>
-                                    <option value="15" {{ $sessionMinutes === 15 ? 'selected' : '' }}>15 minutos</option>
-                                    <option value="60" {{ $sessionMinutes === 60 ? 'selected' : '' }}>60 minutos</option>
-                                </select>
-                            </div>
-                        </div>
-                    </article>
+                    </div>
                 </section>
-                </form>
+
+                <!-- NOTIFICACIONES -->
+                <section class="conf-pane" data-conf-pane="notificaciones">
+                    <h2 class="conf-section-title">Notificaciones</h2>
+                    <p class="conf-section-sub">Gestiona como y cuando recibes alertas</p>
+
+                    <div class="conf-block-title">CANALES</div>
+                    <div class="conf-switch-list">
+                        <div class="conf-switch-row">
+                            <div class="conf-switch-text">
+                                <div class="conf-switch-title">Notificaciones por email</div>
+                                <div class="conf-switch-sub">Recibe alertas en tu correo electronico</div>
+                            </div>
+                            <label class="conf-switch">
+                                <input type="checkbox" name="notificaciones_email" value="1" {{ old('notificaciones_email', (bool) ($settings->notificaciones_email ?? false)) ? 'checked' : '' }}>
+                                <span class="conf-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="conf-switch-row">
+                            <div class="conf-switch-text">
+                                <div class="conf-switch-title">Notificaciones push</div>
+                                <div class="conf-switch-sub">Alertas en el navegador en tiempo real</div>
+                            </div>
+                            <label class="conf-switch">
+                                <input type="checkbox" name="notificaciones_push" value="1" {{ old('notificaciones_push', (bool) ($settings->notificaciones_push ?? false)) ? 'checked' : '' }}>
+                                <span class="conf-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="conf-block-title conf-block-title--mt">EVENTOS</div>
+                    <div class="conf-switch-list">
+                        <div class="conf-switch-row">
+                            <div class="conf-switch-text">
+                                <div class="conf-switch-title">Nuevos usuarios registrados</div>
+                            </div>
+                            <label class="conf-switch">
+                                <input type="checkbox" name="evento_nuevos_usuarios" value="1" {{ old('evento_nuevos_usuarios', (bool) ($settings->evento_nuevos_usuarios ?? false)) ? 'checked' : '' }}>
+                                <span class="conf-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="conf-switch-row">
+                            <div class="conf-switch-text">
+                                <div class="conf-switch-title">Citas agendadas o canceladas</div>
+                            </div>
+                            <label class="conf-switch">
+                                <input type="checkbox" name="evento_citas" value="1" {{ old('evento_citas', (bool) ($settings->evento_citas ?? false)) ? 'checked' : '' }}>
+                                <span class="conf-slider"></span>
+                            </label>
+                        </div>
+
+                        <div class="conf-switch-row">
+                            <div class="conf-switch-text">
+                                <div class="conf-switch-title">Alertas del sistema</div>
+                            </div>
+                            <label class="conf-switch">
+                                <input type="checkbox" name="evento_alertas_sistema" value="1" {{ old('evento_alertas_sistema', (bool) ($settings->evento_alertas_sistema ?? false)) ? 'checked' : '' }}>
+                                <span class="conf-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- HORARIOS -->
+                <section class="conf-pane" data-conf-pane="horarios">
+                    <h2 class="conf-section-title">Horarios de Atencion</h2>
+                    <p class="conf-section-sub">Configura los dias y horas disponibles para citas</p>
+
+                    <div class="conf-schedule">
+                        @php
+                            $days = [
+                                ['key' => 'lunes', 'label' => 'Lunes'],
+                                ['key' => 'martes', 'label' => 'Martes'],
+                                ['key' => 'miercoles', 'label' => 'Miercoles'],
+                                ['key' => 'jueves', 'label' => 'Jueves'],
+                                ['key' => 'viernes', 'label' => 'Viernes'],
+                                ['key' => 'sabado', 'label' => 'Sabado'],
+                                ['key' => 'domingo', 'label' => 'Domingo'],
+                            ];
+                        @endphp
+
+                        @foreach ($days as $d)
+                            @php
+                                $activeField = $d['key'] . '_activo';
+                                $startField = $d['key'] . '_inicio';
+                                $endField = $d['key'] . '_fin';
+                                $isActive = (bool) old($activeField, (bool) ($settings->{$activeField} ?? false));
+                                $startVal = old($startField, (string) ($settings->{$startField} ?? ''));
+                                $endVal = old($endField, (string) ($settings->{$endField} ?? ''));
+                            @endphp
+
+                            <div class="conf-day-row {{ $isActive ? '' : 'conf-day-row--off' }}" data-conf-day-row>
+                                <label class="conf-switch">
+                                    <input type="checkbox" name="{{ $activeField }}" value="1" {{ $isActive ? 'checked' : '' }} data-conf-day-toggle>
+                                    <span class="conf-slider"></span>
+                                </label>
+
+                                <div class="conf-day-label">{{ $d['label'] }}</div>
+
+                                <div class="conf-time">
+                                    <i class="bi bi-clock"></i>
+                                    <input type="time" name="{{ $startField }}" value="{{ $startVal }}" {{ $isActive ? '' : 'disabled' }}>
+                                </div>
+
+                                <div class="conf-time-sep">a</div>
+
+                                <div class="conf-time">
+                                    <i class="bi bi-clock"></i>
+                                    <input type="time" name="{{ $endField }}" value="{{ $endVal }}" {{ $isActive ? '' : 'disabled' }}>
+                                </div>
+
+                                @if ($d['key'] === 'domingo' && ! $isActive)
+                                    <div class="conf-day-closed">Cerrado</div>
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </section>
             </main>
         </div>
+    </form>
+</div>
 
-        <script>
-            (function () {
-                const toast = document.getElementById('cfgToast');
-                if (!toast) return;
-                setTimeout(() => {
-                    toast.classList.add('cfg-toast--hide');
-                }, 2200);
-            })();
-        </script>
-    </body>
-</html>
+<script>
+    (function () {
+        const navItems = Array.from(document.querySelectorAll('[data-conf-tab]'));
+        const panes = Array.from(document.querySelectorAll('[data-conf-pane]'));
+
+        function activate(tab) {
+            navItems.forEach((a) => a.classList.toggle('conf-nav-item--active', a.getAttribute('data-conf-tab') === tab));
+            panes.forEach((p) => p.classList.toggle('conf-pane--active', p.getAttribute('data-conf-pane') === tab));
+        }
+
+        navItems.forEach((a) => {
+            a.addEventListener('click', (e) => {
+                e.preventDefault();
+                activate(a.getAttribute('data-conf-tab'));
+            });
+        });
+
+        const dayToggles = Array.from(document.querySelectorAll('[data-conf-day-toggle]'));
+        dayToggles.forEach((toggle) => {
+            toggle.addEventListener('change', () => {
+                const row = toggle.closest('[data-conf-day-row]');
+                if (!row) return;
+                const inputs = Array.from(row.querySelectorAll('input[type="time"]'));
+                inputs.forEach((i) => (i.disabled = !toggle.checked));
+                row.classList.toggle('conf-day-row--off', !toggle.checked);
+            });
+        });
+    })();
+</script>
+@endsection
+

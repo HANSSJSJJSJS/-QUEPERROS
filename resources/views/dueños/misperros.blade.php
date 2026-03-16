@@ -53,7 +53,7 @@
                         </span>
                         <span class="mq-side-active-dot" aria-hidden="true"></span>
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.services') }}" class="mq-side-item {{ request()->routeIs('owner.services') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-bag" aria-hidden="true"></i>
                             <span>Servicios</span>
