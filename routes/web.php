@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminPetController;
 use App\Http\Controllers\OwnerPetController;
 use App\Http\Controllers\OwnerServiceController;
+use App\Http\Controllers\OwnerModulesController;
 use App\Http\Controllers\CaregiverDashboardController;
 use App\Http\Controllers\AdminSettingsController;
 use Illuminate\Support\Facades\Route;
@@ -64,6 +65,26 @@ Route::delete('/dashboard/mis-perros/{mascota}', [OwnerPetController::class, 'de
 Route::get('/dashboard/servicios', [OwnerServiceController::class, 'index'])
     ->middleware('auth')
     ->name('owner.services');
+
+Route::get('/dashboard/reservas', [OwnerModulesController::class, 'reservas'])
+    ->middleware('auth')
+    ->name('owner.reservas');
+
+Route::get('/dashboard/seguimiento', [OwnerModulesController::class, 'seguimiento'])
+    ->middleware('auth')
+    ->name('owner.seguimiento');
+
+Route::get('/dashboard/pagos', [OwnerModulesController::class, 'pagos'])
+    ->middleware('auth')
+    ->name('owner.pagos');
+
+Route::get('/dashboard/plan-padrino', [OwnerModulesController::class, 'planPadrino'])
+    ->middleware('auth')
+    ->name('owner.planpadrino');
+
+Route::get('/dashboard/mi-perfil', [OwnerModulesController::class, 'perfil'])
+    ->middleware('auth')
+    ->name('owner.perfil');
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])

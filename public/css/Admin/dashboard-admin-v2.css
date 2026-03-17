@@ -480,6 +480,7 @@
   box-shadow:0 24px 70px rgba(15,23,42,.35);
   overflow:hidden;
   border:1px solid rgba(0,0,0,.06);
+  height: 91vh;
 }
 
 .ad2-modal-head{

@@ -10,6 +10,7 @@
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
         <link rel="stylesheet" href="{{ asset('css/dueño/misperros.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/dueño/panel.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
 
@@ -59,31 +60,31 @@
                             <span>Servicios</span>
                         </span>
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.reservas') }}" class="mq-side-item {{ request()->routeIs('owner.reservas') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-calendar-check" aria-hidden="true"></i>
                             <span>Reservas</span>
                         </span>
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.seguimiento') }}" class="mq-side-item {{ request()->routeIs('owner.seguimiento') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-graph-up" aria-hidden="true"></i>
                             <span>Seguimiento</span>
                         </span>
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.pagos') }}" class="mq-side-item {{ request()->routeIs('owner.pagos') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-cash-coin" aria-hidden="true"></i>
                             <span>Pagos</span>
                         </span>
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.planpadrino') }}" class="mq-side-item {{ request()->routeIs('owner.planpadrino') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-heart" aria-hidden="true"></i>
                             <span>Plan Padrino</span>
                         </span>
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.perfil') }}" class="mq-side-item {{ request()->routeIs('owner.perfil') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-person" aria-hidden="true"></i>
                             <span>Mi Perfil</span>
@@ -242,7 +243,7 @@
 
                                 <div class="mq-pet-actions">
                                     <button class="mq-detail" type="button" data-pet='@json($pet)'>Ver detalle <i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-                                    <button class="mq-trash" type="button" aria-label="Eliminar">
+                                    <button class="mq-trash" type="button" aria-label="Eliminar" data-destroy-url="{{ route('owner.pets.destroy', $pet->id) }}" data-pet-name="{{ $pet->nombre }}">
                                         <i class="bi bi-trash" aria-hidden="true"></i>
                                     </button>
                                 </div>
@@ -536,6 +537,28 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="gm-modal" id="petDeleteModal" aria-hidden="true">
+                    <div class="gm-modal-backdrop" data-gm-close="true"></div>
+                    <div class="gm-modal-card gm-modal-card--delete" role="dialog" aria-modal="true" aria-label="Eliminar mascota">
+                        <div class="del-wrap">
+                            <div class="del-icon" aria-hidden="true">
+                                <span class="del-icon-inner"><i class="bi bi-exclamation" aria-hidden="true"></i></span>
+                            </div>
+                            <h3 class="del-title">Eliminar mascota?</h3>
+                            <p class="del-sub">Esta accion no se puede deshacer.</p>
+
+                            <div class="del-actions">
+                                <button class="del-btn del-btn--ghost" type="button" data-gm-close="true">Cancelar</button>
+                                <form id="petDeleteForm" method="POST" action="">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="del-btn del-btn--danger" type="submit">Eliminar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
 
@@ -698,6 +721,13 @@
                 const detailModal = document.getElementById('petDetailModal');
                 const detailBtns = document.querySelectorAll('.mq-detail');
 
+                function closeDetailModal() {
+                    if (!detailModal) return;
+                    detailModal.classList.remove('gm-modal--open');
+                    detailModal.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('gm-lock');
+                }
+
                 function openDetailModal(pet) {
                     if (!detailModal) return;
 
@@ -779,6 +809,59 @@
                         openDetailModal(pet);
                     });
                 });
+
+                if (detailModal) {
+                    detailModal.addEventListener('click', (e) => {
+                        const close = e.target.closest('[data-gm-close="true"]');
+                        if (close) closeDetailModal();
+                    });
+
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && detailModal.classList.contains('gm-modal--open')) {
+                            closeDetailModal();
+                        }
+                    });
+                }
+
+                const deleteModal = document.getElementById('petDeleteModal');
+                const deleteForm = document.getElementById('petDeleteForm');
+                const trashBtns = document.querySelectorAll('.mq-trash');
+
+                function openDeleteModal(destroyUrl) {
+                    if (!deleteModal || !deleteForm) return;
+                    deleteForm.setAttribute('action', destroyUrl);
+                    deleteModal.classList.add('gm-modal--open');
+                    deleteModal.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('gm-lock');
+                }
+
+                function closeDeleteModal() {
+                    if (!deleteModal) return;
+                    deleteModal.classList.remove('gm-modal--open');
+                    deleteModal.setAttribute('aria-hidden', 'true');
+                    document.body.classList.remove('gm-lock');
+                }
+
+                trashBtns.forEach((btn) => {
+                    btn.addEventListener('click', () => {
+                        const url = btn.getAttribute('data-destroy-url');
+                        if (!url) return;
+                        openDeleteModal(url);
+                    });
+                });
+
+                if (deleteModal) {
+                    deleteModal.addEventListener('click', (e) => {
+                        const close = e.target.closest('[data-gm-close="true"]');
+                        if (close) closeDeleteModal();
+                    });
+
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape' && deleteModal.classList.contains('gm-modal--open')) {
+                            closeDeleteModal();
+                        }
+                    });
+                }
 
                 // Lógica de Tabs
                 const tabs = document.querySelectorAll('.dt-tab');

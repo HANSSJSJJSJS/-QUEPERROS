@@ -10,6 +10,7 @@
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
         <link rel="stylesheet" href="{{ asset('css/dueño/dashboarddueño.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/dueño/panel.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
 
@@ -45,48 +46,72 @@
                             <i class="bi bi-house-door" aria-hidden="true"></i>
                             <span>Dashboard</span>
                         </span>
+                        @if (request()->routeIs('dashboard'))
+                            <span class="mq-side-active-dot" aria-hidden="true"></span>
+                        @endif
                     </a>
                     <a href="{{ route('owner.pets') }}" class="mq-side-item {{ request()->routeIs('owner.pets') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-paw" aria-hidden="true"></i>
                             <span>Mis Perros</span>
                         </span>
+                        @if (request()->routeIs('owner.pets'))
+                            <span class="mq-side-active-dot" aria-hidden="true"></span>
+                        @endif
                     </a>
                     <a href="{{ route('owner.services') }}" class="mq-side-item {{ request()->routeIs('owner.services') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-bag" aria-hidden="true"></i>
                             <span>Servicios</span>
                         </span>
+                        @if (request()->routeIs('owner.services'))
+                            <span class="mq-side-active-dot" aria-hidden="true"></span>
+                        @endif
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.reservas') }}" class="mq-side-item {{ request()->routeIs('owner.reservas') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-calendar-check" aria-hidden="true"></i>
                             <span>Reservas</span>
                         </span>
+                        @if (request()->routeIs('owner.reservas'))
+                            <span class="mq-side-active-dot" aria-hidden="true"></span>
+                        @endif
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.seguimiento') }}" class="mq-side-item {{ request()->routeIs('owner.seguimiento') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-graph-up" aria-hidden="true"></i>
                             <span>Seguimiento</span>
                         </span>
+                        @if (request()->routeIs('owner.seguimiento'))
+                            <span class="mq-side-active-dot" aria-hidden="true"></span>
+                        @endif
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.pagos') }}" class="mq-side-item {{ request()->routeIs('owner.pagos') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-cash-coin" aria-hidden="true"></i>
                             <span>Pagos</span>
                         </span>
+                        @if (request()->routeIs('owner.pagos'))
+                            <span class="mq-side-active-dot" aria-hidden="true"></span>
+                        @endif
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.planpadrino') }}" class="mq-side-item {{ request()->routeIs('owner.planpadrino') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-heart" aria-hidden="true"></i>
                             <span>Plan Padrino</span>
                         </span>
+                        @if (request()->routeIs('owner.planpadrino'))
+                            <span class="mq-side-active-dot" aria-hidden="true"></span>
+                        @endif
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.perfil') }}" class="mq-side-item {{ request()->routeIs('owner.perfil') ? 'mq-side-item--active' : '' }}">
                         <span class="mq-side-left">
                             <i class="bi bi-person" aria-hidden="true"></i>
                             <span>Mi Perfil</span>
                         </span>
+                        @if (request()->routeIs('owner.perfil'))
+                            <span class="mq-side-active-dot" aria-hidden="true"></span>
+                        @endif
                     </a>
                 </nav>
 
