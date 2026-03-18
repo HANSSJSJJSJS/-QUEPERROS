@@ -13,6 +13,8 @@ use App\Http\Controllers\OwnerPetController;
 use App\Http\Controllers\OwnerServiceController;
 use App\Http\Controllers\OwnerModulesController;
 use App\Http\Controllers\CaregiverDashboardController;
+use App\Http\Controllers\TrainerDashboardController;
+use App\Http\Controllers\TrainerModulesController;
 use App\Http\Controllers\AdminSettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -86,6 +88,26 @@ Route::get('/dashboard/mi-perfil', [OwnerModulesController::class, 'perfil'])
     ->middleware('auth')
     ->name('owner.perfil');
 
+Route::post('/dashboard/mi-perfil', [OwnerModulesController::class, 'updatePerfil'])
+    ->middleware('auth')
+    ->name('owner.perfil.update');
+
+Route::post('/dashboard/mi-perfil/password', [OwnerModulesController::class, 'updatePassword'])
+    ->middleware('auth')
+    ->name('owner.perfil.password');
+
+Route::get('/dashboard/chat-entrenador', [OwnerModulesController::class, 'chat'])
+    ->middleware('auth')
+    ->name('owner.chat');
+
+Route::get('/dashboard/notificaciones', [OwnerModulesController::class, 'notificaciones'])
+    ->middleware('auth')
+    ->name('owner.notificaciones');
+
+Route::get('/dashboard/galeria', [OwnerModulesController::class, 'galeria'])
+    ->middleware('auth')
+    ->name('owner.galeria');
+
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
@@ -136,3 +158,39 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::get('/cuidador/dashboard', [CaregiverDashboardController::class, 'index'])
     ->middleware('auth')
     ->name('cuidador.dashboard');
+
+Route::get('/entrenador/dashboard', [TrainerDashboardController::class, 'index'])
+    ->middleware('auth')
+    ->name('entrenador.dashboard');
+
+Route::get('/entrenador/mis-tareas', [TrainerModulesController::class, 'misTareas'])
+    ->middleware('auth')
+    ->name('entrenador.tareas');
+
+Route::get('/entrenador/mascotas-asignadas', [TrainerModulesController::class, 'mascotasAsignadas'])
+    ->middleware('auth')
+    ->name('entrenador.mascotas');
+
+Route::get('/entrenador/seguimiento', [TrainerModulesController::class, 'seguimiento'])
+    ->middleware('auth')
+    ->name('entrenador.seguimiento');
+
+Route::get('/entrenador/mi-horario', [TrainerModulesController::class, 'horario'])
+    ->middleware('auth')
+    ->name('entrenador.horario');
+
+Route::get('/entrenador/historial', [TrainerModulesController::class, 'historial'])
+    ->middleware('auth')
+    ->name('entrenador.historial');
+
+Route::get('/entrenador/chat', [TrainerModulesController::class, 'chat'])
+    ->middleware('auth')
+    ->name('entrenador.chat');
+
+Route::get('/entrenador/notificaciones', [TrainerModulesController::class, 'notificaciones'])
+    ->middleware('auth')
+    ->name('entrenador.notificaciones');
+
+Route::get('/entrenador/perfil', [TrainerModulesController::class, 'perfil'])
+    ->middleware('auth')
+    ->name('entrenador.perfil');

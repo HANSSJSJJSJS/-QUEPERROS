@@ -51,7 +51,7 @@ class LoginController extends Controller
         }
 
         if ($roleId === 3) {
-            return redirect('/cuidador/dashboard');
+            return redirect('/entrenador/dashboard');
         }
 
         if ($user && $user->rol === 'admin') {
@@ -60,6 +60,10 @@ class LoginController extends Controller
 
         if ($user && $user->rol === 'dueno') {
             return redirect('/dashboard');
+        }
+
+        if ($user && $user->rol === 'entrenador') {
+            return redirect('/entrenador/dashboard');
         }
 
         if ($user && ($user->rol === 'cuidador' || $user->rol === 'empleado')) {

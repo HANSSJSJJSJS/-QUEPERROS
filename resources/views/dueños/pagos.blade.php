@@ -119,20 +119,20 @@
 
                 <div class="mq-side-section mq-side-section--mt">EXTRAS</div>
                 <nav class="mq-side-menu">
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.chat') }}" class="mq-side-item">
                         <span class="mq-side-left">
                             <i class="bi bi-chat-dots" aria-hidden="true"></i>
                             <span>Chat con Entrenador</span>
                         </span>
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.notificaciones') }}" class="mq-side-item">
                         <span class="mq-side-left">
                             <i class="bi bi-bell" aria-hidden="true"></i>
                             <span>Notificaciones</span>
                         </span>
                         <span class="mq-side-bubble">3</span>
                     </a>
-                    <a href="#" class="mq-side-item">
+                    <a href="{{ route('owner.galeria') }}" class="mq-side-item">
                         <span class="mq-side-left">
                             <i class="bi bi-images" aria-hidden="true"></i>
                             <span>Galeria</span>
@@ -535,12 +535,7 @@
                 };
 
                 items.forEach((item) => {
-                    const head = item.querySelector('[data-pg-toggle]');
                     const btn = item.querySelector('[data-pg-btn]');
-
-                    if (head) {
-                        head.addEventListener('click', () => toggleItem(item));
-                    }
 
                     if (btn) {
                         btn.addEventListener('click', (e) => {

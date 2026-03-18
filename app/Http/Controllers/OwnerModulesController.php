@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class OwnerModulesController extends Controller
 {
@@ -47,7 +50,139 @@ class OwnerModulesController extends Controller
     {
         $user = Auth::user();
 
+        $petCount = 0;
+        if (Schema::hasTable('mascotas')) {
+            $petCount = (int) DB::table('mascotas')->where('user_id', (int) $user->id)->count();
+        }
+
+        $dueno = null;
+        if (Schema::hasTable('duenos')) {
+            $q = DB::table('duenos')->where('id_dueno', (int) $user->id);
+            $dueno = $q->first();
+        }
+
         return view('dueños.perfil', [
+            'user' => $user,
+            'petCount' => $petCount,
+            'dueno' => $dueno,
+        ]);
+    }
+
+    public function updatePerfil(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'nombre' => ['required', 'string', 'max:255'],
+            'apellido' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255'],
+            'telefono' => ['nullable', 'string', 'max:60'],
+            'direccion' => ['nullable', 'string', 'max:255'],
+            'documento' => ['nullable', 'string', 'max:80'],
+            'ciudad' => ['nullable', 'string', 'max:120'],
+            'fecha_nacimiento' => ['nullable', 'date'],
+        ]);
+
+        $fullName = trim($validated['nombre'] . ' ' . $validated['apellido']);
+
+        $user->name = $fullName;
+        $user->email = (string) $validated['email'];
+        $user->save();
+
+        if (Schema::hasTable('duenos')) {
+            $cols = Schema::getColumnListing('duenos');
+
+            $payload = [];
+            if (in_array('nombre', $cols, true)) {
+                $payload['nombre'] = $fullName;
+            }
+            if (in_array('telefono', $cols, true)) {
+                $payload['telefono'] = $validated['telefono'] ?? null;
+            }
+            if (in_array('direccion', $cols, true)) {
+                $payload['direccion'] = $validated['direccion'] ?? null;
+            }
+            if (in_array('documento', $cols, true)) {
+                $payload['documento'] = $validated['documento'] ?? null;
+            }
+            if (in_array('ciudad', $cols, true)) {
+                $payload['ciudad'] = $validated['ciudad'] ?? null;
+            }
+            if (in_array('fecha_nacimiento', $cols, true)) {
+                $payload['fecha_nacimiento'] = $validated['fecha_nacimiento'] ?? null;
+            }
+
+            if (!empty($payload)) {
+                $exists = DB::table('duenos')->where('id_dueno', (int) $user->id)->exists();
+
+                if ($exists) {
+                    DB::table('duenos')->where('id_dueno', (int) $user->id)->update($payload);
+                } else {
+                    $payload['id_dueno'] = (int) $user->id;
+
+                    if (in_array('created_at', $cols, true)) {
+                        $payload['created_at'] = now();
+                    }
+                    if (in_array('updated_at', $cols, true)) {
+                        $payload['updated_at'] = now();
+                    }
+
+                    DB::table('duenos')->insert($payload);
+                }
+            }
+        }
+
+        return redirect()
+            ->route('owner.perfil')
+            ->with('success', 'Perfil actualizado correctamente');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'current_password' => ['required', 'string'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        if (!Hash::check($validated['current_password'], (string) $user->password)) {
+            return redirect()
+                ->route('owner.perfil')
+                ->withErrors(['current_password' => 'La contraseña actual no es correcta']);
+        }
+
+        $user->password = Hash::make((string) $validated['password']);
+        $user->save();
+
+        return redirect()
+            ->route('owner.perfil')
+            ->with('success', 'Contraseña actualizada correctamente');
+    }
+
+    public function chat()
+    {
+        $user = Auth::user();
+
+        return view('dueños.chat', [
+            'user' => $user,
+        ]);
+    }
+
+    public function notificaciones()
+    {
+        $user = Auth::user();
+
+        return view('dueños.notificaciones', [
+            'user' => $user,
+        ]);
+    }
+
+    public function galeria()
+    {
+        $user = Auth::user();
+
+        return view('dueños.galeria', [
             'user' => $user,
         ]);
     }
