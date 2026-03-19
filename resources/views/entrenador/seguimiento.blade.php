@@ -8,13 +8,15 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
-
+        
+        <link rel="stylesheet" href="{{ asset('css/shared/mq-topbar.css') }}">
         <link rel="stylesheet" href="{{ asset('css/dueño/panel.css') }}">
         <link rel="stylesheet" href="{{ asset('css/entrenador/dashboardentrenador.css') }}">
         <link rel="stylesheet" href="{{ asset('css/entrenador/seguimiento.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
     <body>
+        @include('partials.page-loader')
         @php
             use Illuminate\Support\Str;
         @endphp
@@ -86,9 +88,15 @@
             </aside>
 
             <main class="mq-dashboard-main et-main">
-                <header class="sg-head">
-                    <h1 class="sg-title">Registro de Seguimiento</h1>
-                </header>
+                @include('partials.mq-topbar', [
+                    'user' => $user,
+                    'roleLabel' => 'Entrenador',
+                    'profileUrl' => route('entrenador.perfil'),
+                    'settingsUrl' => route('entrenador.perfil'),
+                    'helpUrl' => route('entrenador.chat'),
+                    'notificationsUrl' => route('entrenador.notificaciones'),
+                    'notifCount' => 2,
+                ])
 
                 <section class="sg-card" aria-label="Nuevo Registro">
                     <h2 class="sg-card-title">Nuevo Registro</h2>

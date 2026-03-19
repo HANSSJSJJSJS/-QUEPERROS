@@ -9,6 +9,7 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
+        <link rel="stylesheet" href="{{ asset('css/shared/mq-topbar.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/admin-dashboard.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin-v2.css') }}">
@@ -17,6 +18,10 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
     </head>
     <body>
+        @include('partials.page-loader')
+        @php
+            use Illuminate\Support\Str;
+        @endphp
         <div class="admin-layout">
             <aside class="admin-sidebar">
                 <div class="admin-brand">
@@ -85,6 +90,15 @@
             </aside>
 
             <main class="admin-main gm-page">
+                @include('partials.mq-topbar', [
+                    'user' => $admin,
+                    'roleLabel' => 'Administrador',
+                    'profileUrl' => route('admin.settings'),
+                    'settingsUrl' => route('admin.settings'),
+                    'helpUrl' => route('admin.dashboard'),
+                    'notificationsUrl' => route('admin.dashboard'),
+                    'notifCount' => 2,
+                ])
                 <div class="gm-top">
                     <div>
                         <h1 class="gm-title">Gestion de Mascotas</h1>

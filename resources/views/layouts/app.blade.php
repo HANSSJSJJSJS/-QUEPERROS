@@ -9,6 +9,7 @@
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
     <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
+    <link rel="stylesheet" href="{{ asset('css/shared/mq-topbar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Admin/admin-dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}">
     <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin-v2.css') }}">
@@ -33,6 +34,7 @@
     </script>
 </head>
 <body>
+    @include('partials.page-loader')
     @php
         use Illuminate\Support\Str;
         $user = Auth::user();
@@ -98,22 +100,15 @@
         </aside>
 
         <main class="admin-main">
-            <header class="ad2-header">
-                <div class="ad2-search" role="search">
-                    <i class="bi bi-search" aria-hidden="true"></i>
-                    <input type="text" placeholder="Buscar..." aria-label="Buscar" />
-                </div>
-
-                <div class="ad2-top-actions">
-                    <div class="ad2-profile">
-                        <div class="ad2-profile-avatar">{{ mb_substr($user->name ?? 'A', 0, 1) }}</div>
-                        <div class="ad2-profile-text">
-                            <span class="ad2-profile-title">Administrador</span>
-                            <span class="ad2-profile-sub">{{ Str::limit($user->name ?? 'Usuario', 14) }}</span>
-                        </div>
-                    </div>
-                </div>
-            </header>
+            @include('partials.mq-topbar', [
+                'user' => $user,
+                'roleLabel' => 'Administrador',
+                'profileUrl' => route('admin.settings'),
+                'settingsUrl' => route('admin.settings'),
+                'helpUrl' => route('admin.dashboard'),
+                'notificationsUrl' => route('admin.dashboard'),
+                'notifCount' => 2,
+            ])
 
             <div class="p-6">
                 @yield('content')

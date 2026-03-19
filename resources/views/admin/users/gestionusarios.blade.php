@@ -9,12 +9,19 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
+        <link rel="stylesheet" href="{{ asset('css/shared/mq-topbar.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/admin-dashboard.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/Admin/gestionusuarios.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin-v2.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/Admin/gestionusuarios.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/Admin/gestionusuarios-v2.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
     <body>
+        @include('partials.page-loader')
+        @php
+            use Illuminate\Support\Str;
+        @endphp
         <div class="admin-layout">
             <aside class="admin-sidebar">
                 <div class="admin-brand">
@@ -85,21 +92,15 @@
             </aside>
 
             <main class="admin-main">
-                <header class="admin-header">
-                    <button class="admin-menu-toggle" aria-label="Abrir menú">
-                        ☰
-                    </button>
-
-                    <div class="admin-user-chip">
-                        <div class="admin-user-avatar">
-                            {{ mb_substr($admin->name ?? 'A', 0, 1) }}
-                        </div>
-                        <div class="admin-user-info">
-                            <span class="admin-user-role">Administrador</span>
-                            <span class="admin-user-name">{{ $admin->name }}</span>
-                        </div>
-                    </div>
-                </header>
+                @include('partials.mq-topbar', [
+                    'user' => $admin,
+                    'roleLabel' => 'Administrador',
+                    'profileUrl' => route('admin.settings'),
+                    'settingsUrl' => route('admin.settings'),
+                    'helpUrl' => route('admin.dashboard'),
+                    'notificationsUrl' => route('admin.dashboard'),
+                    'notifCount' => 2,
+                ])
 
                 @php
                     $totalUsers = $stats['total_users'] ?? ($users ?? collect())->count();

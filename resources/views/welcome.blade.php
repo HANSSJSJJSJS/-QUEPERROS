@@ -18,6 +18,7 @@
         <link rel="stylesheet" href="{{ asset('css/auth/partials/login-footer.css') }}">
     </head>
     <body class="mq-body">
+        @include('partials.page-loader')
         <div class="mq-hero-wrap">
             <div class="mq-hero" aria-label="Banner principal">
                 <div class="mq-hero-carousel" aria-hidden="true">
@@ -109,24 +110,24 @@
                         <article class="mq-card-ui" aria-label="Entrenamiento canino">
                             <h3>ENTRENAMIENTO CANINO</h3>
                             <ul class="mq-paw-list">
-                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/mq-paw.svg') }}" alt=""></span><span>Entrenamiento básico integral y deportivo</span></li>
-                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/mq-paw.svg') }}" alt=""></span><span>Formación y crianza para perros de trabajo o especialidades</span></li>
+                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/huellita.png') }}" alt=""></span><span>Entrenamiento básico integral y deportivo</span></li>
+                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/huellita.png') }}" alt=""></span><span>Formación y crianza para perros de trabajo o especialidades</span></li>
                             </ul>
                         </article>
 
                         <article class="mq-card-ui" aria-label="Cuidado y alojamiento">
                             <h3>CUIDADO Y ALOJAMIENTO</h3>
                             <ul class="mq-paw-list">
-                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/mq-paw.svg') }}" alt=""></span><span>Hotel canino</span></li>
-                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/mq-paw.svg') }}" alt=""></span><span>Guardería (solo para la calera y zonas aledañas)</span></li>
+                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/huellita.png') }}" alt=""></span><span>Hotel canino</span></li>
+                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/huellita.png') }}" alt=""></span><span>Guardería (solo para la calera y zonas aledañas)</span></li>
                             </ul>
                         </article>
 
                         <article class="mq-card-ui mq-services-center" aria-label="Otras actividades">
                             <h3>OTRAS ACTIVIDADES</h3>
                             <ul class="mq-paw-list">
-                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/mq-paw.svg') }}" alt=""></span><span>Día de diversión en Más que Perros</span></li>
-                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/mq-paw.svg') }}" alt=""></span><span>Plan padrino</span></li>
+                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/huellita.png') }}" alt=""></span><span>Día de diversión en Más que Perros</span></li>
+                                <li class="mq-paw-item"><span class="mq-paw" aria-hidden="true"><img src="{{ asset('img/huellita.png') }}" alt=""></span><span>Plan padrino</span></li>
                             </ul>
                         </article>
                     </div>
@@ -498,6 +499,109 @@
         @endif
         </div>
 
+        <section class="mq-cookie" id="mq-cookie" aria-label="Cookies" hidden>
+            <div class="mq-cookie-inner">
+                <button class="mq-cookie-close" type="button" aria-label="Cerrar">×</button>
+
+                <div class="mq-cookie-bone" aria-hidden="true">
+                    <svg width="121" height="107" viewBox="0 0 121 107" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.34729 51.9206C-8.60091 66.2722 8.61234 81.5498 19.0307 76.4573C22.292 77.198 22.8055 80.1609 22.6546 81.5498C18.6684 98.2162 31.2612 101.457 38.0559 100.994C51.464 96.9199 51.1922 86.3336 49.3803 81.5498C60.6142 68.587 85.1656 52.6921 96.037 46.365C99.2985 50.0687 105.55 50.3773 108.267 50.0687C129.557 44.5132 117.78 25.9949 107.361 25.9949C101.19 25.9949 99.3588 21.5197 99.2079 19.5135C99.9326 4.69894 88.9404 0.686667 83.3536 0.532359C68.8584 -0.208372 67.3484 11.952 68.4054 18.1247C61.5201 27.3838 37.1499 42.3528 25.8255 48.6799C10.4242 46.3651 7.70636 51.9206 6.34729 51.9206Z" stroke="#574C13"/>
+                        <path d="M0.616283 63.8809C0.16006 66.2597 0.889915 75.0316 5.63463 78.5999C6.54714 79.0459 8.82826 81.276 14.7592 80.83C14.7592 81.0077 20.2338 79.9379 22.0587 85.7363" stroke="#574C13"/>
+                        <path d="M22.0586 85.19C20.9953 90.8417 21.6221 103.53 35.8409 106.463C41.9172 106.921 53.7965 103.255 52.7028 84.9247C54.07 84.9247 81.8695 61.0957 88.2497 58.8044C90.2245 57.8879 94.5387 56.1466 95.9971 56.5132C103.441 59.8737 118.692 61.4622 120.151 40.9326" stroke="#574C13"/>
+                        <path d="M41.4614 57.8242C43.5602 57.8242 45.2729 59.5509 45.2729 61.6953C45.2729 63.8397 43.5602 65.5664 41.4614 65.5664C39.3628 65.5663 37.6499 63.8397 37.6499 61.6953C37.6499 59.551 39.3628 57.8243 41.4614 57.8242Z" stroke="#574C13"/>
+                        <path d="M60.3254 43.6182C62.7785 43.6182 64.676 45.399 64.676 47.4893C64.676 49.5795 62.7785 51.3604 60.3254 51.3604C57.8724 51.3603 55.9749 49.5795 55.9749 47.4893C55.9749 45.399 57.8724 43.6182 60.3254 43.6182Z" stroke="#574C13"/>
+                        <path d="M78.1111 29.4121C80.1565 29.4121 81.9226 31.3266 81.9226 33.8301C81.9224 36.3333 80.1564 38.2471 78.1111 38.2471C76.0659 38.2469 74.2998 36.3332 74.2996 33.8301C74.2996 31.3267 76.0657 29.4122 78.1111 29.4121Z" stroke="#574C13"/>
+                    </svg>
+                </div>
+
+                <div class="mq-cookie-text">
+                    <div class="mq-cookie-title">RESPETAMOS TU PRIVACIDAD</div>
+                    <div class="mq-cookie-sub">
+                        En MAS QUE PERROS utilizamos cookies para mejorar tu experiencia y personalizar nuestros servicios.
+                    </div>
+                </div>
+
+                <div class="mq-cookie-actions">
+                    <button class="mq-cookie-btn mq-cookie-btn--primary" type="button" data-consent="all">Aceptar todas</button>
+                    <button class="mq-cookie-btn mq-cookie-btn--primary" type="button" data-consent="essential">Solo Esenciales</button>
+                    <button class="mq-cookie-gear" type="button" aria-label="Ajustes" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-gear" viewBox="0 0 16 16" aria-hidden="true">
+                            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0"/>
+                            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z"/>
+                        </svg>
+                    </button>
+
+                    <div class="mq-cookie-settings" id="mq-cookie-settings" hidden>
+                        <div class="mq-cookie-settings-title">Preferencias</div>
+                        <div class="mq-cookie-settings-row">
+                            <span>Esenciales</span>
+                            <span class="mq-cookie-settings-pill">Siempre activas</span>
+                        </div>
+                        <div class="mq-cookie-settings-row">
+                            <span>Analíticas</span>
+                            <span class="mq-cookie-settings-pill">Solo con “Aceptar todas”</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <script async src="//www.instagram.com/embed.js"></script>
+
+        <script>
+            (function () {
+                const banner = document.getElementById('mq-cookie');
+                if (!banner) return;
+
+                const KEY = 'mq_cookie_consent';
+
+                const getCookie = (name) => {
+                    const value = `; ${document.cookie}`;
+                    const parts = value.split(`; ${name}=`);
+                    if (parts.length === 2) return parts.pop().split(';').shift();
+                    return '';
+                };
+
+                const setCookie = (name, val, days) => {
+                    const maxAge = days * 24 * 60 * 60;
+                    document.cookie = `${name}=${encodeURIComponent(val)}; Max-Age=${maxAge}; Path=/; SameSite=Lax`;
+                };
+
+                const existing = window.localStorage.getItem(KEY) || getCookie(KEY);
+                if (existing) {
+                    banner.hidden = true;
+                    return;
+                }
+
+                banner.hidden = false;
+
+                const closeBtn = banner.querySelector('.mq-cookie-close');
+                const consentBtns = banner.querySelectorAll('[data-consent]');
+                const gearBtn = banner.querySelector('.mq-cookie-gear');
+                const settings = document.getElementById('mq-cookie-settings');
+
+                const persist = (val) => {
+                    try { window.localStorage.setItem(KEY, val); } catch (e) {}
+                    setCookie(KEY, val, 365);
+                    banner.hidden = true;
+                };
+
+                consentBtns.forEach((btn) => {
+                    btn.addEventListener('click', () => persist(btn.getAttribute('data-consent') || 'essential'));
+                });
+
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => persist('dismissed'));
+                }
+
+                if (gearBtn && settings) {
+                    gearBtn.addEventListener('click', () => {
+                        const isOpen = !settings.hidden;
+                        settings.hidden = isOpen;
+                        gearBtn.setAttribute('aria-expanded', String(!isOpen));
+                    });
+                }
+            })();
+        </script>
     </body>
 </html>

@@ -9,12 +9,14 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
+        <link rel="stylesheet" href="{{ asset('css/shared/mq-topbar.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/admin-dashboard.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin-v2.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     </head>
     <body>
+        @include('partials.page-loader')
         @php
             use Illuminate\Support\Str;
         @endphp
@@ -88,30 +90,19 @@
             </aside>
 
             <main class="admin-main">
-                <header class="ad2-header">
-                    <div class="ad2-search" role="search">
-                        <i class="bi bi-search" aria-hidden="true"></i>
-                        <input type="text" placeholder="Buscar..." aria-label="Buscar" />
-                    </div>
-
-                    <div class="ad2-top-actions">
-                        <button type="button" class="ad2-bell" aria-label="Notificaciones">
-                            <i class="bi bi-bell" aria-hidden="true"></i>
-                            <span class="ad2-bell-badge" aria-label="Notificaciones">3</span>
-                        </button>
-
-                        <div class="ad2-profile">
-                            <div class="ad2-profile-avatar">{{ mb_substr($user->name ?? 'A', 0, 1) }}</div>
-                            <div class="ad2-profile-text">
-                                <span class="ad2-profile-title">Administrador</span>
-                                <span class="ad2-profile-sub">{{ Str::limit($user->name ?? 'Usuario', 14) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </header>
+                @include('partials.mq-topbar', [
+                    'user' => $user,
+                    'roleLabel' => 'Administrador',
+                    'profileUrl' => route('admin.settings'),
+                    'settingsUrl' => route('admin.settings'),
+                    'helpUrl' => route('admin.dashboard'),
+                    'notificationsUrl' => route('admin.dashboard'),
+                    'notifCount' => 3,
+                ])
 
                 <section class="ad2-hero" aria-label="Bienvenida">
                     <div class="ad2-hero-left">
+                        <h1 class="ad2-hero-title">Panel Administrativo</h1>
                         <p class="ad2-hero-kicker"><span class="ad2-hero-kicker-icon">✨</span> Buenas tardes</p>
                         <h1 class="ad2-hero-title">BIENVENIDO, {{ Str::upper(Str::limit($user->name ?? 'NOMBRE', 14, '')) }}</h1>
                         <p class="ad2-hero-sub">Administrador del sistema</p>

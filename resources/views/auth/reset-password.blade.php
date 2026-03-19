@@ -14,6 +14,7 @@
     </head>
 
     <body>
+        @include('partials.page-loader')
         <div class="mq-forgot">
             <div class="mq-forgot-top">
                 <div class="mq-forgot-left">

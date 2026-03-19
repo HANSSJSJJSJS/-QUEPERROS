@@ -9,6 +9,7 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
         <link href="https://fonts.bunny.net/css?family=lilita-one:400" rel="stylesheet" />
 
+        <link rel="stylesheet" href="{{ asset('css/shared/mq-topbar.css') }}">
         <link rel="stylesheet" href="{{ asset('css/dueño/panel.css') }}">
         <link rel="stylesheet" href="{{ asset('css/dueño/modulos.css') }}">
         <link rel="stylesheet" href="{{ asset('css/dueño/chat.css') }}">
@@ -16,6 +17,7 @@
     </head>
 
     <body>
+        @include('partials.page-loader')
         @php
             use Illuminate\Support\Str;
         @endphp
@@ -154,19 +156,15 @@
             </aside>
 
             <main class="mq-dashboard-main">
-                <header class="mq-topbar">
-                    <div class="mq-topbar-right">
-                        <button class="mq-topbar-icon" type="button" aria-label="Notificaciones">
-                            <i class="bi bi-bell" aria-hidden="true"></i>
-                            <span class="mq-topbar-dot" aria-hidden="true">2</span>
-                        </button>
-                        <div class="mq-topbar-user">
-                            <div class="mq-topbar-user-avatar">{{ strtoupper(mb_substr($user->name, 0, 1)) }}</div>
-                            <span class="mq-topbar-user-name">{{ Str::before($user->name, ' ') }}</span>
-                            <i class="bi bi-chevron-down" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </header>
+                @include('partials.mq-topbar', [
+                    'user' => $user,
+                    'roleLabel' => 'Propietario',
+                    'profileUrl' => route('owner.perfil'),
+                    'settingsUrl' => route('owner.perfil'),
+                    'helpUrl' => route('owner.chat'),
+                    'notificationsUrl' => route('owner.notificaciones'),
+                    'notifCount' => 2,
+                ])
 
                 <section class="ch-page">
                     <div class="ch-head">

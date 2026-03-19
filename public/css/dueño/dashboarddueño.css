@@ -26,7 +26,7 @@ body {
 }
 
 .mq-dashboard-hero {
-    background: linear-gradient(90deg, var(--mq-purple) 0%, #b57cc4 100%);
+    background: linear-gradient(90deg, #86a8d5 0%, #77a2d8 100%);
     border-radius: 24px;
     padding: 24px 26px;
     color: #fff;
@@ -146,6 +146,148 @@ body {
 .mq-dashboard-appointment-status.confirmed {
     background: #e0f2fe;
     color: #075985;
+}
+
+.mq-feature{
+    margin-bottom: 16px;
+}
+
+.mq-feature-card{
+    background: var(--mq-surface);
+    border: 1px solid var(--mq-border);
+    border-radius: 16px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+    padding: 14px;
+    display: grid;
+    grid-template-columns: 84px 1fr;
+    gap: 14px;
+    align-items: start;
+}
+
+.mq-feature-photo{
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    border: 2px solid rgba(59, 130, 246, 0.75);
+    background: rgba(59, 130, 246, 0.10);
+    padding: 4px;
+    display: grid;
+    place-items: center;
+}
+
+.mq-feature-photo img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+.mq-feature-head{
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.mq-feature-name{
+    font-weight: 900;
+    font-size: 16px;
+    color: rgba(15, 23, 42, 0.9);
+}
+
+.mq-feature-breed{
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(15, 23, 42, 0.55);
+}
+
+.mq-feature-status{
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.mq-feature-status-label{
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(15, 23, 42, 0.55);
+}
+
+.mq-feature-badge{
+    font-size: 10px;
+    font-weight: 900;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(155, 89, 182, 0.18);
+    color: #6b21a8;
+}
+
+.mq-feature-next{
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(59, 130, 246, 0.08);
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 10px;
+    align-items: center;
+}
+
+.mq-feature-next-ico{
+    width: 32px;
+    height: 32px;
+    border-radius: 12px;
+    background: rgba(59, 130, 246, 0.12);
+    color: var(--mq-blue-700);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mq-feature-next-label{
+    font-size: 10px;
+    font-weight: 800;
+    color: rgba(15, 23, 42, 0.55);
+}
+
+.mq-feature-next-value{
+    font-size: 11px;
+    font-weight: 900;
+    color: rgba(15, 23, 42, 0.85);
+    margin-top: 2px;
+}
+
+.mq-feature-report{
+    margin-top: 10px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.02);
+}
+
+.mq-feature-report-label{
+    font-size: 10px;
+    font-weight: 900;
+    color: rgba(15, 23, 42, 0.55);
+}
+
+.mq-feature-report-text{
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(15, 23, 42, 0.75);
+    margin-top: 4px;
+}
+
+.mq-feature-report-link{
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 900;
+    text-decoration: none;
+    color: var(--mq-blue-600);
 }
 
 .mq-kpis{

@@ -14,6 +14,7 @@
     </head>
 
     <body>
+        @include('partials.page-loader')
         <div class="mq-login">
             <div class="mq-login-top">
                 <div class="mq-login-left">

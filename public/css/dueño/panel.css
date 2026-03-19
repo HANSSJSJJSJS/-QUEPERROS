@@ -25,6 +25,20 @@ body {
     min-height: 100vh;
 }
 
+body.mq-dashboard-page .mq-dashboard-main{
+    max-width: 1240px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+body.mq-dashboard-page .mq-footer-mini{
+    margin: 18px 0 0;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgba(155, 89, 182, 0.9);
+}
+
 .mq-dashboard-sidebar {
     background: linear-gradient(180deg, var(--panel-side-a) 0%, var(--panel-side-b) 55%, var(--panel-side-c) 100%);
     padding: 18px 16px;
