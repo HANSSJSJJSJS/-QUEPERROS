@@ -1,6 +1,8 @@
 :root{
     --mqx-blue: #79a6de;
     --mqx-blue-soft: rgba(121, 166, 222, 0.16);
+    --mqx-purple: #8b3bbf;
+    --mqx-purple-hover: #7c2fb0;
     --mqx-card: #ffffff;
     --mqx-text: rgba(15, 23, 42, 0.92);
     --mqx-muted: rgba(15, 23, 42, 0.55);
@@ -8,18 +10,114 @@
     --mqx-shadow: 0 18px 34px rgba(15, 23, 42, 0.14);
 }
 
-.mqx-topbar{
-    position: relative;
+.mqx-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     display: flex;
-    justify-content: flex-end;
-    padding: 10px 0;
-    margin-bottom: 10px;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding: 0;
+    background: #ffffff;
+    border-bottom: 1px solid var(--mqx-border);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    margin-bottom: 1.5rem;
+    width: 100%;
+    margin-left: 0;
 }
 
-.mqx-topbar-right{
-    display: inline-flex;
+@media (min-width: 993px) {
+    .admin-layout .admin-main > .mqx-topbar {
+        width: calc(100% + 280px);
+        margin-left: -280px;
+        padding-left: 280px;
+    }
+
+    .admin-layout.is-sidebar-collapsed .admin-main > .mqx-topbar {
+        width: calc(100% + 80px);
+        margin-left: -80px;
+        padding-left: 80px;
+    }
+}
+
+.mqx-topbar-left {
+    display: flex;
     align-items: center;
-    gap: 12px;
+    padding-left: 1.5rem;
+    margin-left: -2vh;
+}
+
+.mqx-sidebar-toggle-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.mqx-sidebar-checkbox {
+    display: none;
+}
+
+.mqx-sidebar-toggle-btn {
+    position: relative;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    transition-duration: .5s;
+}
+
+.mqx-bar {
+    width: 100%;
+    height: 3px;
+    background-color: rgb(176, 92, 255);
+    border-radius: 4px;
+    transition-duration: .5s;
+}
+
+#mqxBar2 {
+    transition-duration: .8s;
+}
+
+#mqxBar1, #mqxBar3 {
+    width: 75%;
+}
+
+.mqx-sidebar-checkbox:checked + .mqx-sidebar-toggle-btn .mqx-bar {
+    position: absolute;
+    transition-duration: .5s;
+}
+
+.mqx-sidebar-checkbox:checked + .mqx-sidebar-toggle-btn #mqxBar2 {
+    transform: scaleX(0);
+    transition-duration: .5s;
+}
+
+.mqx-sidebar-checkbox:checked + .mqx-sidebar-toggle-btn #mqxBar1 {
+    width: 100%;
+    transform: rotate(45deg);
+    transition-duration: .5s;
+}
+
+.mqx-sidebar-checkbox:checked + .mqx-sidebar-toggle-btn #mqxBar3 {
+    width: 100%;
+    transform: rotate(-45deg);
+    transition-duration: .5s;
+}
+
+.mqx-sidebar-checkbox:checked + .mqx-sidebar-toggle-btn {
+    transition-duration: .5s;
+    transform: rotate(180deg);
+}
+
+.mqx-topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-right: 1.5rem;
 }
 
 .mqx-topbar-icon{
@@ -29,6 +127,26 @@
     font-size: 22px;
     cursor: pointer;
     color: rgba(15, 23, 42, 0.9);
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    transition: background .15s ease, transform .15s ease;
+}
+
+.mqx-topbar-icon--purple{
+    color: var(--mqx-purple);
+}
+
+.mqx-topbar-icon--purple:hover{
+    color: var(--mqx-purple-hover);
+    background: rgba(139, 59, 191, 0.10);
+}
+
+.mqx-topbar-icon:hover{
+    background: rgba(15, 23, 42, 0.06);
+    transform: translateY(-1px);
 }
 
 .mqx-topbar-dot{
@@ -55,6 +173,13 @@
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(15, 23, 42, 0.08);
+    transition: background .15s ease, transform .15s ease, box-shadow .15s ease;
+}
+
+.mqx-topbar-user:hover{
+    background: rgba(255, 255, 255, 0.92);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.08);
 }
 
 .mqx-topbar-user-avatar{
@@ -85,6 +210,16 @@
     box-shadow: var(--mqx-shadow);
     overflow: hidden;
     z-index: 50;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition: opacity .18s ease, transform .18s ease;
+}
+
+.mqx-popover.mqx-popover--open{
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
 }
 
 .mqx-popover--wide{
@@ -136,6 +271,11 @@
     text-decoration: none;
     color: rgba(15, 23, 42, 0.82);
     font-size: 22px;
+    transition: background .15s ease;
+}
+
+.mqx-popover-item:hover{
+    background: rgba(15, 23, 42, 0.04);
 }
 
 .mqx-popover-item i{
@@ -164,6 +304,11 @@
     font-size: 22px;
     color: #dc2626;
     cursor: pointer;
+    transition: background .15s ease;
+}
+
+.mqx-popover-logout button:hover{
+    background: rgba(220, 38, 38, 0.06);
 }
 
 .mqx-notif-list{

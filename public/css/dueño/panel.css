@@ -25,6 +25,10 @@ body {
     min-height: 100vh;
 }
 
+.mq-dashboard.is-sidebar-collapsed{
+    grid-template-columns: 90px 1fr;
+}
+
 body.mq-dashboard-page .mq-dashboard-main{
     max-width: 1240px;
     margin: 0 auto;
@@ -44,6 +48,95 @@ body.mq-dashboard-page .mq-footer-mini{
     padding: 18px 16px;
     display: flex;
     flex-direction: column;
+}
+
+.mq-side-toggle{
+    display:flex;
+    justify-content:flex-end;
+    padding: 0 6px 8px;
+}
+
+.mq-side-toggle input{
+    display:none;
+}
+
+.mq-side-toggle .mq-toggle{
+    position:relative;
+    width:34px;
+    height:34px;
+    cursor:pointer;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:7px;
+    transition-duration:.5s;
+}
+
+.mq-side-toggle .mq-bars{
+    width:100%;
+    height:3px;
+    background-color:rgba(255,255,255,0.92);
+    border-radius:4px;
+}
+
+.mq-side-toggle #mqBar2{
+    transition-duration:.8s;
+}
+
+.mq-side-toggle #mqBar1,
+.mq-side-toggle #mqBar3{
+    width:70%;
+}
+
+.mq-side-toggle input:checked + .mq-toggle .mq-bars{
+    position:absolute;
+    transition-duration:.5s;
+}
+
+.mq-side-toggle input:checked + .mq-toggle #mqBar2{
+    transform:scaleX(0);
+    transition-duration:.5s;
+}
+
+.mq-side-toggle input:checked + .mq-toggle #mqBar1{
+    width:100%;
+    transform:rotate(45deg);
+    transition-duration:.5s;
+}
+
+.mq-side-toggle input:checked + .mq-toggle #mqBar3{
+    width:100%;
+    transform:rotate(-45deg);
+    transition-duration:.5s;
+}
+
+.mq-side-toggle input:checked + .mq-toggle{
+    transition-duration:.5s;
+    transform:rotate(180deg);
+}
+
+.mq-dashboard.is-sidebar-collapsed .mq-side-brand-text,
+.mq-dashboard.is-sidebar-collapsed .mq-side-user-name,
+.mq-dashboard.is-sidebar-collapsed .mq-side-user-role,
+.mq-dashboard.is-sidebar-collapsed .mq-side-section,
+.mq-dashboard.is-sidebar-collapsed .mq-side-item span,
+.mq-dashboard.is-sidebar-collapsed .mq-side-bubble,
+.mq-dashboard.is-sidebar-collapsed .mq-dashboard-logout button span{
+    display:none;
+}
+
+.mq-dashboard.is-sidebar-collapsed .mq-side-menu{
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.mq-dashboard.is-sidebar-collapsed .mq-side-item{
+    justify-content:center;
+}
+
+.mq-dashboard.is-sidebar-collapsed .mq-side-left{
+    justify-content:center;
 }
 
 .mq-side-top {
@@ -180,6 +273,10 @@ body.mq-dashboard-page .mq-footer-mini{
 
 .mq-side-spacer {
     margin-top: auto;
+
+.et-sidebar .mq-side-toggle .mq-bars{
+    background-color: rgba(15, 23, 42, 0.82);
+}
 }
 
 .mq-dashboard-logout {

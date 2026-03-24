@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}?v={{ time() }}">
         <link rel="stylesheet" href="{{ asset('css/Admin/dashboard-admin-v2.css') }}?v={{ time() }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     </head>
     <body>
         @include('partials.page-loader')
@@ -24,7 +25,7 @@
             @include('partials.admin-sidebar')
 
             <main class="admin-main">
-                @include('partials.mq-topbar', [
+                @include('partials.mq-topbar', ['user' => Auth::user(), 'user' => Auth::user(), 
                     'user' => $user,
                     'roleLabel' => 'Administrador',
                     'profileUrl' => route('admin.settings'),

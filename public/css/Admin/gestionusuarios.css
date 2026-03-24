@@ -123,7 +123,7 @@
 }
 
 .gu-modal-backdrop{
-  position:absolute;
+  position:fixed;
   inset:0;
   background:rgba(15,23,42,.55);
 }
@@ -773,31 +773,35 @@
 
 /* ================= MODALS ================= */
 
-.gu-modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  z-index:100;
+.gu-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
-.gu-modal--open{
-  display:block;
+.gu-modal--open {
+  display: flex !important;
 }
 
-.gu-modal-backdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(17,24,39,.55);
+.gu-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
-.gu-modal-card{
-  position:relative;
-  width:min(720px, calc(100% - 2.4rem));
-  margin:6vh auto;
-  background:#fff;
-  border-radius:22px;
-  overflow:hidden;
-  box-shadow:0 24px 60px rgba(0,0,0,.35);
+.gu-modal-card {
+  position: relative;
+  width: min(720px, calc(100% - 2.4rem));
+  margin: 0 auto; /* Eliminado el margen superior vh para centrar con flex */
+  background: #fff;
+  border-radius: 22px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
 }
 
 .gu-modal-head{
@@ -1065,7 +1069,7 @@
 .ad2-modal--open{display:flex;}
 
 .ad2-modal-backdrop{
-  position:absolute;
+  position:fixed;
   inset:0;
   background:rgba(15,23,42,.35);
   -webkit-backdrop-filter:blur(8px);

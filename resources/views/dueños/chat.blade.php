@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="{{ asset('css/dueño/modulos.css') }}">
         <link rel="stylesheet" href="{{ asset('css/dueño/chat.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}?v={{ time() }}">
     </head>
 
     <body>
@@ -23,7 +24,7 @@
         @endphp
 
         <div class="mq-dashboard">
-            <aside class="mq-dashboard-sidebar">
+            @include("partials.dueno-sidebar")
                 <div class="mq-side-top">
                     <div class="mq-side-brand">
                         <div class="mq-side-badge">
@@ -156,7 +157,7 @@
             </aside>
 
             <main class="mq-dashboard-main">
-                @include('partials.mq-topbar', [
+                @include('partials.mq-topbar', ['user' => Auth::user(), 'user' => Auth::user(), 
                     'user' => $user,
                     'roleLabel' => 'Propietario',
                     'profileUrl' => route('owner.perfil'),

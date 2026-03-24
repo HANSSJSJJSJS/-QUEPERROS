@@ -453,25 +453,26 @@
 
 /* ================= MODAL ================= */
 
-.ad2-modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
+.ad2-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
-.ad2-modal--open{display:flex;}
-
-.ad2-modal-backdrop{
-  position:absolute;
-  inset:0;
-  background:rgba(15,23,42,.35);
-  -webkit-backdrop-filter:blur(8px);
-  backdrop-filter:blur(8px);
+.ad2-modal--open {
+  display: flex;
 }
 
+.ad2-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
 .ad2-modal-card{
   position:relative;
   width:min(760px, calc(100vw - 2.25rem));
@@ -480,7 +481,6 @@
   box-shadow:0 24px 70px rgba(15,23,42,.35);
   overflow:hidden;
   border:1px solid rgba(0,0,0,.06);
-  height: 34vh;
   display:flex;
   flex-direction:column;
   max-height:calc(100vh - 2.25rem);

@@ -617,32 +617,34 @@
   transform: translateY(-8px);
 }
 
-.gm-modal {
+.gs-modal, .gs2-modal, .gm-modal {
   position: fixed;
   inset: 0;
-  z-index: 1100;
   display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
-.gm-modal--open {
-  display: block;
+.gs-modal--open, .gs2-modal--open, .gm-modal--open {
+  display: flex !important;
 }
 
-.gm-modal-backdrop {
-  position: absolute;
+.gs-modal-backdrop, .gs2-modal-backdrop, .gm-modal-backdrop {
+  position: fixed;
   inset: 0;
-  background: rgba(17, 24, 39, 0.45);
-  backdrop-filter: blur(6px);
+  background: rgba(15, 23, 42, 0.4);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
 }
 
-.gm-modal-card {
+.gs-modal-card, .gs2-modal-card, .gm-modal-card {
   position: relative;
   max-width: 860px;
   width: calc(100% - 48px);
-  margin: 26px auto;
+  margin: 0 auto;
   background: #fff;
   border-radius: 16px;
-  border: 1px solid rgba(20, 16, 40, 0.10);
   box-shadow: 0 24px 64px rgba(17, 24, 39, 0.22);
   max-height: calc(100vh - 52px);
   display: flex;

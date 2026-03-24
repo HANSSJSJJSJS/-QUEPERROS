@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="{{ asset('css/entrenador/dashboardentrenador.css') }}">
         <link rel="stylesheet" href="{{ asset('css/entrenador/notificaciones.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}?v={{ time() }}">
     </head>
     <body>
         @include('partials.page-loader')
@@ -21,7 +22,7 @@
             use Illuminate\Support\Str;
         @endphp
         <div class="mq-dashboard et-dashboard">
-            <aside class="mq-dashboard-sidebar et-sidebar">
+            @include("partials.entrenador-sidebar")
                 <div class="mq-side-top">
                     <div class="mq-side-brand">
                         <div class="mq-side-badge"><i class="bi bi-paw" aria-hidden="true"></i></div>
@@ -88,7 +89,7 @@
             </aside>
 
             <main class="mq-dashboard-main et-main">
-                @include('partials.mq-topbar', [
+                @include('partials.mq-topbar', ['user' => Auth::user(), 'user' => Auth::user(), 
                     'user' => $user,
                     'roleLabel' => 'Entrenador',
                     'profileUrl' => route('entrenador.perfil'),

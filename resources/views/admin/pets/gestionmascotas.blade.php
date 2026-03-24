@@ -26,8 +26,8 @@
         <div class="admin-layout">
             @include('partials.admin-sidebar')
 
-            <main class="admin-main gm-page">
-                @include('partials.mq-topbar', [
+            <main class="admin-main">
+                @include('partials.mq-topbar', ['user' => Auth::user(), 'user' => Auth::user(), 
                     'user' => $admin,
                     'roleLabel' => 'Administrador',
                     'profileUrl' => route('admin.settings'),

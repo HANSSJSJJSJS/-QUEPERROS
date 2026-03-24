@@ -12,6 +12,17 @@
 @endphp
 
 <header class="mqx-topbar" aria-label="Barra superior">
+    <div class="mqx-topbar-left">
+        <div class="mqx-sidebar-toggle-wrapper">
+            <input type="checkbox" id="mqxSidebarCheckbox" class="mqx-sidebar-checkbox" data-mqx-sidebar-toggle="true">
+            <label for="mqxSidebarCheckbox" class="mqx-sidebar-toggle-btn">
+                <div class="mqx-bar" id="mqxBar1"></div>
+                <div class="mqx-bar" id="mqxBar2"></div>
+                <div class="mqx-bar" id="mqxBar3"></div>
+            </label>
+        </div>
+    </div>
+
     <div class="mqx-topbar-right">
         <button class="mqx-topbar-icon" type="button" aria-label="Notificaciones" data-mqx-toggle="notifications">
             <i class="bi bi-bell" aria-hidden="true"></i>
@@ -25,7 +36,7 @@
         </button>
     </div>
 
-    <div class="mqx-popover" data-mqx-popover="user" hidden>
+    <div class="mqx-popover" data-mqx-popover="user" aria-hidden="true">
         <div class="mqx-popover-head">
             <div class="mqx-popover-name">{{ $mqTopbarName }}</div>
             @if (!empty($mqTopbarRoleLabel))
@@ -59,7 +70,7 @@
         </div>
     </div>
 
-    <div class="mqx-popover mqx-popover--wide" data-mqx-popover="notifications" hidden>
+    <div class="mqx-popover mqx-popover--wide" data-mqx-popover="notifications" aria-hidden="true">
         <div class="mqx-popover-head mqx-popover-head--row">
             <div class="mqx-popover-name">Notificaciones</div>
             <button class="mqx-popover-action" type="button">Marcar todo como leido</button>
@@ -95,51 +106,4 @@
     </div>
 </header>
 
-<script>
-    (function () {
-        const scriptEl = document.currentScript;
-        const root = (scriptEl && scriptEl.previousElementSibling && scriptEl.previousElementSibling.classList.contains('mqx-topbar'))
-            ? scriptEl.previousElementSibling
-            : (scriptEl && scriptEl.parentElement && scriptEl.parentElement.querySelector('.mqx-topbar'))
-                ? scriptEl.parentElement.querySelector('.mqx-topbar')
-                : document.querySelector('.mqx-topbar');
-        if (!root) return;
-
-        const popovers = {
-            user: root.querySelector('[data-mqx-popover="user"]'),
-            notifications: root.querySelector('[data-mqx-popover="notifications"]'),
-        };
-
-        const hideAll = (except) => {
-            Object.keys(popovers).forEach((key) => {
-                if (key === except) return;
-                const el = popovers[key];
-                if (!el) return;
-                el.hidden = true;
-            });
-        };
-
-        root.addEventListener('click', (e) => {
-            const btn = e.target.closest('[data-mqx-toggle]');
-            if (!btn) return;
-            const target = btn.getAttribute('data-mqx-toggle');
-            const el = popovers[target];
-            if (!el) return;
-
-            const willShow = el.hidden;
-            hideAll(willShow ? target : null);
-            el.hidden = !willShow;
-            e.stopPropagation();
-        });
-
-        document.addEventListener('click', (e) => {
-            if (root.contains(e.target)) return;
-            hideAll(null);
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key !== 'Escape') return;
-            hideAll(null);
-        });
-    })();
-</script>
+<script src="{{ asset('js/shared/mq-topbar.js') }}?v={{ time() }}" defer></script>
