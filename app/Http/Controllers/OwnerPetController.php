@@ -22,7 +22,7 @@ class OwnerPetController extends Controller
         $search = trim((string) $request->query('q', ''));
 
         // Obtener mascotas del usuario actual
-        $petsQuery = Mascota::query()->where('user_id', (int) $user->id);
+        $petsQuery = Mascota::query()->where('id_dueno', (int) $user->id);
         
         if ($search !== '') {
             $petsQuery->where(function ($q) use ($search) {
@@ -47,6 +47,8 @@ class OwnerPetController extends Controller
     {
         $user = Auth::user();
 
+        // El id_dueno se asigna automáticamente del usuario autenticado por seguridad.
+        // No se incluye en el request->validate() para evitar manipulación externa.
         $validated = $request->validate([
             'nombre' => ['required', 'string', 'max:255'],
             'tipo' => ['nullable', 'string', 'max:50'],
@@ -78,7 +80,7 @@ class OwnerPetController extends Controller
         }
 
         $data = [
-            'user_id' => (int) $user->id,
+            'id_dueno' => (int) $user->id,
             'nombre' => $validated['nombre'],
             'tipo' => (string) ($validated['tipo'] ?? 'Perro'),
             'raza' => $validated['raza'],
@@ -146,7 +148,7 @@ class OwnerPetController extends Controller
         $user = Auth::user();
         
         // Verificar que la mascota pertenezca al usuario actual
-        if ($mascota->user_id !== $user->id) {
+        if ($mascota->id_dueno !== $user->id) {
             abort(403, 'No tienes permiso para ver esta mascota');
         }
 
@@ -164,7 +166,7 @@ class OwnerPetController extends Controller
         $user = Auth::user();
         
         // Verificar que la mascota pertenezca al usuario actual
-        if ($mascota->user_id !== $user->id) {
+        if ($mascota->id_dueno !== $user->id) {
             abort(403, 'No tienes permiso para editar esta mascota');
         }
 
@@ -182,7 +184,7 @@ class OwnerPetController extends Controller
         $user = Auth::user();
         
         // Verificar que la mascota pertenezca al usuario actual
-        if ($mascota->user_id !== $user->id) {
+        if ($mascota->id_dueno !== $user->id) {
             abort(403, 'No tienes permiso para actualizar esta mascota');
         }
 
@@ -284,7 +286,7 @@ class OwnerPetController extends Controller
         $user = Auth::user();
         
         // Verificar que la mascota pertenezca al usuario actual
-        if ($mascota->user_id !== $user->id) {
+        if ($mascota->id_dueno !== $user->id) {
             abort(403, 'No tienes permiso para eliminar esta mascota');
         }
 

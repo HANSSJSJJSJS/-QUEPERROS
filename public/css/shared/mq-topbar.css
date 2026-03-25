@@ -22,24 +22,29 @@
     background: #ffffff;
     border-bottom: 1px solid var(--mqx-border);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-    margin-bottom: 1.5rem;
     width: 100%;
-    margin-left: 0;
 }
 
-@media (min-width: 993px) {
-    .admin-layout .admin-main > .mqx-topbar {
-        width: calc(100% + 280px);
-        margin-left: -280px;
-        padding-left: 280px;
-    }
-
-    .admin-layout.is-sidebar-collapsed .admin-main > .mqx-topbar {
-        width: calc(100% + 80px);
-        margin-left: -80px;
-        padding-left: 80px;
-    }
+.mq-dashboard .mqx-topbar {
+    margin-bottom: 0;
 }
+
+.mqx-sidebar-checkbox:checked + .mqx-sidebar-toggle-btn #mqxBarsNormal {
+    display: none;
+}
+
+.mqx-sidebar-checkbox:checked + .mqx-sidebar-toggle-btn #mqxBarX {
+    display: block !important;
+}
+
+.mqx-sidebar-toggle-btn {
+    transition: transform 0.3s ease;
+}
+
+.mqx-sidebar-checkbox:checked + .mqx-sidebar-toggle-btn {
+    transform: rotate(90deg);
+}
+
 
 .mqx-topbar-left {
     display: flex;

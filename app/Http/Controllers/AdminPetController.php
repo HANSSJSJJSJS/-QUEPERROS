@@ -154,15 +154,9 @@ class AdminPetController extends Controller
 
     public function store(Request $request)
     {
-        $incomingOwnerId = (int) $request->input('id_dueno', 0);
-        if ($incomingOwnerId <= 0) {
-            $defaultOwnerId = (int) (User::query()->where('rol', 'dueno')->orderBy('id')->value('id') ?? 0);
-            if ($defaultOwnerId <= 0) {
-                return redirect()
-                    ->route('admin.pets')
-                    ->withErrors(['id_dueno' => 'No hay dueños registrados. No se puede registrar una mascota.']);
-            }
-            $request->merge(['id_dueno' => $defaultOwnerId]);
+        // Validar que el usuario sea administrador
+        if (Auth::user()->rol !== 'admin') {
+            return redirect()->back()->withErrors(['error' => 'No tienes permisos para realizar esta acción.']);
         }
 
         $validated = $request->validate([
@@ -275,7 +269,7 @@ class AdminPetController extends Controller
             'raza' => ['required', 'string', 'max:255'],
             'edad' => ['nullable', 'integer', 'min:0', 'max:50'],
             'sexo' => ['nullable', 'string', 'max:50'],
-            'vacunas' => ['nullable', 'string', 'max:1000'],
+            'vacunas' => ['nullable'],
             'fecha_ultima_desparasitacion' => ['nullable', 'date'],
             'fecha_ultima_vacuna_tos' => ['nullable', 'date'],
             'info_adicional' => ['nullable', 'string', 'max:3000'],
@@ -286,12 +280,69 @@ class AdminPetController extends Controller
             'foto' => ['nullable', 'image', 'max:2048'],
         ]);
 
+        $normalizeVacunas = function ($value): ?string {
+            if ($value === null) {
+                return null;
+            }
+
+            $items = [];
+            if (is_array($value)) {
+                $items = $value;
+            } else {
+                $raw = trim((string) $value);
+                if ($raw === '') {
+                    return null;
+                }
+                $raw = str_replace([';', '\n', '\r'], ',', $raw);
+                $items = preg_split('/\s*,\s*/', $raw) ?: [];
+            }
+
+            $items = array_values(array_filter(array_map(static function ($v) {
+                $s = trim((string) $v);
+                return $s === '' ? null : $s;
+            }, $items)));
+
+            if (count($items) === 0) {
+                return null;
+            }
+
+            $items = array_values(array_unique($items));
+            $normalized = implode(', ', $items);
+
+            if (mb_strlen($normalized) > 1000) {
+                $normalized = mb_substr($normalized, 0, 1000);
+            }
+
+            return $normalized;
+        };
+
+        $vacunasNormalized = $normalizeVacunas($request->input('vacunas'));
+
+        // Si la columna sigue siendo ENUM/SET en la BD, cualquier string con multiples valores generara warning/truncation.
+        // En ese caso devolvemos un error claro para que se aplique la migracion que la cambia a TEXT.
+        try {
+            $col = DB::selectOne("SHOW COLUMNS FROM `mascotas` WHERE Field = 'vacunas'");
+            $type = is_object($col) ? (string) ($col->Type ?? '') : '';
+            if ($type !== '' && (str_starts_with($type, 'enum(') || str_starts_with($type, 'set('))) {
+                if ($vacunasNormalized !== null && str_contains($vacunasNormalized, ',')) {
+                    return redirect()
+                        ->back()
+                        ->withInput()
+                        ->withErrors([
+                            'vacunas' => "La columna 'vacunas' en la base de datos aún es " . $type . ". Aplica las migraciones para convertirla a TEXT y permitir múltiples vacunas.",
+                        ]);
+                }
+            }
+        } catch (\Throwable $e) {
+            // Si falla el SHOW COLUMNS, continuamos con el guardado normal.
+        }
+
         $data = [
             'nombre' => $validated['nombre'],
             'raza' => $validated['raza'],
             'edad' => array_key_exists('edad', $validated) ? $validated['edad'] : null,
             'sexo' => $validated['sexo'] ?? null,
-            'vacunas' => $validated['vacunas'] ?? null,
+            'vacunas' => $vacunasNormalized,
             'fecha_ultima_desparasitacion' => $validated['fecha_ultima_desparasitacion'] ?? null,
             'fecha_ultima_vacuna_tos' => $validated['fecha_ultima_vacuna_tos'] ?? null,
             'informacion_adicional' => $validated['info_adicional'] ?? null,

@@ -16,10 +16,15 @@
         <div class="mqx-sidebar-toggle-wrapper">
             <input type="checkbox" id="mqxSidebarCheckbox" class="mqx-sidebar-checkbox" data-mqx-sidebar-toggle="true">
             <label for="mqxSidebarCheckbox" class="mqx-sidebar-toggle-btn">
-                <div class="mqx-bar" id="mqxBar1"></div>
-                <div class="mqx-bar" id="mqxBar2"></div>
-                <div class="mqx-bar" id="mqxBar3"></div>
+                <i class="bi bi-x-lg" id="mqxBarX" style="display: none; font-size: 24px; color: #6d28d9;"></i>
+                <div class="mqx-bar-wrapper" id="mqxBarsNormal">
+                    <div class="mqx-bar" id="mqxBar1"></div>
+                    <div class="mqx-bar" id="mqxBar2"></div>
+                    <div class="mqx-bar" id="mqxBar3"></div>
+                </div>
             </label>
+        </div>
+        <div class="mq-side-brand-mobile" style="display: none; margin-left: 15px;">
         </div>
     </div>
 

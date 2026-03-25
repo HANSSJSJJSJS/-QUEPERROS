@@ -52,7 +52,7 @@ class OwnerModulesController extends Controller
 
         $petCount = 0;
         if (Schema::hasTable('mascotas')) {
-            $petCount = (int) DB::table('mascotas')->where('user_id', (int) $user->id)->count();
+            $petCount = (int) DB::table('mascotas')->where('id_dueno', (int) $user->id)->count();
         }
 
         $dueno = null;

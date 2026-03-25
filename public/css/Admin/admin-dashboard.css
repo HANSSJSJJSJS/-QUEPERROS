@@ -85,11 +85,11 @@ html, body {
 }
 
 .admin-logo {
-    width: 63px;
-    height: 48px;
+    width: 76px;
+    height: 73px;
     min-width: 48px;
     background: #fff;
-    border-radius: 12px;
+    border-radius: 86px;
     padding: 6px;
     display: flex;
     align-items: center;

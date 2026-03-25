@@ -146,8 +146,16 @@
                             <section class="gm-form-section gm-step" data-gm-step="2" style="display:none">
                                 <div class="gm-form-section-title">INFORMACION DE SALUD</div>
                                 <div class="gm-field">
-                                    <label class="gm-label">Vacunas</label>
-                                    <input class="gm-input" name="vacunas" type="text" placeholder="ej: Pentavalente, Rabia, Leptospira..." />
+                                    <label class="gm-label">Vacunas Aplicadas</label>
+                                    <input class="gm-hidden" name="vacunas" id="gmVacunasInput" type="text" />
+                                    <div class="gm-checkbox-grid" id="gmVacunasGrid">
+                                        @foreach(['Moquillo', 'Parvovirus', 'Hepatitis', 'Parainfluenza', 'Leptospira', 'Rabia', 'Multiple (DHPP)', 'Sextuple', 'Ninguna'] as $vacuna)
+                                            <label class="gm-checkbox-item">
+                                                <input type="checkbox" name="vacunas_list[]" value="{{ $vacuna }}">
+                                                <span>{{ $vacuna }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
                                 </div>
                                 <div class="gm-row-2">
                                     <div class="gm-field">
@@ -315,8 +323,16 @@
                             <div class="gm-form-section">
                                 <div class="gm-form-section-title">INFORMACION DE SALUD</div>
                                 <div class="gm-field">
-                                    <label class="gm-label">Vacunas</label>
-                                    <input class="gm-input" name="vacunas" id="gmEditVacunas" type="text" />
+                                    <label class="gm-label">Vacunas Aplicadas</label>
+                                    <input class="gm-hidden" name="vacunas" id="gmEditVacunas" type="text" />
+                                    <div class="gm-checkbox-grid" id="gmEditVacunasGrid">
+                                        @foreach(['Moquillo', 'Parvovirus', 'Hepatitis', 'Parainfluenza', 'Leptospira', 'Rabia', 'Multiple (DHPP)', 'Sextuple', 'Ninguna'] as $vacuna)
+                                            <label class="gm-checkbox-item">
+                                                <input type="checkbox" name="vacunas_list_edit[]" value="{{ $vacuna }}">
+                                                <span>{{ $vacuna }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
                                 </div>
                                 <div class="gm-row-2">
                                     <div class="gm-field">
@@ -1218,6 +1234,82 @@
                         closeModal();
                     }
                 });
+            })();
+
+            (function () {
+                function normalizeList(v) {
+                    return (v || '').toString().trim();
+                }
+
+                function parseVaccines(raw) {
+                    const t = normalizeList(raw);
+                    if (!t) return [];
+                    return t.split(/[;\n,]+/).map(s => s.trim()).filter(Boolean);
+                }
+
+                function syncCheckboxesToInput(gridEl, inputEl) {
+                    if (!gridEl || !inputEl) return;
+                    const checks = Array.from(gridEl.querySelectorAll('input[type="checkbox"]'));
+                    const selected = checks.filter(c => c.checked).map(c => (c.value || '').toString().trim()).filter(Boolean);
+                    inputEl.value = selected.join('; ');
+                }
+
+                function enforceNoneExclusive(gridEl) {
+                    if (!gridEl) return;
+                    const none = gridEl.querySelector('input[type="checkbox"][value="Ninguna"]');
+                    const others = Array.from(gridEl.querySelectorAll('input[type="checkbox"]')).filter(c => c !== none);
+                    if (!none) return;
+
+                    none.addEventListener('change', () => {
+                        if (none.checked) {
+                            others.forEach(c => { c.checked = false; });
+                        }
+                    });
+
+                    others.forEach(c => {
+                        c.addEventListener('change', () => {
+                            if (c.checked) none.checked = false;
+                        });
+                    });
+                }
+
+                function wireVaccines(gridId, inputId) {
+                    const gridEl = document.getElementById(gridId);
+                    const inputEl = document.getElementById(inputId);
+                    if (!gridEl || !inputEl) return;
+
+                    enforceNoneExclusive(gridEl);
+                    gridEl.addEventListener('change', () => syncCheckboxesToInput(gridEl, inputEl));
+                    syncCheckboxesToInput(gridEl, inputEl);
+                }
+
+                function setChecksFromInput(gridEl, inputEl) {
+                    if (!gridEl || !inputEl) return;
+                    const values = new Set(parseVaccines(inputEl.value));
+                    const checks = Array.from(gridEl.querySelectorAll('input[type="checkbox"]'));
+                    checks.forEach(c => {
+                        const val = (c.value || '').toString().trim();
+                        c.checked = values.has(val);
+                    });
+                    syncCheckboxesToInput(gridEl, inputEl);
+                }
+
+                wireVaccines('gmVacunasGrid', 'gmVacunasInput');
+                wireVaccines('gmEditVacunasGrid', 'gmEditVacunas');
+
+                const grid = document.getElementById('gmGrid');
+                const modal = document.getElementById('gmEditPetModal');
+                if (grid && modal) {
+                    grid.addEventListener('click', (e) => {
+                        const btn = e.target.closest('[data-gm-edit="pet"]');
+                        if (!btn) return;
+                        setTimeout(() => {
+                            const gridEl = document.getElementById('gmEditVacunasGrid');
+                            const inputEl = document.getElementById('gmEditVacunas');
+                            setChecksFromInput(gridEl, inputEl);
+                        }, 0);
+                    });
+                }
             })();
         </script>
     </body>

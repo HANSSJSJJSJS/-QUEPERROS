@@ -617,6 +617,76 @@
   transform: translateY(-8px);
 }
 
+
+/* Checklist Vacunas */
+.gm-checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+  padding: 12px;
+  background: #fbfaff;
+  border: 1px solid rgba(124, 58, 237, 0.12);
+  border-radius: 14px;
+}
+
+.gm-checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.gm-checkbox-item:hover {
+  background: #f5efff;
+}
+
+.gm-checkbox-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(124, 58, 237, 0.35);
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+  flex: 0 0 18px;
+}
+
+.gm-checkbox-item input[type="checkbox"]:checked {
+  background: #6d28d9;
+  border-color: #6d28d9;
+  box-shadow: 0 4px 12px rgba(109, 40, 217, 0.2);
+}
+
+.gm-checkbox-item input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.gm-checkbox-item span {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4c4763;
+  transition: color 0.2s ease;
+}
+
+.gm-checkbox-item input[type="checkbox"]:checked + span {
+  color: #6d28d9;
+  font-weight: 800;
+}
+
 .gs-modal, .gs2-modal, .gm-modal {
   position: fixed;
   inset: 0;
@@ -1015,14 +1085,16 @@
 }
 
 .gm-textarea {
-  border: 1px solid rgba(234, 179, 8, 0.55);
-  border-radius: 12px;
-  padding: 10px 12px;
-  font-size: 13px;
-  color: #2b2740;
-  outline: none;
-  resize: none;
-  background: #fff;
+    border: 1px solid rgba(234, 179, 8, 0.55);
+    border-radius: 12px;
+    padding: 12px 16px; /* 👈 aquí el cambio */
+    font-size: 13px;
+    color: #2b2740;
+    outline: none;
+    resize: none;
+    background: #fff;
+    width: 100%; /* 👈 importante */
+    box-sizing: border-box; /* 👈 evita desbordes */
 }
 
 .gm-textarea:focus {
@@ -1167,7 +1239,7 @@
 .gm-details-drawer {
   position: absolute;
   top: 0;
-  right: 0;
+  right: -44vh;
   height: 100%;
   width: min(420px, calc(100% - 40px));
   background: #fff;

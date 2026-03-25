@@ -14,9 +14,10 @@
         <link rel="stylesheet" href="{{ asset('css/dueño/panel.css') }}">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="{{ asset('css/Admin/admin-sidebar-extras.css') }}?v={{ time() }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     </head>
 
-    <body>
+    <body class="mq-dashboard-page">
         @include('partials.page-loader')
         @php
             use Illuminate\Support\Str;
@@ -62,111 +63,6 @@
 
         <div class="mq-dashboard">
             @include("partials.dueno-sidebar")
-                <div class="mq-side-top">
-                    <div class="mq-side-brand">
-                        <div class="mq-side-badge">
-                            <i class="bi bi-paw" aria-hidden="true"></i>
-                        </div>
-                        <div class="mq-side-brand-text">
-                            <div class="mq-side-brand-title">MAS QUE</div>
-                            <div class="mq-side-brand-title">PERROS</div>
-                            <div class="mq-side-brand-sub">Panel</div>
-                        </div>
-                    </div>
-
-                    <div class="mq-side-user">
-                        <div class="mq-side-avatar">{{ strtoupper(mb_substr($user->name, 0, 1)) }}</div>
-                        <div class="mq-side-user-name">{{ Str::upper(Str::before($user->name, ' ')) }}</div>
-                        <div class="mq-side-user-role">Propietario</div>
-                    </div>
-                </div>
-
-                <div class="mq-side-section">MENU PRINCIPAL</div>
-                <nav class="mq-side-menu">
-                    <a href="{{ route('dashboard') }}" class="mq-side-item {{ request()->routeIs('dashboard') ? 'mq-side-item--active' : '' }}">
-                        <span class="mq-side-left">
-                            <i class="bi bi-house-door" aria-hidden="true"></i>
-                            <span>Dashboard</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('owner.pets') }}" class="mq-side-item {{ request()->routeIs('owner.pets') ? 'mq-side-item--active' : '' }}">
-                        <span class="mq-side-left">
-                            <i class="bi bi-paw" aria-hidden="true"></i>
-                            <span>Mis Perros</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('owner.services') }}" class="mq-side-item {{ request()->routeIs('owner.services') ? 'mq-side-item--active' : '' }}">
-                        <span class="mq-side-left">
-                            <i class="bi bi-bag" aria-hidden="true"></i>
-                            <span>Servicios</span>
-                        </span>
-                        <span class="mq-side-active-dot" aria-hidden="true"></span>
-                    </a>
-                    <a href="{{ route('owner.reservas') }}" class="mq-side-item {{ request()->routeIs('owner.reservas') ? 'mq-side-item--active' : '' }}">
-                        <span class="mq-side-left">
-                            <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                            <span>Reservas</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('owner.seguimiento') }}" class="mq-side-item {{ request()->routeIs('owner.seguimiento') ? 'mq-side-item--active' : '' }}">
-                        <span class="mq-side-left">
-                            <i class="bi bi-graph-up" aria-hidden="true"></i>
-                            <span>Seguimiento</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('owner.pagos') }}" class="mq-side-item {{ request()->routeIs('owner.pagos') ? 'mq-side-item--active' : '' }}">
-                        <span class="mq-side-left">
-                            <i class="bi bi-cash-coin" aria-hidden="true"></i>
-                            <span>Pagos</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('owner.planpadrino') }}" class="mq-side-item {{ request()->routeIs('owner.planpadrino') ? 'mq-side-item--active' : '' }}">
-                        <span class="mq-side-left">
-                            <i class="bi bi-heart" aria-hidden="true"></i>
-                            <span>Plan Padrino</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('owner.perfil') }}" class="mq-side-item {{ request()->routeIs('owner.perfil') ? 'mq-side-item--active' : '' }}">
-                        <span class="mq-side-left">
-                            <i class="bi bi-person" aria-hidden="true"></i>
-                            <span>Mi Perfil</span>
-                        </span>
-                    </a>
-                </nav>
-
-                <div class="mq-side-section mq-side-section--mt">EXTRAS</div>
-                <nav class="mq-side-menu">
-                    <a href="{{ route('owner.chat') }}" class="mq-side-item">
-                        <span class="mq-side-left">
-                            <i class="bi bi-chat-dots" aria-hidden="true"></i>
-                            <span>Chat con Entrenador</span>
-                        </span>
-                    </a>
-                    <a href="{{ route('owner.notificaciones') }}" class="mq-side-item">
-                        <span class="mq-side-left">
-                            <i class="bi bi-bell" aria-hidden="true"></i>
-                            <span>Notificaciones</span>
-                        </span>
-                        <span class="mq-side-bubble">3</span>
-                    </a>
-                    <a href="{{ route('owner.galeria') }}" class="mq-side-item">
-                        <span class="mq-side-left">
-                            <i class="bi bi-images" aria-hidden="true"></i>
-                            <span>Galeria</span>
-                        </span>
-                    </a>
-                </nav>
-
-                <div class="mq-side-spacer"></div>
-
-                <form method="POST" action="{{ route('logout') }}" class="mq-dashboard-logout">
-                    @csrf
-                    <button type="submit">
-                        <i class="bi bi-box-arrow-left" aria-hidden="true"></i>
-                        <span>Cerrar sesion</span>
-                    </button>
-                </form>
-            </aside>
 
             <main class="mq-dashboard-main">
                 @include('partials.mq-topbar', ['user' => Auth::user(), 'user' => Auth::user(), 
@@ -179,7 +75,8 @@
                     'notifCount' => 2,
                 ])
 
-                <section class="sv-page">
+                <div class="mq-dashboard-content">
+                    <section class="sv-page">
                     <div class="sv-head">
                         <h1 class="sv-title">Nuestros Servicios</h1>
                         <p class="sv-sub">Tu perro feliz, tu tranquilo. Conoce todo lo que ofrecemos para el bienestar de tu mascota.</p>
@@ -216,7 +113,7 @@
                                 $isConsult = mb_strtolower($priceText) === 'consultar' || str_contains(mb_strtolower($priceText), 'consultar');
                             @endphp
 
-                            <article class="sv-card sv-card--{{ $meta['key'] }}">
+                            <article class="sv-card sv-card--{{ $meta['key'] }}" data-service-id="{{ $service['id'] }}" data-service-name="{{ $service['name'] }}" data-service-price="{{ $priceText }}" data-service-category="{{ $meta['label'] }}" data-service-icon="{{ $meta['icon'] }}">
                                 <header class="sv-card-head">
                                     <div class="sv-card-icon"><i class="bi {{ $meta['icon'] }}" aria-hidden="true"></i></div>
                                     <div class="sv-card-head-text">
@@ -237,10 +134,39 @@
 
                                 <div class="sv-card-body">
                                     <p class="sv-desc">{{ $service['description'] }}</p>
+
+                                    <div class="sv-expand" hidden>
+                                        <div class="sv-expand-desc">Servicio disenado para todos los perros de todas las edades y razas. Incluye obediencia, autocontrol, socializacion y modificacion de comportamientos.</div>
+
+                                        <div class="sv-expand-block">
+                                            <div class="sv-expand-h">
+                                                <span class="sv-expand-check"><i class="bi bi-check-lg" aria-hidden="true"></i></span>
+                                                <span>Incluye:</span>
+                                            </div>
+                                            <ul class="sv-expand-ul">
+                                                <li>Trabajo en obediencia y autocontrol</li>
+                                                <li>Socializacion intra e inter especifica</li>
+                                                <li>Manejo de ansiedad</li>
+                                                <li>Modificacion de comportamientos no adecuados</li>
+                                                <li>Deportes caninos: OCI y DISC DOG</li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="sv-expand-block">
+                                            <div class="sv-expand-h sv-expand-h--star">
+                                                <span class="sv-expand-star"><i class="bi bi-star" aria-hidden="true"></i></span>
+                                                <span>Ideal para:</span>
+                                            </div>
+                                            <ul class="sv-expand-ul sv-expand-ul--star">
+                                                <li>Todos los perros</li>
+                                                <li>Familias que buscan mejorar la convivencia</li>
+                                            </ul>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <footer class="sv-card-foot">
-                                    <button class="sv-more" type="button">Ver mas <i class="bi bi-chevron-down" aria-hidden="true"></i></button>
+                                    <button class="sv-more" type="button" aria-expanded="false">Ver mas <i class="bi bi-chevron-down" aria-hidden="true"></i></button>
                                     <button class="sv-cta" type="button">Solicitar</button>
                                 </footer>
                             </article>
@@ -256,7 +182,143 @@
                         </div>
                     </section>
                 </section>
+                </div>
             </main>
         </div>
+
+        <div class="sv-modal" id="svModal" aria-hidden="true">
+            <div class="sv-modal-backdrop" data-sv-close></div>
+            <div class="sv-modal-card" role="dialog" aria-modal="true" aria-labelledby="svModalTitle">
+                <div class="sv-modal-head">
+                    <div>
+                        <div class="sv-modal-title" id="svModalTitle">Solicitar Servicio</div>
+                        <div class="sv-modal-sub" id="svModalServiceName">Servicio</div>
+                    </div>
+                    <button class="sv-modal-close" type="button" aria-label="Cerrar" data-sv-close>
+                        <i class="bi bi-x-lg" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <form class="sv-form" id="svRequestForm" action="#" method="POST">
+                    @csrf
+                    <input type="hidden" name="servicio_id" id="svFormServiceId" value="" />
+
+                    <label class="sv-field">
+                        <span class="sv-label">Mascota</span>
+                        <select name="mascota_id" class="sv-select" required>
+                            <option value="" selected disabled>Selecciona una mascota</option>
+                            @foreach (($pets ?? []) as $pet)
+                                <option value="{{ $pet->id }}">{{ $pet->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </label>
+
+                    <div class="sv-row">
+                        <label class="sv-field">
+                            <span class="sv-label">Fecha preferida</span>
+                            <input class="sv-input" type="date" name="fecha" required />
+                        </label>
+                        <label class="sv-field">
+                            <span class="sv-label">Hora preferida</span>
+                            <input class="sv-input" type="time" name="hora" required />
+                        </label>
+                    </div>
+
+                    <label class="sv-field">
+                        <span class="sv-label">Comentarios adicionales</span>
+                        <textarea class="sv-textarea" name="comentarios" rows="4" placeholder="Cuentanos mas sobre lo que necesitas..."></textarea>
+                    </label>
+
+                    <div class="sv-est">
+                        <span class="sv-est-left">Precio estimado:</span>
+                        <span class="sv-est-right" id="svModalPrice">-</span>
+                    </div>
+
+                    <button class="sv-submit" type="submit">Enviar Solicitud</button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            (function () {
+                const modal = document.getElementById('svModal');
+                const modalServiceName = document.getElementById('svModalServiceName');
+                const modalPrice = document.getElementById('svModalPrice');
+                const formServiceId = document.getElementById('svFormServiceId');
+                const form = document.getElementById('svRequestForm');
+
+                const openModal = (card) => {
+                    formServiceId.value = card.dataset.serviceId || '';
+                    modalServiceName.textContent = card.dataset.serviceName || 'Servicio';
+                    modalPrice.textContent = card.dataset.servicePrice || '-';
+                    modal.classList.add('is-open');
+                    modal.setAttribute('aria-hidden', 'false');
+                    document.body.style.overflow = 'hidden';
+                };
+
+                const closeModal = () => {
+                    modal.classList.remove('is-open');
+                    modal.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                };
+
+                document.addEventListener('click', (e) => {
+                    const moreBtn = e.target.closest('.sv-more');
+                    if (moreBtn) {
+                        const card = moreBtn.closest('.sv-card');
+                        const expand = card ? card.querySelector('.sv-expand') : null;
+                        if (!card || !expand) return;
+
+                        const closeCard = (c) => {
+                            c.classList.remove('sv-card--open');
+                            const ex = c.querySelector('.sv-expand');
+                            if (ex) ex.hidden = true;
+                            const btn = c.querySelector('.sv-more');
+                            if (btn) {
+                                btn.setAttribute('aria-expanded', 'false');
+                                btn.innerHTML = 'Ver mas <i class="bi bi-chevron-down" aria-hidden="true"></i>';
+                            }
+                        };
+
+                        document.querySelectorAll('.sv-card.sv-card--open').forEach((openCard) => {
+                            if (openCard !== card) {
+                                closeCard(openCard);
+                            }
+                        });
+
+                        const isOpen = card.classList.toggle('sv-card--open');
+                        expand.hidden = !isOpen;
+                        moreBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                        moreBtn.innerHTML = isOpen
+                            ? 'Ver menos <i class="bi bi-chevron-up" aria-hidden="true"></i>'
+                            : 'Ver mas <i class="bi bi-chevron-down" aria-hidden="true"></i>';
+                        return;
+                    }
+
+                    const ctaBtn = e.target.closest('.sv-cta');
+                    if (ctaBtn) {
+                        const card = ctaBtn.closest('.sv-card');
+                        if (!card) return;
+                        openModal(card);
+                        return;
+                    }
+
+                    if (e.target.closest('[data-sv-close]')) {
+                        closeModal();
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+                        closeModal();
+                    }
+                });
+
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    closeModal();
+                });
+            })();
+        </script>
     </body>
 </html>

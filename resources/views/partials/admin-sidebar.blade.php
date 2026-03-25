@@ -1,7 +1,7 @@
 <aside class="admin-sidebar">
     <div class="admin-brand">
         <div class="admin-logo">
-            <img src="{{ asset('img/logo_qperros.png') }}?v={{ time() }}" alt="Logo" style="width: 100%; height: 100%; object-fit: contain; background: white; border-radius: 50%; padding: 2px;">
+            <img src="{{ asset('img/logo_qperros.png') }}?v={{ time() }}" alt="Logo" style="width: 80%;height: 100%;object-fit: contain;background: white;border-radius: 30%;padding: -1px;">
         </div>
         <div class="admin-brand-text">
             <span class="admin-brand-title">MAS QUE PERROS</span>
