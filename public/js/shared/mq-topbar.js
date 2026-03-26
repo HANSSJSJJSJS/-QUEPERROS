@@ -65,7 +65,11 @@
 
         const storageKey = scope === 'admin' ? 'mq.sidebarCollapsed.admin' : 'mq.sidebarCollapsed.mq';
 
-        const topbarToggleCheckbox = document.getElementById('mqxSidebarCheckbox');
+        // Intentar obtener el checkbox original o los nuevos de admin/dueño/entrenador
+        const topbarToggleCheckbox = document.getElementById('mqxSidebarCheckbox') || 
+                                   document.getElementById('checkbox') || 
+                                   document.getElementById('checkbox2') ||
+                                   document.getElementById('checkbox3');
         if (!topbarToggleCheckbox) return;
 
         const setState = (next) => {
@@ -77,10 +81,16 @@
 
             const adminCheckbox = document.getElementById('adminSidebarCheckbox');
             const mqCheckbox = document.getElementById('mqSidebarCheckbox');
+            const newAdminCheckbox = document.getElementById('checkbox');
+            const newOwnerCheckbox = document.getElementById('checkbox2');
+            const newTrainerCheckbox = document.getElementById('checkbox3');
 
             if (adminCheckbox) adminCheckbox.checked = next;
             if (mqCheckbox) mqCheckbox.checked = next;
-            topbarToggleCheckbox.checked = next;
+            if (newAdminCheckbox) newAdminCheckbox.checked = next;
+            if (newOwnerCheckbox) newOwnerCheckbox.checked = next;
+            if (newTrainerCheckbox) newTrainerCheckbox.checked = next;
+            if (topbarToggleCheckbox) topbarToggleCheckbox.checked = next;
 
             localStorage.setItem(storageKey, next ? '1' : '0');
         };
@@ -90,10 +100,22 @@
 
         const adminCheckbox = document.getElementById('adminSidebarCheckbox');
         const mqCheckbox = document.getElementById('mqSidebarCheckbox');
+        const newAdminCheckbox = document.getElementById('checkbox');
+        const newOwnerCheckbox = document.getElementById('checkbox2');
+        const newTrainerCheckbox = document.getElementById('checkbox3');
 
         adminCheckbox?.addEventListener('change', () => setState(!!adminCheckbox.checked));
         mqCheckbox?.addEventListener('change', () => setState(!!mqCheckbox.checked));
-        topbarToggleCheckbox.addEventListener('change', () => setState(!!topbarToggleCheckbox.checked));
+        newAdminCheckbox?.addEventListener('change', () => setState(!!newAdminCheckbox.checked));
+        newOwnerCheckbox?.addEventListener('change', () => setState(!!newOwnerCheckbox.checked));
+        newTrainerCheckbox?.addEventListener('change', () => setState(!!newTrainerCheckbox.checked));
+        
+        if (topbarToggleCheckbox && 
+            topbarToggleCheckbox !== newAdminCheckbox && 
+            topbarToggleCheckbox !== newOwnerCheckbox &&
+            topbarToggleCheckbox !== newTrainerCheckbox) {
+            topbarToggleCheckbox.addEventListener('change', () => setState(!!topbarToggleCheckbox.checked));
+        }
     };
 
     topbars.forEach(initPopovers);

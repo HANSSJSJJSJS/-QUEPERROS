@@ -18,11 +18,12 @@
     align-items: center;
     justify-content: space-between;
     height: 70px;
-    padding: 0;
+    padding: 33px;
     background: #ffffff;
     border-bottom: 1px solid var(--mqx-border);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
-    width: 100%;
+    width: 104%;
+    margin-left: -7vh;
 }
 
 .mq-dashboard .mqx-topbar {
@@ -45,12 +46,103 @@
     transform: rotate(90deg);
 }
 
+/* Estilos para el icono de menú animado (Uiverse.io) */
+#checkbox, #checkbox2, #checkbox3 {
+  display: none;
+}
+
+.toggle, .toggle2, .toggle3 {
+  position: relative;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition-duration: .5s;
+}
+
+.toggle2 {
+    width: 40px;
+    height: 40px;
+    gap: 7px;
+}
+
+.toggle3 {
+    width: 40px;
+    height: 40px;
+    gap: 7px;
+}
+
+.bars {
+  width: 100%;
+  height: 3px;
+  background-color: #6d28d9;
+  border-radius: 4px;
+}
+
+.toggle2 .bars {
+    background-color: #3b82f6; /* Azul para el dueño */
+    height: 3px;
+}
+
+.toggle3 .bars {
+    background-color: #7c3aed; /* Morado para el entrenador */
+    height: 3px;
+}
+
+#bar2, #bar5, #bar8 {
+  transition-duration: .8s;
+}
+
+#bar1, #bar3, #bar4, #bar6, #bar7, #bar9 {
+  width: 70%;
+}
+
+#checkbox:checked + .toggle .bars,
+#checkbox2:checked + .toggle2 .bars,
+#checkbox3:checked + .toggle3 .bars {
+  position: absolute;
+  transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle #bar2,
+#checkbox2:checked + .toggle2 #bar5,
+#checkbox3:checked + .toggle3 #bar8 {
+  transform: scaleX(0);
+  transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle #bar1,
+#checkbox2:checked + .toggle2 #bar4,
+#checkbox3:checked + .toggle3 #bar7 {
+  width: 100%;
+  transform: rotate(45deg);
+  transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle #bar3,
+#checkbox2:checked + .toggle2 #bar6,
+#checkbox3:checked + .toggle3 #bar9 {
+  width: 100%;
+  transform: rotate(-45deg);
+  transition-duration: .5s;
+}
+
+#checkbox:checked + .toggle,
+#checkbox2:checked + .toggle2,
+#checkbox3:checked + .toggle3 {
+  transition-duration: .5s;
+  transform: rotate(180deg);
+}
 
 .mqx-topbar-left {
     display: flex;
     align-items: center;
     padding-left: 1.5rem;
-    margin-left: -2vh;
+    margin-left: 15vh;
 }
 
 .mqx-sidebar-toggle-wrapper {
@@ -122,7 +214,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding-right: 1.5rem;
+    padding-right: 14.5rem;
 }
 
 .mqx-topbar-icon{

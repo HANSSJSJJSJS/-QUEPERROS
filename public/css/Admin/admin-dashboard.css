@@ -27,7 +27,7 @@ html, body {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  transition: margin-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   margin-left: 280px;
   width: calc(100% - 280px);
 }
@@ -51,6 +51,12 @@ html, body {
 .admin-layout.is-sidebar-collapsed .admin-main {
   margin-left: 80px;
   width: calc(100% - 80px);
+}
+
+.mqx-topbar {
+  width: 127%;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-left: -25vh;
 }
 
 /* ================= SIDEBAR ================= */

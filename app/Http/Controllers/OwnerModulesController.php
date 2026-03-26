@@ -14,8 +14,64 @@ class OwnerModulesController extends Controller
     {
         $user = Auth::user();
 
+        $reservas = collect();
+        if (
+            Schema::hasTable('reservas')
+            && Schema::hasTable('mascotas')
+            && Schema::hasColumn('mascotas', 'id_dueno')
+        ) {
+            $reservas = DB::table('reservas as r')
+                ->join('mascotas as m', 'm.id', '=', 'r.mascota_id')
+                ->leftJoin('servicios as s', 's.id', '=', 'r.servicio_id')
+                ->leftJoin('users as u', 'u.id', '=', 'r.profesional_id')
+                ->where('m.id_dueno', (int) $user->id)
+                ->select([
+                    'r.id',
+                    'r.mascota_id',
+                    'r.servicio_id',
+                    'r.profesional_id',
+                    'r.fecha',
+                    'r.hora',
+                    'r.estado',
+                    'r.comentarios',
+                    'r.precio_estimado',
+                    'r.created_at',
+                    'm.nombre as mascota_nombre',
+                    's.nombre as servicio_nombre',
+                    'u.name as profesional_nombre',
+                ])
+                ->orderByDesc('r.created_at')
+                ->get();
+        }
+
+        $counts = [
+            'activas' => 0,
+            'confirmadas' => 0,
+            'pendientes' => 0,
+            'completadas' => 0,
+            'historial' => 0,
+        ];
+
+        foreach ($reservas as $r) {
+            $estado = (string) ($r->estado ?? '');
+            if ($estado === 'pendiente') {
+                $counts['pendientes']++;
+                $counts['activas']++;
+            } elseif ($estado === 'confirmado') {
+                $counts['confirmadas']++;
+                $counts['activas']++;
+            } elseif ($estado === 'finalizado') {
+                $counts['completadas']++;
+                $counts['historial']++;
+            } elseif ($estado === 'cancelado') {
+                $counts['historial']++;
+            }
+        }
+
         return view('dueños.reservas', [
             'user' => $user,
+            'reservas' => $reservas,
+            'counts' => $counts,
         ]);
     }
 

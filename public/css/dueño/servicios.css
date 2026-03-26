@@ -336,7 +336,7 @@ body {
 .sv-modal-card {
     position: relative;
     width: min(560px, calc(100vw - 32px));
-    margin: 46px auto;
+    margin: 224px auto;
     background: #fff;
     border-radius: 22px;
     border: 1px solid rgba(15, 23, 42, 0.10);

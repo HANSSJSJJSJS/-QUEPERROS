@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminServiceController;
 use App\Http\Controllers\AdminPetController;
 use App\Http\Controllers\OwnerPetController;
 use App\Http\Controllers\OwnerServiceController;
+use App\Http\Controllers\OwnerReservaController;
 use App\Http\Controllers\OwnerModulesController;
 use App\Http\Controllers\CaregiverDashboardController;
 use App\Http\Controllers\TrainerDashboardController;
@@ -67,6 +68,18 @@ Route::delete('/dashboard/mis-perros/{mascota}', [OwnerPetController::class, 'de
 Route::get('/dashboard/servicios', [OwnerServiceController::class, 'index'])
     ->middleware('auth')
     ->name('owner.services');
+
+Route::post('/dashboard/reservas', [OwnerReservaController::class, 'store'])
+    ->middleware('auth')
+    ->name('owner.reservas.store');
+
+Route::put('/dashboard/reservas/{reserva}', [OwnerReservaController::class, 'update'])
+    ->middleware('auth')
+    ->name('owner.reservas.update');
+
+Route::post('/dashboard/reservas/{reserva}/cancel', [OwnerReservaController::class, 'cancel'])
+    ->middleware('auth')
+    ->name('owner.reservas.cancel');
 
 Route::get('/dashboard/reservas', [OwnerModulesController::class, 'reservas'])
     ->middleware('auth')
@@ -163,14 +176,6 @@ Route::get('/entrenador/dashboard', [TrainerDashboardController::class, 'index']
     ->middleware('auth')
     ->name('entrenador.dashboard');
 
-Route::get('/entrenador/mis-tareas', [TrainerModulesController::class, 'misTareas'])
-    ->middleware('auth')
-    ->name('entrenador.tareas');
-
-Route::get('/entrenador/mascotas-asignadas', [TrainerModulesController::class, 'mascotasAsignadas'])
-    ->middleware('auth')
-    ->name('entrenador.mascotas');
-
 Route::get('/entrenador/seguimiento', [TrainerModulesController::class, 'seguimiento'])
     ->middleware('auth')
     ->name('entrenador.seguimiento');
@@ -179,9 +184,13 @@ Route::get('/entrenador/mi-horario', [TrainerModulesController::class, 'horario'
     ->middleware('auth')
     ->name('entrenador.horario');
 
-Route::get('/entrenador/historial', [TrainerModulesController::class, 'historial'])
+Route::post('/entrenador/mi-horario/availability', [TrainerModulesController::class, 'updateAvailability'])
     ->middleware('auth')
-    ->name('entrenador.historial');
+    ->name('entrenador.availability.update');
+
+Route::get('/entrenador/reservas', [TrainerModulesController::class, 'reservas'])
+    ->middleware('auth')
+    ->name('entrenador.reservas');
 
 Route::get('/entrenador/chat', [TrainerModulesController::class, 'chat'])
     ->middleware('auth')

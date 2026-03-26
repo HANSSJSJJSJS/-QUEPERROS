@@ -10,68 +10,44 @@ class TrainerDashboardController extends Controller
     {
         $user = Auth::user();
 
-        $stats = [
-            'assigned_pets' => 4,
-            'completed_tasks' => 2,
-            'pending_tasks' => 4,
-            'rating' => 4.8,
+        $kpis = [
+            'pending_reservations' => 3,
+            'confirmed_reservations' => 3,
+            'weekly_appointments' => 6,
+            'monthly_income' => 110000,
         ];
 
-        $todayTasks = [
+        $pendingReservations = [
             [
-                'title' => 'Paseo matutino - Max',
-                'time' => '08:00 AM',
-                'status' => 'alta',
-                'done' => true,
+                'pet' => 'Max',
+                'owner' => 'Carlos Rodriguez',
+                'service' => 'Paseo matutino',
+                'date' => '2026-03-24',
+                'price' => 15000,
+                'status' => 'PENDIENTE',
             ],
             [
-                'title' => 'Entrenamiento obediencia - Luna',
-                'time' => '10:00 AM',
-                'status' => 'alta',
-                'done' => true,
+                'pet' => 'Luna',
+                'owner' => 'Maria Garcia',
+                'service' => 'Entrenamiento avanzado',
+                'date' => '2026-03-24',
+                'price' => 50000,
+                'status' => 'PENDIENTE',
             ],
             [
-                'title' => 'Alimentación - Rocky',
-                'time' => '12:00 PM',
-                'status' => 'media',
-                'done' => false,
-            ],
-            [
-                'title' => 'Sesión de socialización',
-                'time' => '02:00 PM',
-                'status' => 'media',
-                'done' => false,
-            ],
-        ];
-
-        $assignedPets = [
-            [
-                'name' => 'Max',
-                'breed' => 'Golden Retriever',
-                'age' => '3 años',
-            ],
-            [
-                'name' => 'Luna',
-                'breed' => 'Border Collie',
-                'age' => '2 años',
-            ],
-            [
-                'name' => 'Rocky',
-                'breed' => 'Bulldog Francés',
-                'age' => '4 años',
-            ],
-            [
-                'name' => 'Bella',
-                'breed' => 'Labrador',
-                'age' => '1 año',
+                'pet' => 'Rocky',
+                'owner' => 'Ana Martinez',
+                'service' => 'Cuidado diario',
+                'date' => '2026-03-25',
+                'price' => 45000,
+                'status' => 'PENDIENTE',
             ],
         ];
 
         return view('entrenador.dashboardentrenador', [
             'user' => $user,
-            'stats' => $stats,
-            'todayTasks' => $todayTasks,
-            'assignedPets' => $assignedPets,
+            'kpis' => $kpis,
+            'pendingReservations' => $pendingReservations,
         ]);
     }
 }

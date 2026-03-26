@@ -114,73 +114,99 @@ class TrainerModulesController extends Controller
     {
         $user = Auth::user();
 
-        $week = [
-            'Lunes' => [
-                [
-                    'time' => '08:00',
-                    'pet' => 'Max',
-                    'activity' => 'Paseo',
-                ],
-                [
-                    'time' => '10:00',
-                    'pet' => 'Luna',
-                    'activity' => 'Entrenamiento',
-                ],
-            ],
-            'Martes' => [
-                [
-                    'time' => '09:00',
-                    'pet' => 'Rocky',
-                    'activity' => 'Cuidado',
-                ],
-                [
-                    'time' => '14:00',
-                    'pet' => 'Bella',
-                    'activity' => 'Entrenamiento',
-                ],
-            ],
-            'Miercoles' => [
-                [
-                    'time' => '08:00',
-                    'pet' => 'Max',
-                    'activity' => 'Paseo',
-                ],
-                [
-                    'time' => '11:00',
-                    'pet' => 'Luna',
-                    'activity' => 'Socializacion',
-                ],
-            ],
-            'Jueves' => [
-                [
-                    'time' => '10:00',
-                    'pet' => 'Rocky',
-                    'activity' => 'Paseo',
-                ],
-                [
-                    'time' => '15:00',
-                    'pet' => 'Bella',
-                    'activity' => 'Entrenamiento',
-                ],
-            ],
-            'Viernes' => [
-                [
-                    'time' => '08:00',
-                    'pet' => 'Max',
-                    'activity' => 'Paseo',
-                ],
-                [
-                    'time' => '12:00',
-                    'pet' => 'Luna',
-                    'activity' => 'Entrenamiento',
-                ],
-            ],
-        ];
+        // Get trainer availability from database
+        $availability = DB::table('trainer_availability')
+            ->where('trainer_id', $user->id)
+            ->get()
+            ->keyBy('day_of_week');
+
+        // Build week schedule with availability and reservations
+        $days = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+        $dayMap = [1 => 'Lunes', 2 => 'Martes', 3 => 'Miercoles', 4 => 'Jueves', 5 => 'Viernes', 6 => 'Sabado', 0 => 'Domingo'];
+
+        $week = [];
+
+        // Get current week dates
+        $startOfWeek = now()->startOfWeek();
+
+        foreach ($days as $index => $dayName) {
+            $dayOfWeek = $index === 6 ? 0 : $index + 1; // Convert to MySQL day_of_week (0=Sunday)
+            $date = $startOfWeek->copy()->addDays($index);
+
+            // Get availability for this day
+            $dayAvail = $availability->get($dayOfWeek);
+            $startTime = $dayAvail->start_time ?? '08:00:00';
+            $endTime = $dayAvail->end_time ?? '22:00:00';
+            $isAvailable = $dayAvail->is_available ?? true;
+
+            // Get reservations for this day between 8am-10pm
+            $reservations = DB::table('reservas')
+                ->where('entrenador_id', $user->id)
+                ->where('fecha', $date->format('Y-m-d'))
+                ->whereTime('hora', '>=', '08:00:00')
+                ->whereTime('hora', '<=', '22:00:00')
+                ->orderBy('hora')
+                ->get();
+
+            $items = [];
+            foreach ($reservations as $r) {
+                $items[] = [
+                    'time' => substr($r->hora, 0, 5),
+                    'pet' => $r->mascota_id ?? 'Mascota',
+                    'activity' => $r->servicio ?? 'Servicio',
+                    'status' => $r->estado ?? 'pendiente',
+                ];
+            }
+
+            $week[$dayName] = [
+                'available' => $isAvailable,
+                'start_time' => substr($startTime, 0, 5),
+                'end_time' => substr($endTime, 0, 5),
+                'items' => $items,
+                'date' => $date->format('d/m'),
+            ];
+        }
 
         return view('entrenador.horario', [
             'user' => $user,
             'week' => $week,
         ]);
+    }
+
+    public function updateAvailability(Request $request)
+    {
+        $user = Auth::user();
+
+        $validated = $request->validate([
+            'day_of_week' => ['required', 'integer', 'between:0,6'],
+            'start_time' => ['required', 'date_format:H:i'],
+            'end_time' => ['required', 'date_format:H:i', 'after:start_time'],
+            'is_available' => ['required', 'boolean'],
+        ]);
+
+        // Validate time range is between 8am and 10pm
+        $minTime = '08:00';
+        $maxTime = '22:00';
+
+        if ($validated['start_time'] < $minTime || $validated['end_time'] > $maxTime) {
+            return back()->withErrors(['time' => 'El horario debe estar entre 08:00 y 22:00']);
+        }
+
+        DB::table('trainer_availability')->updateOrInsert(
+            [
+                'trainer_id' => $user->id,
+                'day_of_week' => $validated['day_of_week'],
+            ],
+            [
+                'start_time' => $validated['start_time'] . ':00',
+                'end_time' => $validated['end_time'] . ':00',
+                'is_available' => $validated['is_available'],
+                'updated_at' => now(),
+                'created_at' => now(),
+            ]
+        );
+
+        return redirect()->route('entrenador.horario')->with('success', 'Horario actualizado correctamente');
     }
 
     public function historial()
@@ -228,6 +254,70 @@ class TrainerModulesController extends Controller
         return view('entrenador.historial', [
             'user' => $user,
             'records' => $records,
+        ]);
+    }
+
+    public function reservas()
+    {
+        $user = Auth::user();
+
+        $reservas = [
+            [
+                'id' => 1,
+                'pet' => 'Max',
+                'owner' => 'Carlos Rodriguez',
+                'service' => 'Paseo matutino',
+                'date' => '2026-03-24',
+                'time' => '08:00',
+                'price' => 15000,
+                'status' => 'pendiente',
+                'comments' => 'Perro muy activo',
+            ],
+            [
+                'id' => 2,
+                'pet' => 'Luna',
+                'owner' => 'Maria Garcia',
+                'service' => 'Entrenamiento avanzado',
+                'date' => '2026-03-24',
+                'time' => '10:00',
+                'price' => 50000,
+                'status' => 'pendiente',
+                'comments' => 'Trabajar obediencia',
+            ],
+            [
+                'id' => 3,
+                'pet' => 'Rocky',
+                'owner' => 'Ana Martinez',
+                'service' => 'Cuidado diario',
+                'date' => '2026-03-25',
+                'time' => '09:00',
+                'price' => 45000,
+                'status' => 'pendiente',
+                'comments' => '',
+            ],
+            [
+                'id' => 4,
+                'pet' => 'Bella',
+                'owner' => 'Pedro Sanchez',
+                'service' => 'Entrenamiento básico',
+                'date' => '2026-03-26',
+                'time' => '14:00',
+                'price' => 35000,
+                'status' => 'confirmado',
+                'comments' => 'Primera sesión',
+            ],
+        ];
+
+        $counts = [
+            'pendientes' => 3,
+            'confirmadas' => 1,
+            'total' => 4,
+        ];
+
+        return view('entrenador.reservas', [
+            'user' => $user,
+            'reservas' => $reservas,
+            'counts' => $counts,
         ]);
     }
 

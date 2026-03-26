@@ -199,9 +199,10 @@
                     </button>
                 </div>
 
-                <form class="sv-form" id="svRequestForm" action="#" method="POST">
+                <form class="sv-form" id="svRequestForm" action="{{ route('owner.reservas.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="servicio_id" id="svFormServiceId" value="" />
+                    <input type="hidden" name="precio_estimado" id="svFormPrecioEstimado" value="" />
 
                     <label class="sv-field">
                         <span class="sv-label">Mascota</span>
@@ -209,6 +210,16 @@
                             <option value="" selected disabled>Selecciona una mascota</option>
                             @foreach (($pets ?? []) as $pet)
                                 <option value="{{ $pet->id }}">{{ $pet->nombre }}</option>
+                            @endforeach
+                        </select>
+                    </label>
+
+                    <label class="sv-field">
+                        <span class="sv-label">Entrenador</span>
+                        <select name="profesional_id" class="sv-select" required>
+                            <option value="" selected disabled>Selecciona un entrenador</option>
+                            @foreach (($trainers ?? []) as $trainer)
+                                <option value="{{ $trainer->id }}">{{ $trainer->name }}</option>
                             @endforeach
                         </select>
                     </label>
@@ -245,10 +256,12 @@
                 const modalServiceName = document.getElementById('svModalServiceName');
                 const modalPrice = document.getElementById('svModalPrice');
                 const formServiceId = document.getElementById('svFormServiceId');
+                const formPrecioEstimado = document.getElementById('svFormPrecioEstimado');
                 const form = document.getElementById('svRequestForm');
 
                 const openModal = (card) => {
                     formServiceId.value = card.dataset.serviceId || '';
+                    formPrecioEstimado.value = card.dataset.servicePrice || '';
                     modalServiceName.textContent = card.dataset.serviceName || 'Servicio';
                     modalPrice.textContent = card.dataset.servicePrice || '-';
                     modal.classList.add('is-open');
@@ -314,10 +327,6 @@
                     }
                 });
 
-                form.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    closeModal();
-                });
             })();
         </script>
     </body>

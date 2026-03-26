@@ -23,6 +23,15 @@ class OwnerServiceController extends Controller
                 ->get();
         }
 
+        $trainers = collect();
+        if (Schema::hasTable('users') && Schema::hasColumn('users', 'rol_id')) {
+            $trainers = DB::table('users')
+                ->where('rol_id', 3)
+                ->select(['id', 'name'])
+                ->orderBy('name')
+                ->get();
+        }
+
         $search = trim((string) $request->query('q', ''));
         $categoryId = trim((string) $request->query('categoria', ''));
 
@@ -91,6 +100,7 @@ class OwnerServiceController extends Controller
             'search' => $search,
             'activeCategory' => $categoryId,
             'pets' => $pets,
+            'trainers' => $trainers,
         ]);
     }
 }

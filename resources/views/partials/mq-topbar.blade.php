@@ -13,17 +13,46 @@
 
 <header class="mqx-topbar" aria-label="Barra superior">
     <div class="mqx-topbar-left">
-        <div class="mqx-sidebar-toggle-wrapper">
-            <input type="checkbox" id="mqxSidebarCheckbox" class="mqx-sidebar-checkbox" data-mqx-sidebar-toggle="true">
-            <label for="mqxSidebarCheckbox" class="mqx-sidebar-toggle-btn">
-                <i class="bi bi-x-lg" id="mqxBarX" style="display: none; font-size: 24px; color: #6d28d9;"></i>
-                <div class="mqx-bar-wrapper" id="mqxBarsNormal">
-                    <div class="mqx-bar" id="mqxBar1"></div>
-                    <div class="mqx-bar" id="mqxBar2"></div>
-                    <div class="mqx-bar" id="mqxBar3"></div>
-                </div>
-            </label>
-        </div>
+        @if(auth()->user() && auth()->user()->rol_id == 1) {{-- Admin --}}
+            <div class="mqx-sidebar-toggle-wrapper">
+                <input type="checkbox" id="checkbox" class="mqx-sidebar-checkbox" data-mqx-sidebar-toggle="true">
+                <label for="checkbox" class="toggle">
+                    <div class="bars" id="bar1"></div>
+                    <div class="bars" id="bar2"></div>
+                    <div class="bars" id="bar3"></div>
+                </label>
+            </div>
+        @elseif(auth()->user() && auth()->user()->rol_id == 2) {{-- Dueño --}}
+            <div class="mqx-sidebar-toggle-wrapper">
+                <input type="checkbox" id="checkbox2" class="mqx-sidebar-checkbox" data-mqx-sidebar-toggle="true">
+                <label for="checkbox2" class="toggle toggle2">
+                    <div class="bars" id="bar4"></div>
+                    <div class="bars" id="bar5"></div>
+                    <div class="bars" id="bar6"></div>
+                </label>
+            </div>
+        @elseif(auth()->user() && auth()->user()->rol_id == 3) {{-- Entrenador --}}
+            <div class="mqx-sidebar-toggle-wrapper">
+                <input type="checkbox" id="checkbox3" class="mqx-sidebar-checkbox" data-mqx-sidebar-toggle="true">
+                <label for="checkbox3" class="toggle toggle3">
+                    <div class="bars" id="bar7"></div>
+                    <div class="bars" id="bar8"></div>
+                    <div class="bars" id="bar9"></div>
+                </label>
+            </div>
+        @else
+            <div class="mqx-sidebar-toggle-wrapper">
+                <input type="checkbox" id="mqxSidebarCheckbox" class="mqx-sidebar-checkbox" data-mqx-sidebar-toggle="true">
+                <label for="mqxSidebarCheckbox" class="mqx-sidebar-toggle-btn">
+                    <i class="bi bi-x-lg" id="mqxBarX" style="display: none; font-size: 24px; color: #6d28d9;"></i>
+                    <div class="mqx-bar-wrapper" id="mqxBarsNormal">
+                        <div class="mqx-bar" id="mqxBar1"></div>
+                        <div class="mqx-bar" id="mqxBar2"></div>
+                        <div class="mqx-bar" id="mqxBar3"></div>
+                    </div>
+                </label>
+            </div>
+        @endif
         <div class="mq-side-brand-mobile" style="display: none; margin-left: 15px;">
         </div>
     </div>
