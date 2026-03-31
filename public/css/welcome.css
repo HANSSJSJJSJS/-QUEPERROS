@@ -912,9 +912,9 @@ body.mq-body {
 .mq-values-dog {
     position: absolute;
     bottom: 0;
-    left: 5vh;
+    left: 4vh;
     transform: translate(-25%, 10%);
-    width: 60vh;
+    width: 50vh;
     height: auto;
     pointer-events: none;
     z-index: 2;
