@@ -910,9 +910,9 @@ body.mq-body {
 }
 
 .mq-values-dog {
-position: absolute;
+    position: absolute;
     bottom: 0;
-    left: 20vh;
+    left: 5vh;
     transform: translate(-25%, 10%);
     width: 60vh;
     height: auto;
@@ -1261,6 +1261,41 @@ border: 10px solid #9442A3;
     }
 }
 
+@media (max-width: 600px) {
+    .mq-hero {
+        height: 60vh;
+        min-height: 360px;
+    }
+
+    .mq-navbar {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 12px 14px;
+    }
+
+    .mq-nav-center {
+        order: 3;
+        flex: 0 0 100%;
+        width: 100%;
+        white-space: normal;
+        font-size: clamp(18px, 6vw, 30px);
+    }
+
+    .mq-nav-left,
+    .mq-nav-right {
+        flex: 1 1 auto;
+    }
+
+    .mq-nav-link {
+        font-size: 16px;
+    }
+
+    .mq-user-icon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
 @media (max-width: 320px) {
     .mq-about-grid {
         grid-template-columns: 1fr;
@@ -1301,5 +1336,20 @@ border: 10px solid #9442A3;
 
     .mq-about {
         justify-content: flex-start;
+    }
+
+    .instagram-phone-frame {
+        width: 100% !important;
+    }
+
+    .mq-footer-band {
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 540px) {
+    .mq-values-dog {
+        left: 0;
+        transform: translate(-10%, 10%);
     }
 }

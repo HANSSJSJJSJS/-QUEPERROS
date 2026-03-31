@@ -19,11 +19,28 @@ body {
     color: var(--panel-text);
 }
 
+@media (max-width: 768px) {
+    html, body {
+        overflow-x: hidden;
+    }
+}
+
 .mq-dashboard {
     display: grid;
     grid-template-columns: 280px 1fr;
     min-height: 100vh;
     background: var(--panel-bg);
+}
+
+@media (max-width: 768px) {
+    .mq-dashboard {
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .mq-dashboard-main {
+        width: 100%;
+    }
 }
 
 .mq-dashboard-main {
@@ -345,5 +362,10 @@ body {
     
     .mq-dashboard.is-sidebar-active .mq-dashboard-sidebar {
         left: 0;
+    }
+
+    .mq-dashboard .mqx-topbar {
+        width: 100%;
+        margin-left: 0;
     }
 }

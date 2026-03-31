@@ -23,16 +23,16 @@
             <div class="mq-hero" aria-label="Banner principal">
                 <div class="mq-hero-carousel" aria-hidden="true">
                     <div class="mq-hero-slide">
-                        <img src="{{ asset('img/img1.jpg') }}" alt="Perro feliz 1">
+                        <img src="{{ asset('img/QUEEN.jpeg') }}" alt="QUEEN">
                     </div>
                     <div class="mq-hero-slide">
-                        <img src="{{ asset('img/img2.JPG') }}" alt="Perro feliz 2">
+                        <img src="{{ asset('img/REIGY,.jpeg') }}" alt="REIGY">
                     </div>
                     <div class="mq-hero-slide">
-                        <img src="{{ asset('img/img3.jpg') }}" alt="Perro feliz 3">
+                        <img src="{{ asset('img/REIGY%20-%20RELAX.jpeg') }}" alt="REIGY - RELAX">
                     </div>
                     <div class="mq-hero-slide">
-                        <img src="{{ asset('img/img4.jpg') }}" alt="Perro feliz 4">
+                        <img src="{{ asset('js/TITAN%20Y%20LOLA.jpeg') }}" alt="TITAN Y LOLA">
                     </div>
                 </div>
 
@@ -158,7 +158,7 @@
 
             <section class="mq-values-wrap" id="valores" aria-label="Valores">
                 <img class="mq-values-badge" src="{{ asset('img/valores.png') }}" alt="Decoración valores" aria-hidden="true">
-                <img class="mq-values-dog" src="{{ asset('img/golden.png') }}" alt="Perro dorado" aria-hidden="true">
+                <img class="mq-values-dog" src="{{ asset('img/LOLITA.png') }}" alt="LOLITA" aria-hidden="true">
                 <div class="mq-container">
                     <h2 class="mq-title mq-title--xl mq-title--dark">VALORES</h2>
 

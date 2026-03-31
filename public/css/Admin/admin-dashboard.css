@@ -295,6 +295,15 @@ html, body {
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 992px) {
+  html, body {
+    overflow-x: hidden;
+  }
+
+  .admin-layout {
+    width: 100%;
+    overflow-x: hidden;
+  }
+
   .admin-sidebar {
     left: -280px;
   }
@@ -305,5 +314,10 @@ html, body {
   .admin-main {
     margin-left: 0 !important;
     width: 100% !important;
+  }
+
+  .mqx-topbar {
+    width: 100% !important;
+    margin-left: 0 !important;
   }
 }
